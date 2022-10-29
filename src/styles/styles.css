@@ -627,10 +627,10 @@ video {
   }
 }
 
-.input{
+.input {
   border-width: 2px;
   --tw-border-opacity: 1;
-  border-color: rgba(229, 231, 235, var(--tw-border-opacity))
+  border-color: rgba(229, 231, 235, var(--tw-border-opacity));
 }
 
 .input:focus {

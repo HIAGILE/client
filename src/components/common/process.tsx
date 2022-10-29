@@ -7,11 +7,13 @@ interface IParams {
 }
 
 export const Process = () => {
-  const params = useParams<{ id: string }>();
+  const { params } = useParams();
+  const pathname = window.location.pathname;
+  const title = pathname.slice(1).toLocaleUpperCase();
   return (
     <>
       <Helmet>
-        <title>{`${params} | Hi Agile!`}</title>
+        <title>{`${title} | Hi Agile!`}</title>
       </Helmet>
     </>
   );
