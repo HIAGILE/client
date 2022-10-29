@@ -7,12 +7,12 @@ interface IParams {
 }
 
 export const Process = () => {
-  const params = useParams<{id:string}>();
+  const params = useParams<{ id: string }>();
   return (
-    <div >
-        <Helmet>
-            <title>Process | Hi Agile!</title>
-        </Helmet>
-    </div>
+    <>
+      <Helmet>
+        <title>{`${params} | Hi Agile!`}</title>
+      </Helmet>
+    </>
   );
 };
