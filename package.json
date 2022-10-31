@@ -12,6 +12,7 @@
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
     "apollo": "^2.34.0",
+    "apollo-codegen-typescript": "^0.40.9",
     "axios": "^1.1.3",
     "graphql": "^16.6.0",
     "graphql-ws": "^5.11.2",
@@ -35,7 +36,7 @@
     "prebuild": "npm run tailwind:build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "apollo:codegen": "rm -rf src/__generated__ && apollo client:codegen src/__generated__  —target=typescript —outputFlat"
+    "apollo:codegen": "rm -rf src/__generated__ && apollo client:codegen src/__generated__ —target=typescript —outputFlat"
   },
   "browserslist": {
     "production": [

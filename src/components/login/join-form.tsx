@@ -3,11 +3,15 @@ import { JoinBtn } from "./join-button";
 import { useForm } from "react-hook-form";
 import { FormError } from "../common/form-error";
 import { ICreateAccountForm } from "../../interface/login-join-type";
-import { gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
+import {
+  createAccountMutation,
+  createAccountMutationVariables,
+} from "__generated__/createAccountMutation";
 
 export const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccount($createAccountInput: CreateAccountInput) {
-    createAccount(createAccountInput: $createAccountInput) {
+  mutation createAccountMutation($createAccountInput: CreateAccountInput) {
+    createAccount(input: $createAccountInput) {
       ok
       error
     }
@@ -23,13 +27,43 @@ const JoinForm = () => {
   } = useForm<ICreateAccountForm>({
     mode: "onChange",
   });
-  const { name, email, password, passwordAgin } = getValues();
-  const onSubmit = (data: ICreateAccountForm) => {
-    if (data) {
-      console.log(data);
+  const onCompleted = (data: createAccountMutation) => {
+    console.log("진입1");
+    const {
+      createAccount: { ok },
+    } = data;
+    if (ok) {
+      console.log("a");
     }
   };
-  console.log(isValid);
+  const [
+    createAccountMutation,
+    { loading, data: createAccountMutationResult },
+  ] = useMutation<createAccountMutation, createAccountMutationVariables>(
+    CREATE_ACCOUNT_MUTATION,
+    { onCompleted }
+  );
+
+  const { name, email, password, passwordAgin } = getValues();
+
+  const onSubmit = () => {
+    console.log("진입11");
+    if (!loading) {
+      console.log("진입22");
+      const { name, email, password } = getValues();
+      console.log("진입33");
+      createAccountMutation({
+        variables: {
+          createAccountInput: {
+            email: email,
+            password: password,
+            name: name,
+          },
+        },
+      });
+      console.log("진입44");
+    }
+  };
   return (
     <form
       className="grid gap-3 mt-5 w-full mb-5"
