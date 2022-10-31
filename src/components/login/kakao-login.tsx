@@ -11,15 +11,15 @@ const KakaoLoginBtn = () => {
   if (AUTHORIZE_CODE) {
     axios
       .post(`https://kauth.kakao.com/oauth/token`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        params: {
+        param: {
           grant_type: "authorization_code",
           client_id: REST_API_KEY,
           redirect_uri: REDIRECT_URI,
           code: AUTHORIZE_CODE,
           client_secret: CLIENT_SECRET,
+        },
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       })
       .then((response) => console.log(response))

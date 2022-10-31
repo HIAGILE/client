@@ -36,9 +36,6 @@ const LoginForm = () => {
         className="input transition-colors"
         autoComplete="true"
       />
-      {formState.errors.email?.type === "pattern" && (
-        <FormError errorMessage="올바른 이메일 형식을 입력해주세요" />
-      )}
       {formState.errors.email?.message && (
         <FormError errorMessage={formState.errors.email?.message} />
       )}
@@ -56,9 +53,6 @@ const LoginForm = () => {
         className="input"
         autoComplete="true"
       />
-      {formState.errors.password?.type === "pattern" && (
-        <FormError errorMessage="대소문자, 숫자, 특수문자(@$!%*?&)는 필수입니다" />
-      )}
       {formState.errors.password?.message && (
         <FormError errorMessage={formState.errors.password?.message} />
       )}
