@@ -5,16 +5,20 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import "./styles/tailwind.css";
 import { App } from "app";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./apollo";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <HelmetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </HelmetProvider>
+  <ApolloProvider client={client}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
+  </ApolloProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

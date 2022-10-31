@@ -9,6 +9,7 @@ const KakaoLoginBtn = () => {
 
   const AUTHORIZE_CODE = new URL(window.location.href).searchParams.get("code");
   if (AUTHORIZE_CODE) {
+    // server로 토큰 보내기
     axios
       .post(`https://kauth.kakao.com/oauth/token`, {
         param: {

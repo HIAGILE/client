@@ -10,6 +10,7 @@ export const LoggedOutRouter = () => {
       <Routes>
         <Route path="/join" element={<Join />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Login />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </>

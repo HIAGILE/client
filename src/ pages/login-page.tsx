@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LoginForm from "../components/login/login-form";
 import KakaoLoginBtn from "components/login/kakao-login";

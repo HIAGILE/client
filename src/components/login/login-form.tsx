@@ -1,23 +1,26 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FormError } from "../form-error";
-import { Button } from "../button";
-
-interface ILoginForm {
-  email: string;
-  password: string;
-}
+import { FormError } from "../common/form-error";
+import { LoginBtn } from "./login-button";
+import { ILoginForm } from "../../interface/login-join-type";
 
 const LoginForm = () => {
-  const { register, getValues, formState, handleSubmit } = useForm<ILoginForm>({
+  const {
+    register,
+    getValues,
+    formState: { isValid, errors },
+    handleSubmit,
+    watch,
+  } = useForm<ILoginForm>({
     mode: "onChange",
   });
-
-  const onSubmit = () => {
-    if (!false) {
-      const { email, password } = getValues();
+  const { email, password } = getValues();
+  const onSubmit = (data: any) => {
+    if (data) {
+      console.log(data);
     }
   };
+  console.log(isValid);
   return (
     <form
       className="grid gap-3 mt-5 w-full mb-5"
@@ -36,15 +39,14 @@ const LoginForm = () => {
         className="input transition-colors"
         autoComplete="true"
       />
-      {formState.errors.email?.message && (
-        <FormError errorMessage={formState.errors.email?.message} />
+      {errors.email?.message && (
+        <FormError errorMessage={errors.email?.message} />
       )}
       <input
         {...register("password", {
           required: "비밀번호를 입력해주세요",
-          maxLength: 14,
           pattern:
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
+            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
         name="password"
         type="password"
@@ -53,14 +55,10 @@ const LoginForm = () => {
         className="input"
         autoComplete="true"
       />
-      {formState.errors.password?.message && (
-        <FormError errorMessage={formState.errors.password?.message} />
+      {errors.password?.message && (
+        <FormError errorMessage={errors.password?.message} />
       )}
-      <Button
-        canClick={formState.isValid}
-        actionText="Log In"
-        loading={false}
-      />
+      <LoginBtn canClick={isValid} actionText="Login" loading={false} />
     </form>
   );
 };

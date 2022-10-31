@@ -12,7 +12,7 @@ const LoginLayout = ({ children, title }: LoginLayoutProps) => {
       <Process />
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
         <img src={logo} className="w-32 mb-8" alt="UberLogo" />
-        <h4 className=" w-full font-medium text-center text-3xl mb-20">
+        <h4 className=" w-full font-medium text-center text-3xl mb-8">
           {title}
         </h4>
         {children}
