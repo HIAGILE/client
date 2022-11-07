@@ -3,6 +3,21 @@ import { useForm } from "react-hook-form";
 import { FormError } from "../common/form-error";
 import { LoginBtn } from "./login-button";
 import { ILoginForm } from "../../interface/login-join-type";
+import { gql, useMutation } from "@apollo/client";
+import { LOCALSTORAGE_TOKEN } from "constant";
+import { loginMutation, loginMutationVariables } from "__generated__/loginMutation";
+import { authTokenVar, isLoggedInVar } from "../../apollo";
+
+
+export const LOGIN_MUTATION = gql`
+  mutation loginMutation($input:LoginInput!){
+    login(input:$input){
+      ok,
+      token,
+      error,
+    }
+  }
+`
 
 const LoginForm = () => {
   const {
@@ -14,13 +29,42 @@ const LoginForm = () => {
   } = useForm<ILoginForm>({
     mode: "onChange",
   });
-  const { email, password } = getValues();
-  const onSubmit = (data: any) => {
-    if (data) {
-      console.log(data);
+
+  const onCompleted = (data:loginMutation) => {
+    const {
+      login:{ok,token,error}
+    } = data
+    if (!ok)
+    {
+      alert(error)
+    }
+    if (ok && token)
+    {
+      localStorage.setItem(LOCALSTORAGE_TOKEN,token);
+      authTokenVar(token);
+      isLoggedInVar(true)
+    }
+  }
+  const [loginMutation,{data:loginMutationResult,loading}] = useMutation<
+  loginMutation,
+  loginMutationVariables>(
+    LOGIN_MUTATION,{
+      onCompleted
+    }
+  )
+  const onSubmit = () => {
+    if (!loading) {
+      const { email, password } = getValues();
+      loginMutation({
+        variables:{
+          input:{
+            email:email,
+            password:password,
+          }
+        }
+      })
     }
   };
-  console.log(isValid);
   return (
     <form
       className="grid gap-3 mt-5 w-full mb-5"

@@ -1,4 +1,5 @@
 import { NotFound } from " pages/404";
+import { Logout } from " pages/logout-page";
 import Main from " pages/main-dashboard";
 import Header from "components/header/header-appbar";
 import React from "react";
@@ -25,6 +26,7 @@ export const LoggedInRouter = () => {
             />
           );
         })}
+        <Route path="/logout" element={<Logout></Logout>}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </>

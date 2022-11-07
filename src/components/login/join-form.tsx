@@ -8,9 +8,10 @@ import {
   createAccountMutation,
   createAccountMutationVariables,
 } from "__generated__/createAccountMutation";
+import { useNavigate } from "react-router-dom";
 
 export const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccountMutation($createAccountInput: CreateAccountInput) {
+  mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
     createAccount(input: $createAccountInput) {
       ok
       error
@@ -27,13 +28,14 @@ const JoinForm = () => {
   } = useForm<ICreateAccountForm>({
     mode: "onChange",
   });
+  const navigate = useNavigate()
   const onCompleted = (data: createAccountMutation) => {
-    console.log("진입1");
     const {
       createAccount: { ok },
     } = data;
     if (ok) {
-      console.log("a");
+      alert("회원가입이 완료되었습니다!")
+      navigate("/login")
     }
   };
   const [
@@ -47,11 +49,8 @@ const JoinForm = () => {
   const { name, email, password, passwordAgin } = getValues();
 
   const onSubmit = () => {
-    console.log("진입11");
     if (!loading) {
-      console.log("진입22");
       const { name, email, password } = getValues();
-      console.log("진입33");
       createAccountMutation({
         variables: {
           createAccountInput: {
@@ -61,7 +60,6 @@ const JoinForm = () => {
           },
         },
       });
-      console.log("진입44");
     }
   };
   return (

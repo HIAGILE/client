@@ -22,7 +22,9 @@ const AppBar = () => {
       <Link to="/">
         <h1 className="text-xl font-bold">Hi, Agile</h1>
       </Link>
-      <div className="">logout</div>
+      <Link to="/logout">
+      로그아웃
+      </Link>
     </div>
   );
 };
@@ -31,7 +33,7 @@ const Logo = () => {
   return (
     <div className="border-r-2 border-b-2 px-16 py-2">
       <Link to="/">
-        <img src={logo} alt="uberlogo" className="w-14" />
+        <img src={logo} alt="logo" className="w-14" />
       </Link>
     </div>
   );

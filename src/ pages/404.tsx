@@ -8,12 +8,12 @@ export const NotFound = () =>{
             <Helmet>
                 <title>Not Found | Hi Agile</title>
             </Helmet>
-            <h2 className="font-semibold text-2xl mb-3">Page Not Found.</h2>
+            <h2 className="font-semibold text-2xl mb-3">페이지를 찾지 못했어요 😂😂😂😂</h2>
             <h4 className="font-medium text-base mb-5">
-            The page you're looking for does not exist or has moved.
+            찾는 페이지가 존재하지 않거나 삭제된 것 같아요.
             </h4>
-            <Link className="hover:underline text-lime-600" to="/">
-            Go back home &rarr;
+            <Link className="hover:underline text-red-600" to="/">
+            메인으로 돌아갈까요? &rarr;
             </Link>
         </div>
     );
