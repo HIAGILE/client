@@ -7,7 +7,7 @@ import LoginLayout from "components/layout/login-layout";
 
 export function Login() {
   return (
-    <LoginLayout title="Hi, Agile!">
+    <LoginLayout title="Sign In">
       <LoginForm />
       <div>
         New to HiAgile?{" "}

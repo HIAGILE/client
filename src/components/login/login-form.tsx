@@ -5,19 +5,21 @@ import { LoginBtn } from "./login-button";
 import { ILoginForm } from "../../interface/login-join-type";
 import { gql, useMutation } from "@apollo/client";
 import { LOCALSTORAGE_TOKEN } from "constant";
-import { loginMutation, loginMutationVariables } from "__generated__/loginMutation";
+import {
+  loginMutation,
+  loginMutationVariables,
+} from "__generated__/loginMutation";
 import { authTokenVar, isLoggedInVar } from "../../apollo";
 
-
 export const LOGIN_MUTATION = gql`
-  mutation loginMutation($input:LoginInput!){
-    login(input:$input){
-      ok,
-      token,
-      error,
+  mutation loginMutation($input: LoginInput!) {
+    login(input: $input) {
+      ok
+      token
+      error
     }
   }
-`
+`;
 
 const LoginForm = () => {
   const {
@@ -30,46 +32,40 @@ const LoginForm = () => {
     mode: "onChange",
   });
 
-  const onCompleted = (data:loginMutation) => {
+  const onCompleted = (data: loginMutation) => {
     const {
-      login:{ok,token,error}
-    } = data
-    if (!ok)
-    {
-      alert(error)
+      login: { ok, token, error },
+    } = data;
+    if (!ok) {
+      alert(error);
     }
-    if (ok && token)
-    {
-      localStorage.setItem(LOCALSTORAGE_TOKEN,token);
+    if (ok && token) {
+      localStorage.setItem(LOCALSTORAGE_TOKEN, token);
       authTokenVar(token);
-      isLoggedInVar(true)
+      isLoggedInVar(true);
     }
-  }
-  const [loginMutation,{data:loginMutationResult,loading}] = useMutation<
-  loginMutation,
-  loginMutationVariables>(
-    LOGIN_MUTATION,{
-      onCompleted
-    }
-  )
+  };
+  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
+    loginMutation,
+    loginMutationVariables
+  >(LOGIN_MUTATION, {
+    onCompleted,
+  });
   const onSubmit = () => {
     if (!loading) {
       const { email, password } = getValues();
       loginMutation({
-        variables:{
-          input:{
-            email:email,
-            password:password,
-          }
-        }
-      })
+        variables: {
+          input: {
+            email: email,
+            password: password,
+          },
+        },
+      });
     }
   };
   return (
-    <form
-      className="grid gap-3 mt-5 w-full mb-5"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="grid gap-4 my-4 w-full" onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register("email", {
           required: "이메일을 입력해주세요",
@@ -80,7 +76,7 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        className="input transition-colors"
+        className="input"
         autoComplete="true"
       />
       {errors.email?.message && (

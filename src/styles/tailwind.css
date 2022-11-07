@@ -1,19 +1,26 @@
 @tailwind base;
 @tailwind components;
-
-.input {
-  @apply focus:outline-none focus:border-gray-500 p-3 border-2 text-lg font-light border-gray-200;
-}
-.container {
-  @apply max-w-screen-2xl mx-auto;
-}
-
-.link {
-  @apply text-lime-600 hover:underline;
-}
-
-.btn {
-  @apply text-lg font-medium focus:outline-none text-white py-4  transition-colors bg-lime-600 hover:bg-lime-700;
-}
-
 @tailwind utilities;
+
+@layer base {
+}
+
+@layer components {
+  .input {
+    @apply bg-white px-4 py-2 rounded-full border-["#f0f3fc"] focus:border-["#6671fa"];
+  }
+  .container {
+    @apply max-w-screen-2xl mx-auto;
+  }
+
+  .link {
+    @apply text-lime-600 hover:underline;
+  }
+
+  .btn {
+    @apply text-lg font-medium focus:outline-none text-white py-4  transition-colors bg-lime-600 hover:bg-lime-700;
+  }
+}
+
+@layer utilities {
+}
