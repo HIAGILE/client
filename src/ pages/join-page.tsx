@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LoginLayout from "../components/layout/login-layout";
 import JoinForm from "components/login/join-form";
 
-export const Join = () => {
+export const Join: React.FC = () => {
   return (
     <LoginLayout title="Join to Hi Agile!">
       <JoinForm />
