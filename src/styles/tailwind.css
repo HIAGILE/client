@@ -6,9 +6,6 @@
 }
 
 @layer components {
-  .input {
-    @apply bg-white px-4 py-2 rounded-full border-["#f0f3fc"] focus:border-["#6671fa"];
-  }
   .container {
     @apply max-w-screen-2xl mx-auto;
   }
@@ -17,8 +14,12 @@
     @apply text-lime-600 hover:underline;
   }
 
-  .btn {
-    @apply text-lg font-medium focus:outline-none text-white py-4  transition-colors bg-lime-600 hover:bg-lime-700;
+  .login-btn {
+    @apply font-medium px-6 py-4 transition-colors rounded-full shadow-lg focus:outline-none;
+  }
+
+  .login-input {
+    @apply text-sm px-6 py-4 rounded-full shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
   }
 }
 

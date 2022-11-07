@@ -28,14 +28,14 @@ const JoinForm = () => {
   } = useForm<ICreateAccountForm>({
     mode: "onChange",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onCompleted = (data: createAccountMutation) => {
     const {
       createAccount: { ok },
     } = data;
     if (ok) {
-      alert("회원가입이 완료되었습니다!")
-      navigate("/login")
+      alert("회원가입이 완료되었습니다!");
+      navigate("/login");
     }
   };
   const [
@@ -76,7 +76,7 @@ const JoinForm = () => {
         type="text"
         placeholder="Name"
         required
-        className="input transition-colors"
+        className="login-input transition-colors"
         autoComplete="true"
       />
       {errors.name?.type === "pattern" && (
@@ -95,7 +95,7 @@ const JoinForm = () => {
         type="email"
         placeholder="Email"
         required
-        className="input transition-colors"
+        className="login-input transition-colors"
         autoComplete="true"
       />
       {errors.email?.type === "pattern" && (
@@ -114,7 +114,7 @@ const JoinForm = () => {
         type="password"
         required
         placeholder="Password"
-        className="input"
+        className="login-input"
         autoComplete="true"
       />
       {errors.password?.type === "pattern" && (
@@ -133,7 +133,7 @@ const JoinForm = () => {
         type="password"
         placeholder="password agin"
         required
-        className="input transition-colors"
+        className="login-input transition-colors"
         autoComplete="true"
       />
       {password !== undefined && password !== passwordAgin && (

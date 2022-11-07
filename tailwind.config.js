@@ -2,8 +2,6 @@
 
 const colors = require("tailwindcss/colors");
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: false, // or 'media' or 'class'
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   fontFamily: {
     sans: ["Roboto"],
@@ -12,15 +10,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        lime: colors.lime,
-        "dark-blue": "#131532",
-        "main-blue	": "#6671fa",
-        "middle-blue": "#ebeffe",
-        "light-blue	": "#f0f3fc",
-        "bg-blue": "#f6fafd",
-        "main-red": "#e7533d",
-        "main-yello": "#f9b84b",
-        "main-green": "#20998d",
+        darkBlue: "#131532",
+        mainBlue: "#6671fa",
+        middleBlue: "#ebeffe",
+        lightBlue: "#f0f3fc",
+        bgBlue: "#f6fafd",
+        mainRed: "#e7533d",
+        mainYello: "#f9b84b",
+        mainGreen: "#20998d",
+        lightGray: "#f7f7f7",
+        darkGray: "#404149",
+        kakaoYello: "#FEE500",
       },
       screens: {
         sm: "640px",

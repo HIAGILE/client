@@ -9,9 +9,9 @@ export function Login() {
   return (
     <LoginLayout title="Sign In">
       <LoginForm />
-      <div>
+      <div className="mb-10 text-center text-gray-400">
         New to HiAgile?{" "}
-        <Link to="/join" className="text-green-600 hover:underline">
+        <Link to="/join" className="text-mainBlue hover:underline">
           Create an Account
         </Link>
       </div>

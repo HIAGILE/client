@@ -65,7 +65,7 @@ const LoginForm = () => {
     }
   };
   return (
-    <form className="grid gap-4 my-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+    <form className="grid gap-2 my-10 w-full" onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register("email", {
           required: "이메일을 입력해주세요",
@@ -76,7 +76,9 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        className="input"
+        className={`login-input ${
+          errors.email ? "border-mainRed focus:border-mainRed " : ""
+        }`}
         autoComplete="true"
       />
       {errors.email?.message && (
@@ -92,7 +94,9 @@ const LoginForm = () => {
         type="password"
         required
         placeholder="Password"
-        className="input"
+        className={`login-input ${
+          errors.password ? "border-mainRed focus:border-mainRed" : ""
+        }`}
         autoComplete="true"
       />
       {errors.password?.message && (
