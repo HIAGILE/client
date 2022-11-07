@@ -14,7 +14,7 @@ export const LoginBtn: React.FC<IButtonProps> = ({
   return (
     <button
       role={"button"}
-      className={`mt-2 login-btn ${
+      className={`mt-4 login-btn ${
         canClick
           ? "bg-mainBlue text-bgBlue font-semibold hover:bg-mainBlue"
           : "bg-gray-300 text-bgBlue pointer-events-none"

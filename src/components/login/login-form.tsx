@@ -69,7 +69,7 @@ const LoginForm = () => {
   };
   return (
     <form
-      className="grid gap-4 mt-8 mb-4 w-full"
+      className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
       <input
@@ -80,9 +80,10 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        className={`login-input ${
-          errors.email ? "border-mainRed focus:border-mainRed " : ""
-        }`}
+        // className={`login-input ${
+        //   errors.email ? "border-mainRed focus:border-mainRed " : ""
+        // }`}
+        className="login-input"
         autoComplete="true"
       />
       <input
@@ -93,17 +94,18 @@ const LoginForm = () => {
         type="password"
         required
         placeholder="Password"
-        className={`login-input ${
-          errors.password ? "border-mainRed focus:border-mainRed" : ""
-        }`}
+        // className={`login-input ${
+        //   errors.password ? "border-mainRed focus:border-mainRed" : ""
+        // }`}
+        className="login-input"
         autoComplete="true"
       />
-      {(errors.email?.message && (
+      {/* {(errors.email?.message && (
         <FormError errorMessage={errors.email?.message} />
       )) ||
         (errors.password?.message && (
           <FormError errorMessage={errors.password?.message} />
-        ))}
+        ))} */}
       <LoginBtn canClick={isValid} actionText="Login" loading={false} />
     </form>
   );
