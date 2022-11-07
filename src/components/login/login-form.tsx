@@ -68,7 +68,10 @@ const LoginForm = () => {
     }
   };
   return (
-    <form className="grid gap-2 my-10 w-full" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="grid gap-4 mt-8 mb-4 w-full"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <input
         {...register("email", {
           required: "이메일을 입력해주세요",
