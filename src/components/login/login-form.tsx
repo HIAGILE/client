@@ -45,15 +45,18 @@ const LoginForm = () => {
       isLoggedInVar(true);
     }
   };
+
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
     loginMutation,
     loginMutationVariables
   >(LOGIN_MUTATION, {
     onCompleted,
   });
+
+  const { email, password } = getValues();
+
   const onSubmit = () => {
     if (!loading) {
-      const { email, password } = getValues();
       loginMutation({
         variables: {
           input: {
@@ -69,8 +72,6 @@ const LoginForm = () => {
       <input
         {...register("email", {
           required: "이메일을 입력해주세요",
-          pattern:
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         })}
         name="email"
         type="email"
@@ -81,14 +82,9 @@ const LoginForm = () => {
         }`}
         autoComplete="true"
       />
-      {errors.email?.message && (
-        <FormError errorMessage={errors.email?.message} />
-      )}
       <input
         {...register("password", {
           required: "비밀번호를 입력해주세요",
-          pattern:
-            /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
         name="password"
         type="password"
@@ -99,9 +95,12 @@ const LoginForm = () => {
         }`}
         autoComplete="true"
       />
-      {errors.password?.message && (
-        <FormError errorMessage={errors.password?.message} />
-      )}
+      {(errors.email?.message && (
+        <FormError errorMessage={errors.email?.message} />
+      )) ||
+        (errors.password?.message && (
+          <FormError errorMessage={errors.password?.message} />
+        ))}
       <LoginBtn canClick={isValid} actionText="Login" loading={false} />
     </form>
   );
