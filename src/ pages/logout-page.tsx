@@ -5,7 +5,7 @@ import KakaoLoginBtn from "components/login/kakao-login";
 import GitHubLoginBtn from "components/login/github-login";
 import LoginLayout from "components/layout/login-layout";
 import { LOCALSTORAGE_TOKEN } from "constant";
-import { authTokenVar, isLoggedInVar } from "../apollo";
+import { authTokenVar, client, isLoggedInVar } from "../apollo";
 
 export function Logout() {
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ export function Logout() {
         authTokenVar("");
         isLoggedInVar(false)
         localStorage.removeItem(LOCALSTORAGE_TOKEN);
+        client.resetStore();
         navigate("/")
     },[])
     return null
