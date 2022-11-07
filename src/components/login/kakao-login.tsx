@@ -26,10 +26,9 @@ const KakaoLoginBtn = () => {
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   }
+  // bg-kakaoYello
   return (
-    <button
-      className={`bg-[#FEE500] text-lg text-center w-full focus:outline-none font-medium py-4 transition-colors`}
-    >
+    <button className="mb-4 px-6 py-4 border-2 border-kakaoYello text-md text-center w-full focus:outline-none rounded-full shadow-lg">
       <a href={kakaoURL} className="w-full">
         Login with Kakao
       </a>

@@ -1,8 +1,6 @@
 const GitHubLoginBtn = () => {
   return (
-    <button
-      className={`bg-black text-white text-lg text-center w-full focus:outline-none font-medium py-4 transition-colors`}
-    >
+    <button className="px-6 py-4 bg-black text-white text-md text-center w-full focus:outline-none rounded-full shadow-lg">
       Login with Git Hub
     </button>
   );

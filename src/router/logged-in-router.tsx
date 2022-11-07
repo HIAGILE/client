@@ -15,7 +15,7 @@ const clientRoutes = [
 export const LoggedInRouter = () => {
   return (
     <>
-      <Header></Header>
+      <Header />
       <Routes>
         {clientRoutes.map((route) => {
           return (
@@ -26,7 +26,7 @@ export const LoggedInRouter = () => {
             />
           );
         })}
-        <Route path="/logout" element={<Logout></Logout>}></Route>
+        <Route path="/logout" element={<Logout />}></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </>
