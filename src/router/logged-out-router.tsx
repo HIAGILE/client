@@ -1,19 +1,16 @@
-import React from "react"
-import {Routes,Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { NotFound } from " pages/404";
-import { Login } from " pages/login";
-import { CreateAccount } from " pages/create-account";
+import { Login } from " pages/login-page";
+import { Join } from " pages/join-page";
 
-export const LoggedOutRouter = () =>{
-    return (
-        <>
-            <Routes>
-                <Route path="/create-account" element={<CreateAccount></CreateAccount>}>
-                </Route>
-                <Route path="/" element={<Login></Login>}>
-                </Route>
-                <Route path="*" element={<NotFound></NotFound>}></Route>
-            </Routes>
-        </>
-    );
-}
+export const LoggedOutRouter = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace={true} />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/join" element={<Join />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};

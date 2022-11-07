@@ -1,20 +1,27 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
 
-.input{
-    @apply focus:outline-none focus:border-gray-500 p-3 border-2 text-lg font-light border-gray-200
+@layer base {
 }
-.container {
+
+@layer components {
+  .container {
     @apply max-w-screen-2xl mx-auto;
   }
-  
+
   .link {
-    @apply text-lime-600 hover:underline;
+    @apply hover:underline;
   }
 
-  .btn {
-    @apply text-lg font-medium focus:outline-none text-white py-4  transition-colors bg-lime-600 hover:bg-lime-700;
+  .login-btn {
+    @apply font-medium px-6 py-4 transition-colors rounded-full shadow-lg focus:outline-none;
   }
-  
 
-@tailwind utilities;
+  .login-input {
+    @apply text-sm px-6 py-4 rounded-full shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
+  }
+}
+
+@layer utilities {
+}

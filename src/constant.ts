@@ -1,1 +1,1 @@
-export const LOCALSTORAGE_TOKEN = "uber-token";
+export const LOCALSTORAGE_TOKEN = "agile-token";
