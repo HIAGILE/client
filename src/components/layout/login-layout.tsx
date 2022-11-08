@@ -1,5 +1,5 @@
-import { Process } from "../common/process";
-import logo from "../../images/logo.png";
+import { Link } from "react-router-dom";
+import logo from "../../images/logo.svg";
 
 type LoginLayoutProps = {
   children: any;
@@ -8,13 +8,16 @@ type LoginLayoutProps = {
 
 const LoginLayout = ({ children, title }: LoginLayoutProps) => {
   return (
-    <div className="flex items-center flex-col mt-40 lg:mt-28">
-      <Process />
-      <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
-        <img src={logo} className="w-32 mb-8" alt="Logo" />
-        <h4 className=" w-full font-medium text-center text-3xl mb-8">
-          {title}
-        </h4>
+    <div className="flex items-center flex-col">
+      <div className="w-full max-w-screen-sm px-4 pt-4">
+        <Link
+          to="/"
+          className="flex justify-end items-center px-4 mb-16 sm:mb-28"
+        >
+          <img src={logo} className="w-4" alt="Logo" />
+          <h2 className="font-medium text-md ml-2 text-darkBlue">Hi, Agile!</h2>
+        </Link>
+        <h3 className="ml-4 text-3xl font-bold text-darkBlue">{title}</h3>
         {children}
       </div>
     </div>

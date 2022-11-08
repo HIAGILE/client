@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../images/logo.png";
+import logo from "../../images/logo.svg";
 
 function Header() {
   return (
@@ -22,9 +22,7 @@ const AppBar = () => {
       <Link to="/">
         <h1 className="text-xl font-bold">Hi, Agile</h1>
       </Link>
-      <Link to="/logout">
-      로그아웃
-      </Link>
+      <Link to="/logout">로그아웃</Link>
     </div>
   );
 };

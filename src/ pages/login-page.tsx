@@ -5,13 +5,13 @@ import KakaoLoginBtn from "components/login/kakao-login";
 import GitHubLoginBtn from "components/login/github-login";
 import LoginLayout from "components/layout/login-layout";
 
-export function Login() {
+export const Login: React.FC = () => {
   return (
-    <LoginLayout title="Hi, Agile!">
+    <LoginLayout title="Sign In">
       <LoginForm />
-      <div>
+      <div className="mb-16 text-center text-gray-400">
         New to HiAgile?{" "}
-        <Link to="/join" className="text-green-600 hover:underline">
+        <Link to="/join" className="text-mainBlue hover:underline">
           Create an Account
         </Link>
       </div>
@@ -21,4 +21,4 @@ export function Login() {
       </div>
     </LoginLayout>
   );
-}
+};
