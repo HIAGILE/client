@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import qs from "qs";
 
 const KakaoLoginBtn = () => {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
   const REDIRECT_URI = window.location.href;
   const kakaoCodeURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
-  const AUTHORIZE_CODE = new URL(window.location.href).searchParams.get("code");
+  const AUTHORIZE_CODE = new URL(REDIRECT_URI).searchParams.get("code");
   const kakao = axios.create({ baseURL: "https://kauth.kakao.com" });
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const KakaoLoginBtn = () => {
           {
             // 400 errors
             params: {
-              grant_type: "application/x-www-form-urlencoded;charset=utf-8",
+              grant_type: "authorization_code",
               client_id: REST_API_KEY,
               redirect_uri: REDIRECT_URI,
               code: AUTHORIZE_CODE,
@@ -31,6 +30,7 @@ const KakaoLoginBtn = () => {
         )
         .then((response) => console.log(response))
         .catch((err) => console.log(err));
+      // 인가 코드 에러 KOE320
       // server로 토큰 보내기
     }
   }, [AUTHORIZE_CODE]);
