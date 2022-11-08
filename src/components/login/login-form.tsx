@@ -9,7 +9,8 @@ import {
   loginMutation,
   loginMutationVariables,
 } from "__generated__/loginMutation";
-import { authTokenVar, isLoggedInVar } from "../../util/apollo";
+import { authTokenVar, isLoggedInVar } from "../../apollo";
+import { useNavigate } from "react-router-dom";
 
 export const LOGIN_MUTATION = gql`
   mutation loginMutation($input: LoginInput!) {
@@ -22,6 +23,8 @@ export const LOGIN_MUTATION = gql`
 `;
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     getValues,
@@ -42,6 +45,10 @@ const LoginForm = () => {
       localStorage.setItem(LOCALSTORAGE_TOKEN, token);
       authTokenVar(token);
       isLoggedInVar(true);
+      navigate("/");
+    }
+    if (error) {
+      console.log(error);
     }
   };
 

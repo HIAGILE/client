@@ -5,7 +5,7 @@ import {
   createHttpLink,
   split,
 } from "@apollo/client";
-import { LOCALSTORAGE_TOKEN } from "../constant";
+import { LOCALSTORAGE_TOKEN } from "./constant";
 import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
@@ -45,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      "Access-Control-Allow-Origin": "http://hi-agile.herokuapp.com/graphql", // Required for CORS support to work
+      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       "x-jwt": authTokenVar() || "",
     },
   };

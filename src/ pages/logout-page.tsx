@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOCALSTORAGE_TOKEN } from "constant";
-import { authTokenVar, client, isLoggedInVar } from "../util/apollo";
+import { authTokenVar, client, isLoggedInVar } from "../apollo";
 
 export function Logout() {
   const navigate = useNavigate();
