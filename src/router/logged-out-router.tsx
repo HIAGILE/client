@@ -9,6 +9,7 @@ export const LoggedOutRouter = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace={true} />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/login/:path" element={<Login />} />
       <Route path="/join" element={<Join />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
