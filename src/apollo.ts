@@ -20,7 +20,7 @@ const wsLink = new GraphQLWsLink(
     url:
       process.env.NODE_ENV === "production"
         ? "ws://hi-agile.herokuapp.com/graphql"
-        : "ws://localhost:4000/graphql",
+        : "ws://hi-agile.herokuapp.com/graphql",
     connectionParams: {
       "x-jwt": authTokenVar() || "",
     },
@@ -38,13 +38,14 @@ const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "production"
       ? "https://hi-agile.herokuapp.com/graphql"
-      : "http://localhost:4000/graphql",
+      : "http://hi-agile.herokuapp.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
+      "Access-Control-Allow-Origin": "http://hi-agile.herokuapp.com/graphql", // Required for CORS support to work
       "x-jwt": authTokenVar() || "",
     },
   };

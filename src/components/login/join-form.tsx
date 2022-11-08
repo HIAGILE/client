@@ -1,5 +1,5 @@
-import React from "react";
-import { JoinBtn } from "./join-button";
+import React, { useEffect, useState } from "react";
+import { LoginBtn } from "./login-button";
 import { useForm } from "react-hook-form";
 import { FormError } from "../common/form-error";
 import { ICreateAccountForm } from "../../interface/login-join-type";
@@ -35,7 +35,7 @@ const JoinForm = () => {
     } = data;
     if (ok) {
       alert("회원가입이 완료되었습니다!");
-      navigate("/login");
+      navigate("/");
     }
   };
   const [
@@ -46,11 +46,12 @@ const JoinForm = () => {
     { onCompleted }
   );
 
-  const { name, email, password, passwordAgin } = getValues();
+  const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
+
+  console.log(isValid, typeof agreeCheckbox);
 
   const onSubmit = () => {
     if (!loading) {
-      const { name, email, password } = getValues();
       createAccountMutation({
         variables: {
           createAccountInput: {
@@ -64,7 +65,7 @@ const JoinForm = () => {
   };
   return (
     <form
-      className="grid gap-3 mt-5 w-full mb-5"
+      className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
       <input
@@ -74,7 +75,7 @@ const JoinForm = () => {
         })}
         name="name"
         type="text"
-        placeholder="Name"
+        placeholder="Name *"
         required
         className="login-input transition-colors"
         autoComplete="true"
@@ -93,7 +94,7 @@ const JoinForm = () => {
         })}
         name="email"
         type="email"
-        placeholder="Email"
+        placeholder="Email *"
         required
         className="login-input transition-colors"
         autoComplete="true"
@@ -113,7 +114,7 @@ const JoinForm = () => {
         name="password"
         type="password"
         required
-        placeholder="Password"
+        placeholder="Password *"
         className="login-input"
         autoComplete="true"
       />
@@ -131,18 +132,32 @@ const JoinForm = () => {
         })}
         name="passwordAgin"
         type="password"
-        placeholder="password agin"
+        placeholder="password agin *"
         required
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {password !== undefined && password !== passwordAgin && (
+      {passwordAgin && passwordAgin !== password && (
         <FormError errorMessage="비밀번호가 일치하지 않습니다" />
       )}
       {errors.passwordAgin?.message && (
         <FormError errorMessage={errors.passwordAgin?.message} />
       )}
-      <JoinBtn canClick={isValid} actionText="Create Account" loading={false} />
+      <label className="ml-6 mt-4 text-sm text-darkGray">
+        <input
+          {...register("agreeCheckbox")}
+          name="agreeCheckbox"
+          type="checkbox"
+          className="mr-2"
+          value={"1"}
+        />
+        HiAgile 서비스 이용을 위한 개인정보 제공 및 수집에 동의합니다.
+      </label>
+      <LoginBtn
+        canClick={isValid && agreeCheckbox === "1"}
+        actionText="Create Account"
+        loading={false}
+      />
     </form>
   );
 };

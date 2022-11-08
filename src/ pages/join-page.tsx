@@ -7,9 +7,9 @@ export const Join: React.FC = () => {
   return (
     <LoginLayout title="Sign Up">
       <JoinForm />
-      <div>
+      <div className="mb-16 text-center text-gray-400">
         Already have an account?{" "}
-        <Link to={"/login"} className="text-green-600 hover:underline">
+        <Link to={"/login"} className="text-mainBlue hover:underline">
           Go to Login
         </Link>
       </div>

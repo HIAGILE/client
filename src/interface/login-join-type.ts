@@ -9,4 +9,5 @@ export type ICreateAccountForm = {
   passwordAgin: string;
   name: string;
   role: string;
+  agreeCheckbox: string;
 };
