@@ -45,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      "Access-Control-Allow-Origin": "http://hi-agile.herokuapp.com/graphql", // Required for CORS support to work
+      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       "x-jwt": authTokenVar() || "",
     },
   };

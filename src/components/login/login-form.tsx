@@ -10,6 +10,7 @@ import {
   loginMutationVariables,
 } from "__generated__/loginMutation";
 import { authTokenVar, isLoggedInVar } from "../../apollo";
+import { useNavigate } from "react-router-dom";
 
 export const LOGIN_MUTATION = gql`
   mutation loginMutation($input: LoginInput!) {
@@ -22,12 +23,13 @@ export const LOGIN_MUTATION = gql`
 `;
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     getValues,
     formState: { isValid, errors },
     handleSubmit,
-    watch,
   } = useForm<ILoginForm>({
     mode: "onChange",
   });
@@ -43,6 +45,10 @@ const LoginForm = () => {
       localStorage.setItem(LOCALSTORAGE_TOKEN, token);
       authTokenVar(token);
       isLoggedInVar(true);
+      navigate("/");
+    }
+    if (error) {
+      console.log(error);
     }
   };
 
@@ -80,10 +86,10 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        // className={`login-input ${
-        //   errors.email ? "border-mainRed focus:border-mainRed " : ""
-        // }`}
-        className="login-input"
+        className={`login-input ${
+          errors.email ? "border-mainRed focus:border-mainRed " : ""
+        }`}
+        // className="login-input"
         autoComplete="true"
       />
       <input
@@ -94,10 +100,10 @@ const LoginForm = () => {
         type="password"
         required
         placeholder="Password"
-        // className={`login-input ${
-        //   errors.password ? "border-mainRed focus:border-mainRed" : ""
-        // }`}
-        className="login-input"
+        className={`login-input ${
+          errors.password ? "border-mainRed focus:border-mainRed" : ""
+        }`}
+        // className="login-input"
         autoComplete="true"
       />
       {/* {(errors.email?.message && (
