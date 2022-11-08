@@ -5,7 +5,7 @@ import {
   createHttpLink,
   split,
 } from "@apollo/client";
-import { LOCALSTORAGE_TOKEN } from "./constant";
+import { LOCALSTORAGE_TOKEN } from "../constant";
 import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";

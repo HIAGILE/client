@@ -9,7 +9,7 @@ import {
   loginMutation,
   loginMutationVariables,
 } from "__generated__/loginMutation";
-import { authTokenVar, isLoggedInVar } from "../../apollo";
+import { authTokenVar, isLoggedInVar } from "../../util/apollo";
 
 export const LOGIN_MUTATION = gql`
   mutation loginMutation($input: LoginInput!) {
@@ -27,7 +27,6 @@ const LoginForm = () => {
     getValues,
     formState: { isValid, errors },
     handleSubmit,
-    watch,
   } = useForm<ILoginForm>({
     mode: "onChange",
   });
@@ -80,10 +79,10 @@ const LoginForm = () => {
         type="email"
         placeholder="Email"
         required
-        // className={`login-input ${
-        //   errors.email ? "border-mainRed focus:border-mainRed " : ""
-        // }`}
-        className="login-input"
+        className={`login-input ${
+          errors.email ? "border-mainRed focus:border-mainRed " : ""
+        }`}
+        // className="login-input"
         autoComplete="true"
       />
       <input
@@ -94,10 +93,10 @@ const LoginForm = () => {
         type="password"
         required
         placeholder="Password"
-        // className={`login-input ${
-        //   errors.password ? "border-mainRed focus:border-mainRed" : ""
-        // }`}
-        className="login-input"
+        className={`login-input ${
+          errors.password ? "border-mainRed focus:border-mainRed" : ""
+        }`}
+        // className="login-input"
         autoComplete="true"
       />
       {/* {(errors.email?.message && (

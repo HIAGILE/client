@@ -28,7 +28,9 @@ const JoinForm = () => {
   } = useForm<ICreateAccountForm>({
     mode: "onChange",
   });
+
   const navigate = useNavigate();
+
   const onCompleted = (data: createAccountMutation) => {
     const {
       createAccount: { ok },
@@ -38,6 +40,7 @@ const JoinForm = () => {
       navigate("/");
     }
   };
+
   const [
     createAccountMutation,
     { loading, data: createAccountMutationResult },
@@ -47,8 +50,7 @@ const JoinForm = () => {
   );
 
   const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
-
-  console.log(isValid, typeof agreeCheckbox);
+  console.log(password === passwordAgin);
 
   const onSubmit = () => {
     if (!loading) {
@@ -81,7 +83,7 @@ const JoinForm = () => {
         autoComplete="true"
       />
       {errors.name?.type === "pattern" && (
-        <FormError errorMessage="영문과 숫자를 입력해주세요" />
+        <FormError errorMessage="영문과 숫자 4자리를 입력해주세요" />
       )}
       {errors.name?.message && (
         <FormError errorMessage={errors.name?.message} />
@@ -137,12 +139,12 @@ const JoinForm = () => {
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {passwordAgin && passwordAgin !== password && (
+      {(passwordAgin && passwordAgin !== password && (
         <FormError errorMessage="비밀번호가 일치하지 않습니다" />
-      )}
-      {errors.passwordAgin?.message && (
-        <FormError errorMessage={errors.passwordAgin?.message} />
-      )}
+      )) ||
+        (errors.passwordAgin?.message && (
+          <FormError errorMessage={errors.passwordAgin?.message} />
+        ))}
       <label className="ml-6 mt-4 text-sm text-darkGray">
         <input
           {...register("agreeCheckbox")}
