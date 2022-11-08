@@ -5,7 +5,7 @@ import KakaoLoginBtn from "components/login/kakao-login";
 import GitHubLoginBtn from "components/login/github-login";
 import LoginLayout from "components/layout/login-layout";
 
-export function Login() {
+export const Login: React.FC = () => {
   return (
     <LoginLayout title="Sign In">
       <LoginForm />
@@ -21,4 +21,4 @@ export function Login() {
       </div>
     </LoginLayout>
   );
-}
+};
