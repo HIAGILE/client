@@ -8,7 +8,7 @@ type LoginLayoutProps = {
 
 const LoginLayout = ({ children, title }: LoginLayoutProps) => {
   return (
-    <div className="flex items-center flex-col ">
+    <div className="flex items-center flex-col">
       <div className="w-full max-w-screen-sm px-4 pt-4">
         <Link
           to="/"
