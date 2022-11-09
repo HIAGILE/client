@@ -4,11 +4,8 @@ import LoginForm from "../components/login/login-form";
 import KakaoLoginBtn from "components/login/kakao-login";
 import GitHubLoginBtn from "components/login/github-login";
 import LoginLayout from "components/layout/login-layout";
-import { gql } from "@apollo/client";
 
 export const Login: React.FC = () => {
-
-
   return (
     <LoginLayout title="Sign In">
       <LoginForm />

@@ -38,7 +38,7 @@ const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === "production"
       ? "https://hi-agile.herokuapp.com/graphql"
-      : "http://localhost:4000/graphql",
+      : "http://locahost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

@@ -6,6 +6,16 @@ import GitHubLoginBtn from "components/login/github-login";
 import LoginLayout from "components/layout/login-layout";
 import { gql } from "@apollo/client";
 
+export const GITHUB_LOGIN_QUERY = gql`
+  query githubLogin($oAuthInput: OAuthInput!) {
+    githubLogin(input: $oAuthInput) {
+      ok
+      error
+      token
+    }
+  }
+`;
+
 export const Login: React.FC = () => {
 
 

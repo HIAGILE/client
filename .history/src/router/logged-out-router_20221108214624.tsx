@@ -15,7 +15,7 @@ export const LoggedOutRouter = () => {
       <Route path="/login/:path" element={<Login />} />
       <Route path="/logout" element={<Logout />}></Route>
       <Route path="/social/github" element={<GithubConfirm></GithubConfirm>}></Route>
-      <Route path="/social/kakao" element={<KakaoConfirm></KakaoConfirm>}></Route>
+      <Route path="/social/github" element={<KakaoConfirm></KakaoConfirm>}></Route>
       <Route path="/join" element={<Join />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
