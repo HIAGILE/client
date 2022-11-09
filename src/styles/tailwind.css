@@ -19,7 +19,11 @@
   }
 
   .login-input {
-    @apply text-sm px-6 py-4 rounded-full shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
+    @apply text-sm text-darkGray px-6 py-4 rounded-full shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
+  }
+
+  .search-input {
+    @apply text-sm px-4 py-2 rounded-full shadow-md border-2 text-darkGray border-lightGray focus:border-mainBlue outline-none;
   }
 }
 

@@ -1,20 +1,34 @@
 import { NotFound } from " pages/404";
+import CreateProject from " pages/create-project";
 import { Logout } from " pages/logout-page";
-import Main from " pages/main-dashboard";
-import Header from "components/header/header-appbar";
+import MainDashboard from " pages/main-dashboard";
+import MyProfile from " pages/my-profile";
+import AppBar from "components/header/header-appbar";
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 const clientRoutes = [
   {
     path: "/",
-    component: <Main />,
+    component: <Navigate to="/main" replace={true} />,
+  },
+  {
+    path: "/main",
+    component: <MainDashboard />,
+  },
+  {
+    path: "/profile",
+    component: <MyProfile />,
+  },
+  {
+    path: "/createproject",
+    component: <CreateProject />,
   },
 ];
 
 export const LoggedInRouter = () => (
   <>
-    <Header />
+    <AppBar />
     <Routes>
       {clientRoutes.map((route) => {
         return (
