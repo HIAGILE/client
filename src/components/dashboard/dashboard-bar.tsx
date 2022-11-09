@@ -5,7 +5,7 @@ import userFilled from "../../images/icon/userFilled.svg";
 
 const MainBar = () => {
   return (
-    <div className="flex justify-between mb-4">
+    <div className="flex justify-between mb-10">
       <SearchBar />
       <MyProfile />
     </div>
