@@ -13,6 +13,14 @@ export interface CreateAccountInput {
   password: string;
 }
 
+export interface GitHubOAuthInput {
+  code: string;
+}
+
+export interface KakaoOAuthInput {
+  code: string;
+}
+
 export interface LoginInput {
   email: string;
   password: string;

@@ -7,7 +7,6 @@ import { App } from "app";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
 import { Process } from "components/common/process";
-import "./styles/index.css";
 import "./styles/tailwind.css";
 
 const root = ReactDOM.createRoot(
