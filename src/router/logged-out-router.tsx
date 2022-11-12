@@ -12,8 +12,6 @@ export const LoggedOutRouter = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace={true} />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/login/:path" element={<Login />} />
-      <Route path="/logout" element={<Logout />}></Route>
       <Route
         path="/social/github"
         element={<GithubConfirm></GithubConfirm>}
@@ -23,7 +21,7 @@ export const LoggedOutRouter = () => {
         element={<KakaoConfirm></KakaoConfirm>}
       ></Route>
       <Route path="/join" element={<Join />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Navigate to="/login" replace={true} />} />
     </Routes>
   );
 };
