@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logoWhite from "../../images/logoWhite.svg";
-import Logo from "../common/logo";
+import Logo from "components/common/logo";
 
 function AppBar() {
   return (
