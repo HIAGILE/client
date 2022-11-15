@@ -1,6 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { authTokenVar, isLoggedInVar } from "../apollo";
-import { LOCALSTORAGE_TOKEN } from "constant";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { MutatingDots } from "react-loader-spinner";
@@ -21,18 +19,13 @@ export function KakaoConfirm() {
     const {search} = useLocation()
     const navigate = useNavigate()
     const onCompleted = (data: kakaoLoginMutation) => {
-        const {
-            kakaoLogin: { ok,token,error },
-          } = data;
-          if (!ok) {
-              alert(error);
-          }
-          if (ok && token) {
-              localStorage.setItem(LOCALSTORAGE_TOKEN, token);
-              authTokenVar(token);
-              isLoggedInVar(true);
-              navigate("/");
-          }
+    const {
+        kakaoLogin: { ok,token },
+      } = data;
+      if (ok) {
+        alert("카카오 로그인 완료!");
+        navigate("/");
+      }
     };
   
     const [

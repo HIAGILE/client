@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { authTokenVar, isLoggedInVar } from "../apollo";
+import { authTokenVar, isLoggedInVar } from "apollo";
 import { LOCALSTORAGE_TOKEN } from "constant";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
