@@ -9,7 +9,8 @@ import { client } from "./apollo";
 import { Process } from "components/common/process";
 import "./styles/tailwind.css";
 import "./styles/styles.css";
-import {ChakraProvider} from '@chakra-ui/react';
+import { ChakraProvider } from "@chakra-ui/react";
+import { createBrowserHistory } from "history";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
