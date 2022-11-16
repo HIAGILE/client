@@ -1,7 +1,27 @@
+import { gql, useMutation } from "@apollo/client";
 import { ICreateProjecForm } from "interface/project-type";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { createProject, createProjectVariables } from "__generated__/createProject";
 import { FormError } from "../components/common/form-error";
+
+const PROJECT_MUTATION = gql`
+  mutation createProject($input:CreateProjectInput!){
+    createProject(input:$input){
+      ok
+      error
+      projectId
+    }
+  }
+`
+
+export enum ProjectCode {
+  SCRUM = "SCRUM",
+  EX = "EX",
+  PAIR = "PAIR",
+  KANBAN = "KANBAN",
+}
 
 export function CreateProject() {
   const {
@@ -10,28 +30,50 @@ export function CreateProject() {
     formState: { isValid, errors },
     handleSubmit,
     watch,
+    setValue
   } = useForm<ICreateProjecForm>({
     mode: "onChange",
   });
-  function onSubmit() {
-    console.log("완료");
-  }
+  const navigate = useNavigate();
+
+  const onCompleted = (data: createProject) => {
+    const {
+      createProject: { ok, projectId, error },
+    } = data;
+    if (!ok) {
+      alert(error);
+    }
+    if (ok && projectId) {
+      navigate("/add-members?projectId=" + projectId);
+    }
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const [createProjectMutation, { data: createProjectResult, loading }] = useMutation<
+    createProject,
+    createProjectVariables
+  >(PROJECT_MUTATION, {
+    onCompleted,
+  });
 
   const [agileCode, setAgileCode] = useState<string>();
 
   const selectedAgile = [
-    { name: "SCRUM", code: "SCRUM" },
-    { name: "EX PROGRAMING", code: "EX" },
-    { name: "PAIR PROGRAMING", code: "PAIR" },
-    { name: "KANBAN", code: "KANBAN" },
+    { name: "스크럼", code: "SCRUM", description: "스크럼으로 시작하기", tag: ["#스크럼", "#스프린트", "#생명주기"] },
+    { name: "EX", code: "EX", description: "익스트림 프로그래밍으로 시작하기", tag: ["#익스트림 프로그래밍", "#빠르고 날쌘"] },
+    { name: "짝 프로그래밍", code: "PAIR", description: "짝 프로그래밍으로 시작하기", tag: ["#짝 프로그래밍"] },
+    { name: "칸반보드", code: "KANBAN", description: "칸반보드로 시작하기", tag: ["#칸반보드", "#실용적인"] },
   ];
 
   function getAgileCode(code: string) {
     setAgileCode(code);
-    console.log(code);
   }
   function goBackStep() {
     setAgileCode("");
+    setValue("name", "", { shouldValidate: true });
+    setValue("githubURL", "", { shouldValidate: true });
   }
   const [next, setNext] = useState<boolean>(false);
   function goNextStep() {
@@ -40,33 +82,75 @@ export function CreateProject() {
   function backStep() {
     setNext(false);
   }
+  const onSubmit = () => {
+    console.log("hello")
+    if (!loading) {
+      const { name, githubURL } = getValues();
+      let enums = ProjectCode.SCRUM;
+      if (agileCode === "SCRUM") {
+        enums = ProjectCode.SCRUM;
+      }
+      if (agileCode === "EX") {
+        enums = ProjectCode.EX;
+      }
+      if (agileCode === "PAIR") {
+        enums = ProjectCode.PAIR;
+      }
+      if (agileCode === "KANBAN") {
+        enums = ProjectCode.KANBAN;
+      }
+      createProjectMutation({
+        variables: {
+          input: {
+            name,
+            githubURL,
+            code: enums,
+          },
+        },
+      });
+    }
+  }
+      
   return (
     <div className="h-full px-10 pt-28 rounded-3xl bg-white">
-      <p className="font-bold text-2xl">Create New Project</p>
+      <p className="font-bold text-3xl h-16">Create New Project{agileCode ? `(${agileCode})`: ""}</p>
       <div className="flex flex-wrap">
         {!agileCode &&
           selectedAgile.map((agile) => (
-            <p
-              key={agile.code}
-              className="w-1/2 p-8 bg-lightGray text-darkGray h-60 rounded-3xl shadow-2xl hover:bg-mainBlue hover:text-lightGray "
-              onClick={() => {
-                getAgileCode(agile.code);
-              }}
-            >
-              {agile.name}
-            </p>
+            <div key={agile.code} className="max-w-xs m-3 hover:scale-105 hover:bg-gray-100 transition rounded-md overflow-hidden shadow-lg" onClick={() => {
+              getAgileCode(agile.code);
+            }}>
+              <img className="w-full" src="https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/9f5d38d5-0fb4-4dfb-f6e3-a39397620700/public" alt="Sunset in the mountains"></img>
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{agile.name}</div>
+                <p className="text-gray-700 text-base">
+                  {agile.description}
+                </p>
+              </div>
+              <div className="px-6 pt-4 pb-2">
+                {
+                  agile.tag.map((tag) => {
+                    return (
+                      <span key={tag} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{tag}</span>
+                    )
+                  })
+                }
+              </div>
+            </div>
           ))}
       </div>
-      {agileCode && (
+      {
+        agileCode && (
         <form
           className="grid gap-2 mt-8 mb-4 w-full"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {(!next && (
+          {
+            !next && (
             <>
-              <label>
-                Project name*
-                <br />
+              <p className="p-8 text-2xl font-bold text-mainBlue">
+              Project Name*
+              </p>
                 <input
                   {...register("name", {
                     required: "프로젝트 명을 입력해주세요",
@@ -74,36 +158,33 @@ export function CreateProject() {
                   })}
                   type="text"
                   required
-                  className="login-input transition-colors"
+                  className="my-4 text-lg w-96 text-darkGray px-6 py-4 shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none transition-colors"
                   autoComplete="true"
+                  placeholder="프로젝트명을 입력하세요(필수)"
                 />
-              </label>
-              <label>
-                github url
-                <br />
+              
+                <p className="p-8 text-2xl font-bold text-mainBlue">
+                Github URL
+                </p>
                 <input
-                  {...register("name", {
+                  {...register("githubURL", {
                     required: "github url을 입력해주세요",
                     pattern: /^[A-Za-z]{1}[A-Za-z0-9]{3,19}$/,
                   })}
                   type="text"
                   required
-                  className="login-input transition-colors"
+                  className="my-4 text-lg w-96 text-darkGray px-6 py-4 shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none transition-colors"
                   autoComplete="true"
+                  placeholder="깃허브 URL을 입력하세요(선택)"
                 />
-              </label>
-              <button onClick={goBackStep}>Back</button>
-              <button onClick={goNextStep}>Next</button>
+                <button type={"button"} className="rounded-lg border-2 border-mainBlue px-4 py-2 w-40 text-mainBlue mx-1 hover:bg-mainBlue hover:text-white transition" onClick={goBackStep}>이전</button>
+                <button type={"submit"} className="rounded-lg border-2 border-mainBlue px-4 py-2 w-40 text-mainBlue mx-1 hover:bg-mainBlue hover:text-white transition">생성</button>
             </>
-          )) || (
-            <>
-              <label>Project Owner</label>
-              <button onClick={backStep}>Back</button>
-              <button onClick={onSubmit}>confirme</button>
-            </>
-          )}
+            )
+          }
         </form>
-      )}
+        )
+      }
     </div>
   );
 }

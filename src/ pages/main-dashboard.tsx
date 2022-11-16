@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // https://icon-icons.com/ko/pack/Teamleader-Icons/2346
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -33,6 +33,7 @@ import computer_il from "images/icon/computer_il.svg";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "styles/calendar.css";
+import { useMe } from "hooks/useMe";
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
@@ -83,6 +84,9 @@ const NewProject = () => {
   // apollo
   const [dates, setDates] = useState<Date[]>();
   const userName = "user name";
+  const navigate = useNavigate()
+  const {data:myProfile, loading:myProfileLoading} = useMe()
+  console.log(myProfile)
   return (
     <>
       <div className="flex">
@@ -91,22 +95,21 @@ const NewProject = () => {
           <div className="flex mb-5">
             <p className="font-bold text-2xl">Dashboard</p>
           </div>
-          <div className="bg-middleBlue rounded-xl h-60 p-8 flex justify-between">
-            <div>
-              <div className="text-4xl font-bold p-2">Hello! {userName}</div>
+          <div className="bg-middleBlue rounded-xl h-60 flex justify-between relative">
+            <div className="p-8 w-full">
+              <div className="text-4xl font-bold p-2">Hello! {myProfile?.me.name}</div>
               <div className="text-sm p-2">
-                애자일 방법론 네가지를 활용해 최적화된 프로젝트 관리를
-                시작하세요.
+                네가지 애자일 방법론 활용해 최적화된 프로젝트 관리를 시작하세요.
                 <br></br>
-                기다리고 있습니다
+                스크럼, 짝 프로그래밍, 익스트림 프로그래밍, 칸반보드 등이 있습니다.
               </div>
-              <button className="text-lightBlue text-lg leading-none bg-mainBlue rounded-xl p-4 m-2">
-                <Link to="/createproject">Create New Project</Link>
+              <button className="hover:scale-105 transition text-lightBlue text-lg leading-none bg-mainBlue rounded-xl p-4 m-2"
+              onClick={()=>{navigate("/create-project")}}>
+                프로젝트 생성
               </button>
             </div>
-            <div>
-              <img src={computer_il} width="250"></img>
-            </div>
+            <img src={computer_il} width="400" className="absolute right-16 bottom-0"></img>
+            
           </div>
           {/* 여기는 폴더 부분 */}
           <div className="my-10">

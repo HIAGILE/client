@@ -7,6 +7,7 @@ import MyProfile from " pages/my-profile";
 import AppBar from "components/header/header-appbar";
 import DashboardLayout from "components/layout/dashboard-layout";
 import { Route, Routes, Navigate } from "react-router-dom";
+import AddMembers from " pages/add-members";
 
 const clientRoutes = [
   {
@@ -30,8 +31,12 @@ const clientRoutes = [
     component: <MyProfile />,
   },
   {
-    path: "/createproject",
+    path: "/create-project",
     component: <CreateProject />,
+  },
+  {
+    path: "/add-members",
+    component: <AddMembers />,
   },
   {
     path: "/logout",
