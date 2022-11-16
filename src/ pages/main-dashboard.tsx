@@ -27,9 +27,9 @@ ChartJS.register(
   LineController,
   BarController
 );
+
 import temp from "images/icon/bell_alarm_icon_142909.svg";
 import computer_il from "images/icon/computer_il.svg";
-
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "styles/calendar.css";
