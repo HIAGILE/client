@@ -6,10 +6,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { App } from "app";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo";
-import { Process } from "components/common/process";
-import "./styles/tailwind.css";
 import "./styles/styles.css";
-import {ChakraProvider} from '@chakra-ui/react';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -17,7 +14,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <ApolloProvider client={client}>
     <HelmetProvider>
-      <Process />
       <BrowserRouter>
         <App />
       </BrowserRouter>
