@@ -154,7 +154,8 @@ export function CreateProject() {
                 <input
                   {...register("name", {
                     required: "프로젝트 명을 입력해주세요",
-                    pattern: /^[A-Za-z]{1}[A-Za-z0-9]{3,19}$/,
+                    pattern: /[^?a-zA-Z0-9]/,
+                    
                   })}
                   type="text"
                   required
@@ -169,7 +170,7 @@ export function CreateProject() {
                 <input
                   {...register("githubURL", {
                     required: "github url을 입력해주세요",
-                    pattern: /^[A-Za-z]{1}[A-Za-z0-9]{3,19}$/,
+                    pattern: /[^?a-zA-Z0-9]/,
                   })}
                   type="text"
                   required

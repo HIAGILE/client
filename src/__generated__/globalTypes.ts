@@ -31,6 +31,10 @@ export interface CreateProjectInput {
   githubURL: string;
 }
 
+export interface GetFriendsInput {
+  userId: number;
+}
+
 export interface GitHubOAuthInput {
   code: string;
 }
