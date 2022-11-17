@@ -35,6 +35,10 @@ export interface GetFriendsInput {
   userId: number;
 }
 
+export interface GetProjectsInput {
+  id: number;
+}
+
 export interface GitHubOAuthInput {
   code: string;
 }

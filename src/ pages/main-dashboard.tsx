@@ -34,6 +34,50 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "styles/calendar.css";
 import { useMe } from "hooks/useMe";
+import { gql, useQuery } from "@apollo/client";
+import { getProjects, getProjectsVariables } from "__generated__/getProjects";
+
+export const GET_PROJECTS_QUERY = gql`
+  query getProjects($input:GetProjectsInput!) {
+    getProjects(input:$input) 
+    {
+      ok
+      error
+      projects{
+        id
+        createAt
+        updateAt
+        code
+        name
+        owner
+        {
+          name
+          role
+          email
+        }
+        githubURL
+        sprints
+        {
+          id
+          createAt
+          updateAt
+          startDate
+          endDate
+          period
+          purpose
+        }
+        members
+        {
+          id
+          user{
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
@@ -86,7 +130,16 @@ const NewProject = () => {
   const userName = "user name";
   const navigate = useNavigate()
   const {data:myProfile, loading:myProfileLoading} = useMe()
-  console.log(myProfile)
+  const {data:myProjects,loading:myProjectsLoading} = useQuery<getProjects,getProjectsVariables>(
+    GET_PROJECTS_QUERY,
+    {
+      variables:{
+        input:{
+          id: 0
+        }
+      }
+    }
+  );
   return (
     <>
       <div className="flex">
@@ -121,9 +174,59 @@ const NewProject = () => {
                 </button>
               </div>
             </div>
-
+            
             <div className="grid grid-cols-3 gap-10 w-full my-5">
-              <div>
+            {
+              myProjects?.getProjects.projects 
+              ?
+              myProjects?.getProjects.projects.map((project,index) => {
+                return (
+                  index % 3 == 0 ?
+                  <div>
+                    <div className="bg-red-400 h-60 rounded-3xl shadow-2xl">
+                      <div className="relative w-12/12">
+                        <img className="p-5 absolute right-0" src={temp}></img>
+                        <img className="p-5" src={temp}></img>
+                      </div>
+                      <p className="text-white px-5">{project.name}</p>
+                      <img className="p-5" src={temp}></img>
+                      <p className="px-5 text-white">{project.createAt}</p>
+                      <p className="px-5 text-white">{project.sprints.length}개</p>
+                    </div>
+                  </div>
+                  :
+                  index % 3 == 1 ?
+                  <div>
+                    <div className="bg-mainBlue h-60 rounded-3xl shadow-2xl">
+                      <div className="relative w-12/12">
+                        <img className="p-5 absolute right-0" src={temp}></img>
+                        <img className="p-5" src={temp}></img>
+                      </div>
+                      <p className="text-white px-5">{project.name}</p>
+                      <img className="p-5" src={temp}></img>
+                      <p className="px-5 text-white">{project.createAt}</p>
+                      <p className="px-5 text-white">{project.sprints.length}개</p>
+                    </div>
+                  </div>
+                  :
+                  <div>
+                    <div className="bg-yellow-300 h-60 rounded-3xl shadow-2xl">
+                      <div className="relative w-12/12">
+                        <img className="p-5 absolute right-0" src={temp}></img>
+                        <img className="p-5" src={temp}></img>
+                      </div>
+                      <p className="text-white px-5">{project.name}</p>
+                      <img className="p-5" src={temp}></img>
+                      <p className="px-5 text-white">{project.createAt}</p>
+                      <p className="px-5 text-white">{project.sprints.length}개</p>
+                    </div>
+                  </div>
+                )
+              })
+              :
+              "생성한 프로젝트가 없습니다."
+            }
+              {/* <div>
                 <div className="bg-red-400 h-60 rounded-3xl shadow-2xl">
                   <div className="relative w-12/12">
                     <img className="p-5 absolute right-0" src={temp}></img>
@@ -158,7 +261,7 @@ const NewProject = () => {
                   <p className="px-5 text-white">hello</p>
                   <p className="px-5 text-white">hello there!</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           {/* 여기는 최근 폴더 부분 */}
