@@ -9,6 +9,7 @@ import {
   createAccountMutationVariables,
 } from "__generated__/createAccountMutation";
 import { useNavigate } from "react-router-dom";
+import userFilled from "../../images/icon/userFilled.svg";
 
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -70,6 +71,25 @@ const JoinForm = () => {
       className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <div className="h-60 justify-center flex justify-center items-center">
+        <div className="">
+          <div className="h-40 w-32 bg-gray-200">
+            <img src={userFilled} alt="user"  className="object-fill h-40 w-32"/>
+          </div>
+          <label className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue" htmlFor="input-file">
+            업로드
+          </label>
+        </div>
+      </div>
+      <input 
+      id="input-file"
+      {...register("file")} 
+      type="file" 
+      accept="image/*"
+      required
+      className="hidden"
+      >
+      </input>
       <input
         {...register("name", {
           required: "이름을 입력해주세요",
