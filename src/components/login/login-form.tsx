@@ -47,7 +47,7 @@ const LoginForm: React.FC = () => {
       isLoggedInVar(true);
       navigate('/');
     }
-    if (ok! || error) {
+    if (error) {
       // alert(error);
       toast.error('이메일 또는 비밀번호가 틀립니다.', {
         position: 'top-right',
