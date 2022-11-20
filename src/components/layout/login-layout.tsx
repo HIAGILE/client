@@ -1,5 +1,6 @@
-import { Process } from "components/common/process";
-import Logo from "../common/logo";
+import React from 'react';
+import { Process } from 'components/common/process';
+import Logo from '../common/logo';
 
 type LoginLayoutProps = {
   children: any;

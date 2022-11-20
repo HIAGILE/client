@@ -638,7 +638,8 @@ video {
 }
 
 .login-btn {
-  border-radius: 9999px;
+  width: 100%;
+  border-radius: 0.75rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 1rem;
@@ -660,7 +661,7 @@ video {
 }
 
 .login-input {
-  border-radius: 9999px;
+  border-radius: 0.75rem;
   border-width: 2px;
   --tw-border-opacity: 1;
   border-color: rgba(247, 247, 247, var(--tw-border-opacity));
@@ -687,7 +688,7 @@ video {
 }
 
 .search-input {
-  border-radius: 9999px;
+  border-radius: 0.75rem;
   border-width: 2px;
   --tw-border-opacity: 1;
   border-color: rgba(247, 247, 247, var(--tw-border-opacity));
