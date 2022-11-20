@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import React from 'react';
 
-const KakaoLoginBtn = () => {
-  let kakaoParam = {
-    client_id: "b3a9beab04e6e23fce4144d6733c69ab",
-    redirect_uri: "http://localhost:3000/social/kakao",
-    response_type: "code",
-  };
+type kakaoParamType = {
+  client_id?: string;
+  redirect_uri: string;
+  response_type: string;
+};
+
+const KakaoLoginBtn: React.FC = () => {
+  const kakaoParam: kakaoParamType | URLSearchParams | Record<string, string> =
+    {
+      client_id: process.env.REACT_APP_KAKAO_API_KEY,
+      redirect_uri: `${window.location.origin}/social/kakao`,
+      response_type: 'code',
+    };
   const kakaoCodeURL = `https://kauth.kakao.com/oauth/authorize?${new URLSearchParams(
-    kakaoParam
+    kakaoParam,
   ).toString()}`;
 
   return (
-    <button className="mb-4 px-6 py-4 bg-kakaoYello text-md text-center w-full focus:outline-none rounded-full shadow-lg">
+    <button className="login-btn mb-4 bg-kakaoYello w-full">
       <a href={kakaoCodeURL} className="w-full">
         Login with Kakao
       </a>
