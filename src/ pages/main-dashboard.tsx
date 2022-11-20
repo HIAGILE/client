@@ -210,7 +210,7 @@ const NewProject = () => {
                   </div>
                   :
                   <div>
-                    <div className="bg-yellow-300 h-60 rounded-3xl shadow-2xl">
+                    <div className="bg-green-400 h-60 rounded-3xl shadow-2xl">
                       <div className="relative w-12/12">
                         <img className="p-5 absolute right-0" src={temp}></img>
                         <img className="p-5" src={temp}></img>

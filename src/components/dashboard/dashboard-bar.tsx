@@ -48,7 +48,7 @@ const MyProfile = () => {
           </div>
           {toggle && (
             <div className="absolute top-16 right-0">
-              <ol className="w-32 shadow-lg">
+              <ol className="w-32 shadow-lg bg-white">
                 <Link to="/profile" className="text-black">
                   <li className="hover:bg-purple-300 transition h-10 w-full flex justify-center items-center border-2 border-gray-100">
                     프로필
