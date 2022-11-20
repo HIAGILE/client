@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .history
+src/styles/styles.css
 
 # testing
 /coverage

@@ -1,26 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { App } from "app";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./apollo";
-import { Process } from "components/common/process";
-import "./styles/tailwind.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { App } from 'app';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './apollo';
+import './styles/styles.css';
+import './styles/tailwind.css';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 root.render(
   <ApolloProvider client={client}>
     <HelmetProvider>
-      <Process />
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </HelmetProvider>
-  </ApolloProvider>
+  </ApolloProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

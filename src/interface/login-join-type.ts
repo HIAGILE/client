@@ -10,4 +10,5 @@ export type ICreateAccountForm = {
   name: string;
   role: string;
   agreeCheckbox: string;
+  file:FileList;
 };

@@ -7,10 +7,36 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum ProjectCode {
+  EX = "EX",
+  KANBAN = "KANBAN",
+  PAIR = "PAIR",
+  SCRUM = "SCRUM",
+}
+
+export enum UserRole {
+  Client = "Client",
+  Master = "Master",
+}
+
 export interface CreateAccountInput {
   name: string;
   email: string;
   password: string;
+}
+
+export interface CreateProjectInput {
+  code: ProjectCode;
+  name: string;
+  githubURL: string;
+}
+
+export interface GetFriendsInput {
+  userId: number;
+}
+
+export interface GetProjectsInput {
+  id: number;
 }
 
 export interface GitHubOAuthInput {
@@ -24,6 +50,10 @@ export interface KakaoOAuthInput {
 export interface LoginInput {
   email: string;
   password: string;
+}
+
+export interface ValidateAccountInput {
+  email: string;
 }
 
 //==============================================================

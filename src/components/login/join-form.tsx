@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { LoginBtn } from "./login-button";
-import { useForm } from "react-hook-form";
-import { FormError } from "../common/form-error";
-import { ICreateAccountForm } from "../../interface/login-join-type";
-import { gql, useMutation } from "@apollo/client";
+import React, { useEffect, useState } from 'react';
+import { LoginBtn } from './login-button';
+import { useForm } from 'react-hook-form';
+import { FormError } from '../common/form-error';
+import { ICreateAccountForm } from '../../interface/login-join-type';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   createAccountMutation,
   createAccountMutationVariables,
-} from "__generated__/createAccountMutation";
-import { useNavigate } from "react-router-dom";
+} from '__generated__/createAccountMutation';
+import { useNavigate } from 'react-router-dom';
+import userFilled from '../../images/icon/userFilled.svg';
+import CheckEmailBtn from './check-email-btn';
+import toast from 'react-hot-toast';
 
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -18,6 +21,7 @@ export const CREATE_ACCOUNT_MUTATION = gql`
     }
   }
 `;
+
 const JoinForm = () => {
   const {
     register,
@@ -26,18 +30,23 @@ const JoinForm = () => {
     handleSubmit,
     watch,
   } = useForm<ICreateAccountForm>({
-    mode: "onChange",
+    mode: 'onChange',
   });
+  const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
 
   const navigate = useNavigate();
 
   const onCompleted = (data: createAccountMutation) => {
     const {
-      createAccount: { ok },
+      createAccount: { ok, error },
     } = data;
     if (ok) {
-      alert("회원가입이 완료되었습니다!");
-      navigate("/");
+      toast.success('회원가입이 완료되었습니다', {
+        position: 'top-right',
+      });
+      navigate('/');
+    } else {
+      console.log(error);
     }
   };
 
@@ -46,11 +55,8 @@ const JoinForm = () => {
     { loading, data: createAccountMutationResult },
   ] = useMutation<createAccountMutation, createAccountMutationVariables>(
     CREATE_ACCOUNT_MUTATION,
-    { onCompleted }
+    { onCompleted },
   );
-
-  const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
-  console.log(password === passwordAgin);
 
   const onSubmit = () => {
     if (!loading) {
@@ -65,14 +71,67 @@ const JoinForm = () => {
       });
     }
   };
+
+  // 회원가입 유효성 검사
+  const watchValue = watch();
+  const [canClick, setCanClick] = useState<boolean>(false);
+  const [canCheckEmail, setCanCheckEmail] = useState<boolean>(false);
+  const [completedEmail, setCompletedEmail] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 이메일 중복체크 버튼 활성화
+    if (watchValue.email && errors.email === undefined) {
+      setCanCheckEmail(true);
+    } else {
+      setCanCheckEmail(false);
+    }
+
+    // 유효성 검사 완료시 회원가입 버튼 활성화
+    if (isValid && agreeCheckbox && completedEmail) {
+      setCanClick(true);
+    } else {
+      setCanClick(false);
+    }
+    return () => {};
+  }, [watchValue, completedEmail]);
+
+  function checkEmail(confirm: boolean) {
+    setCompletedEmail(confirm);
+  }
   return (
     <form
       className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
+      {/* 프로필 이미지 */}
+      {/* <div className="h-60 flex justify-center items-center">
+        <div className="">
+          <div className="h-40 w-32 bg-gray-200">
+            <img
+              src={userFilled}
+              alt="user"
+              className="object-fill h-40 w-32"
+            />
+          </div>
+          <label
+            className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue"
+            htmlFor="input-file"
+          >
+            업로드
+          </label>
+        </div>
+      </div>
       <input
-        {...register("name", {
-          required: "이름을 입력해주세요",
+        id="input-file"
+        {...register('file')}
+        type="file"
+        accept="image/*"
+        required
+        className="hidden"
+      ></input> */}
+      <input
+        {...register('name', {
+          required: '이름을 입력해주세요',
           pattern: /^[A-Za-z]{1}[A-Za-z0-9]{3,19}$/,
         })}
         name="name"
@@ -82,34 +141,43 @@ const JoinForm = () => {
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {errors.name?.type === "pattern" && (
+      {errors.name?.type === 'pattern' && (
         <FormError errorMessage="영문과 숫자 4자리를 입력해주세요" />
       )}
       {errors.name?.message && (
         <FormError errorMessage={errors.name?.message} />
       )}
-      <input
-        {...register("email", {
-          required: "이메일을 입력해주세요",
-          pattern:
-            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        })}
-        name="email"
-        type="email"
-        placeholder="Email *"
-        required
-        className="login-input transition-colors"
-        autoComplete="true"
-      />
-      {errors.email?.type === "pattern" && (
+      <label htmlFor="email" className="flex justify-between">
+        <input
+          {...register('email', {
+            required: '이메일을 입력해주세요',
+            pattern:
+              /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          })}
+          name="email"
+          type="email"
+          placeholder="Email *"
+          required
+          className="login-input transition-colors w-3/4"
+          autoComplete="true"
+        />
+        <CheckEmailBtn
+          checkEmail={checkEmail}
+          canCheckEmail={canCheckEmail}
+          completedEmail={completedEmail}
+          email={email}
+        />
+      </label>
+
+      {(errors.email?.type === 'pattern' && (
         <FormError errorMessage="올바른 이메일 형식을 입력해주세요" />
-      )}
-      {errors.email?.message && (
-        <FormError errorMessage={errors.email?.message} />
-      )}
+      )) ||
+        (errors.email?.message && (
+          <FormError errorMessage={errors.email?.message} />
+        ))}
       <input
-        {...register("password", {
-          required: "비밀번호를 입력해주세요",
+        {...register('password', {
+          required: '비밀번호를 입력해주세요',
           pattern:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
@@ -120,15 +188,15 @@ const JoinForm = () => {
         className="login-input"
         autoComplete="true"
       />
-      {errors.password?.type === "pattern" && (
+      {errors.password?.type === 'pattern' && (
         <FormError errorMessage="대소문자, 숫자, 특수문자(@$!%*?&) 8-14자리를 입력해주세요" />
       )}
       {errors.password?.message && (
         <FormError errorMessage={errors.password?.message} />
       )}
       <input
-        {...register("passwordAgin", {
-          required: "비밀번호를 재입력해주세요",
+        {...register('passwordAgin', {
+          required: '비밀번호를 재입력해주세요',
           pattern:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
@@ -145,18 +213,17 @@ const JoinForm = () => {
         (errors.passwordAgin?.message && (
           <FormError errorMessage={errors.passwordAgin?.message} />
         ))}
-      <label className="ml-6 mt-4 text-sm text-darkGray">
+      <label className="ml-2 mt-4 text-sm text-darkGray flex items-center">
         <input
-          {...register("agreeCheckbox")}
+          {...register('agreeCheckbox')}
           name="agreeCheckbox"
           type="checkbox"
-          className="mr-2"
-          value={"1"}
+          className="mr-2 mt-0.5"
         />
         HiAgile 서비스 이용을 위한 개인정보 제공 및 수집에 동의합니다.
       </label>
       <LoginBtn
-        canClick={isValid && agreeCheckbox === "1"}
+        canClick={canClick}
         actionText="Create Account"
         loading={false}
       />
