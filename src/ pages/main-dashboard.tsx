@@ -71,6 +71,7 @@ export const GET_PROJECTS_QUERY = gql`
           id
           user{
             id
+            profileUrl
           }
         }
       }
@@ -137,7 +138,8 @@ const NewProject = () => {
         input:{
           id: 0
         }
-      }
+      },
+      pollInterval: 500
     }
   );
   return (
@@ -182,41 +184,71 @@ const NewProject = () => {
               myProjects?.getProjects.projects.map((project,index) => {
                 return (
                   index % 3 == 0 ?
-                  <div>
-                    <div className="bg-red-400 h-60 rounded-3xl shadow-2xl">
-                      <div className="relative w-12/12">
-                        <img className="p-5 absolute right-0" src={temp}></img>
+                  <div key={project.id}>
+                    <div className="bg-red-400 h-60 relative rounded-3xl shadow-2xl hover:scale-105 transition">
+                      <div className="w-12/12">
+                        <img className="p-5 absolute right-0 cursor-pointer" onClick={()=>{
+                          navigate(`/project/${project.id}`)
+                        }} src={temp}></img>
                         <img className="p-5" src={temp}></img>
                       </div>
                       <p className="text-white px-5">{project.name}</p>
-                      <img className="p-5" src={temp}></img>
+                      <div className="relative h-16">
+                      {
+                        project.members.map((member,index) => {
+                          return (
+                            <img className={`w-10 h-10 bg-white absolute rounded-full bottom-0 mr-5 mb-5`} style={{"left":(25*index)+20}} src={member.user.profileUrl}></img>
+                          )
+                        })
+                      }
+                      </div>
                       <p className="px-5 text-white">{project.createAt}</p>
                       <p className="px-5 text-white">{project.sprints.length}개</p>
                     </div>
                   </div>
                   :
                   index % 3 == 1 ?
-                  <div>
-                    <div className="bg-mainBlue h-60 rounded-3xl shadow-2xl">
+                  <div key={project.id}>
+                    <div className="bg-mainBlue h-60 rounded-3xl shadow-2xl hover:scale-105 transition">
                       <div className="relative w-12/12">
-                        <img className="p-5 absolute right-0" src={temp}></img>
+                      <img className="p-5 absolute right-0 cursor-pointer" onClick={()=>{
+                          navigate(`/project/${project.id}`)
+                        }} src={temp}></img>
                         <img className="p-5" src={temp}></img>
                       </div>
                       <p className="text-white px-5">{project.name}</p>
-                      <img className="p-5" src={temp}></img>
+                      <div className="relative h-16">
+                      {
+                        project.members.map((member,index) => {
+                          return (
+                            <img className={`w-10 h-10 bg-white absolute rounded-full bottom-0 mr-5 mb-5`} style={{"left":(25*index)+20}} src={member.user.profileUrl}></img>
+                          )
+                        })
+                      }
+                      </div>
                       <p className="px-5 text-white">{project.createAt}</p>
                       <p className="px-5 text-white">{project.sprints.length}개</p>
                     </div>
                   </div>
                   :
-                  <div>
-                    <div className="bg-green-400 h-60 rounded-3xl shadow-2xl">
+                  <div key={project.id}>
+                    <div className="bg-green-400 h-60 rounded-3xl shadow-2xl hover:scale-105 transition">
                       <div className="relative w-12/12">
-                        <img className="p-5 absolute right-0" src={temp}></img>
+                      <img className="p-5 absolute right-0 cursor-pointer" onClick={()=>{
+                          navigate(`/project/${project.id}`)
+                        }} src={temp}></img>
                         <img className="p-5" src={temp}></img>
                       </div>
                       <p className="text-white px-5">{project.name}</p>
-                      <img className="p-5" src={temp}></img>
+                      <div className="relative h-16">
+                      {
+                        project.members.map((member,index) => {
+                          return (
+                            <img className={`w-10 h-10 bg-white absolute rounded-full bottom-0 mr-5 mb-5`} style={{"left":(25*index)+20}} src={member.user.profileUrl}></img>
+                          )
+                        })
+                      }
+                      </div>
                       <p className="px-5 text-white">{project.createAt}</p>
                       <p className="px-5 text-white">{project.sprints.length}개</p>
                     </div>

@@ -8,6 +8,7 @@ import AppBar from "components/header/header-appbar";
 import DashboardLayout from "components/layout/dashboard-layout";
 import { Route, Routes, Navigate } from "react-router-dom";
 import AddMembers from " pages/add-members";
+import { ProjectDashboard } from " pages/project-dashboard";
 
 const clientRoutes = [
   {
@@ -35,12 +36,16 @@ const clientRoutes = [
     component: <CreateProject />,
   },
   {
-    path: "/add-members",
+    path: "/add-members/:projectId",
     component: <AddMembers />,
   },
   {
     path: "/logout",
     component: <Logout />,
+  },
+  {
+    path: "/project/:projectId",
+    component: <ProjectDashboard />,
   },
   {
     path: "*",

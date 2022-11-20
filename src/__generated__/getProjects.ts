@@ -30,6 +30,7 @@ export interface getProjects_getProjects_projects_sprints {
 export interface getProjects_getProjects_projects_members_user {
   __typename: "User";
   id: number;
+  profileUrl: string;
 }
 
 export interface getProjects_getProjects_projects_members {
