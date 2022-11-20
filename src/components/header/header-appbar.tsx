@@ -16,29 +16,21 @@ const AppMenu = () => {
   return (
     <nav className="text-lightGray w-full">
       <ul className="grid gap-5">
-<<<<<<< HEAD
-        <li className="py-4 hover:bg-white bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           My Agile
         </li>
-        <li className="py-4 hover:bg-white bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           프로젝트
         </li>
-        <li className="py-4 hover:bg-white bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           친구찾기
         </li>
-        <li className="py-4 hover:bg-white bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           일감관리
         </li>
-        <li className="py-4 hover:bg-white bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           일정관리
         </li>
-=======
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">My Agile</li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">프로젝트</li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">친구찾기</li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">일감관리</li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">일정관리</li>
->>>>>>> c9b3962b7d47b4552632954717cc46dc7344ed45
       </ul>
     </nav>
   );

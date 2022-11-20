@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { LoginBtn } from "./login-button";
-import { useForm } from "react-hook-form";
-import { FormError } from "../common/form-error";
-import { ICreateAccountForm } from "../../interface/login-join-type";
-import { gql, useMutation } from "@apollo/client";
+import React, { useEffect, useState } from 'react';
+import { LoginBtn } from './login-button';
+import { useForm } from 'react-hook-form';
+import { FormError } from '../common/form-error';
+import { ICreateAccountForm } from '../../interface/login-join-type';
+import { gql, useMutation } from '@apollo/client';
 import {
   createAccountMutation,
   createAccountMutationVariables,
-} from "__generated__/createAccountMutation";
-import { useNavigate } from "react-router-dom";
-import userFilled from "../../images/icon/userFilled.svg";
+} from '__generated__/createAccountMutation';
+import { useNavigate } from 'react-router-dom';
+import userFilled from '../../images/icon/userFilled.svg';
 
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -27,7 +27,7 @@ const JoinForm = () => {
     handleSubmit,
     watch,
   } = useForm<ICreateAccountForm>({
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const navigate = useNavigate();
@@ -37,8 +37,8 @@ const JoinForm = () => {
       createAccount: { ok },
     } = data;
     if (ok) {
-      alert("회원가입이 완료되었습니다!");
-      navigate("/");
+      alert('회원가입이 완료되었습니다!');
+      navigate('/');
     }
   };
 
@@ -47,7 +47,7 @@ const JoinForm = () => {
     { loading, data: createAccountMutationResult },
   ] = useMutation<createAccountMutation, createAccountMutationVariables>(
     CREATE_ACCOUNT_MUTATION,
-    { onCompleted }
+    { onCompleted },
   );
 
   const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
@@ -71,28 +71,34 @@ const JoinForm = () => {
       className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="h-60 justify-center flex justify-center items-center">
+      {/* <div className="h-60 flex justify-center items-center">
         <div className="">
           <div className="h-40 w-32 bg-gray-200">
-            <img src={userFilled} alt="user"  className="object-fill h-40 w-32"/>
+            <img
+              src={userFilled}
+              alt="user"
+              className="object-fill h-40 w-32"
+            />
           </div>
-          <label className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue" htmlFor="input-file">
+          <label
+            className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue"
+            htmlFor="input-file"
+          >
             업로드
           </label>
         </div>
       </div>
-      <input 
-      id="input-file"
-      {...register("file")} 
-      type="file" 
-      accept="image/*"
-      required
-      className="hidden"
-      >
-      </input>
       <input
-        {...register("name", {
-          required: "이름을 입력해주세요",
+        id="input-file"
+        {...register('file')}
+        type="file"
+        accept="image/*"
+        required
+        className="hidden"
+      ></input> */}
+      <input
+        {...register('name', {
+          required: '이름을 입력해주세요',
           pattern: /^[A-Za-z]{1}[A-Za-z0-9]{3,19}$/,
         })}
         name="name"
@@ -102,15 +108,15 @@ const JoinForm = () => {
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {errors.name?.type === "pattern" && (
+      {errors.name?.type === 'pattern' && (
         <FormError errorMessage="영문과 숫자 4자리를 입력해주세요" />
       )}
       {errors.name?.message && (
         <FormError errorMessage={errors.name?.message} />
       )}
       <input
-        {...register("email", {
-          required: "이메일을 입력해주세요",
+        {...register('email', {
+          required: '이메일을 입력해주세요',
           pattern:
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         })}
@@ -121,15 +127,15 @@ const JoinForm = () => {
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {errors.email?.type === "pattern" && (
+      {errors.email?.type === 'pattern' && (
         <FormError errorMessage="올바른 이메일 형식을 입력해주세요" />
       )}
       {errors.email?.message && (
         <FormError errorMessage={errors.email?.message} />
       )}
       <input
-        {...register("password", {
-          required: "비밀번호를 입력해주세요",
+        {...register('password', {
+          required: '비밀번호를 입력해주세요',
           pattern:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
@@ -140,15 +146,15 @@ const JoinForm = () => {
         className="login-input"
         autoComplete="true"
       />
-      {errors.password?.type === "pattern" && (
+      {errors.password?.type === 'pattern' && (
         <FormError errorMessage="대소문자, 숫자, 특수문자(@$!%*?&) 8-14자리를 입력해주세요" />
       )}
       {errors.password?.message && (
         <FormError errorMessage={errors.password?.message} />
       )}
       <input
-        {...register("passwordAgin", {
-          required: "비밀번호를 재입력해주세요",
+        {...register('passwordAgin', {
+          required: '비밀번호를 재입력해주세요',
           pattern:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
@@ -167,16 +173,16 @@ const JoinForm = () => {
         ))}
       <label className="ml-6 mt-4 text-sm text-darkGray">
         <input
-          {...register("agreeCheckbox")}
+          {...register('agreeCheckbox')}
           name="agreeCheckbox"
           type="checkbox"
           className="mr-2"
-          value={"1"}
+          value={'1'}
         />
         HiAgile 서비스 이용을 위한 개인정보 제공 및 수집에 동의합니다.
       </label>
       <LoginBtn
-        canClick={isValid && agreeCheckbox === "1"}
+        canClick={isValid && agreeCheckbox === '1'}
         actionText="Create Account"
         loading={false}
       />
