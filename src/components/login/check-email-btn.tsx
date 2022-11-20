@@ -39,9 +39,12 @@ const CheckEmailBtn = ({
     },
   });
 
-  function onClick() {
+  function onClick(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
     if (data?.validateAccount.ok === true) {
-      toast.success('사용 가능한 이메일입니다');
+      toast.success('사용 가능한 이메일입니다', {
+        position: 'top-right',
+      });
       checkEmail(true);
     }
     if (data?.validateAccount.error) {

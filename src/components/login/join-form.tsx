@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import userFilled from '../../images/icon/userFilled.svg';
 import CheckEmailBtn from './check-email-btn';
+import toast from 'react-hot-toast';
 
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccountMutation($createAccountInput: CreateAccountInput!) {
@@ -40,7 +41,9 @@ const JoinForm = () => {
       createAccount: { ok, error },
     } = data;
     if (ok) {
-      alert('회원가입이 완료되었습니다!');
+      toast.success('회원가입이 완료되었습니다', {
+        position: 'top-right',
+      });
       navigate('/');
     } else {
       console.log(error);
@@ -78,14 +81,13 @@ const JoinForm = () => {
   useEffect(() => {
     // 이메일 중복체크 버튼 활성화
     if (watchValue.email && errors.email === undefined) {
-      console.log(true, canCheckEmail);
-
       setCanCheckEmail(true);
     } else {
       setCanCheckEmail(false);
     }
+
+    // 유효성 검사 완료시 회원가입 버튼 활성화
     if (isValid && agreeCheckbox && completedEmail) {
-      // 유효성 검사 완료시 회원가입 버튼 활성화
       setCanClick(true);
     } else {
       setCanClick(false);
