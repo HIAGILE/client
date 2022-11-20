@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // https://icon-icons.com/ko/pack/Teamleader-Icons/2346
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -12,9 +12,9 @@ import {
   Tooltip,
   LineController,
   BarController,
-} from "chart.js";
-import { Chart } from "react-chartjs-2";
-import faker from "faker";
+} from 'chart.js';
+import { Chart } from 'react-chartjs-2';
+import faker from 'faker';
 
 ChartJS.register(
   LinearScale,
@@ -25,39 +25,36 @@ ChartJS.register(
   Legend,
   Tooltip,
   LineController,
-  BarController
+  BarController,
 );
 
-import temp from "images/icon/bell_alarm_icon_142909.svg";
-import computer_il from "images/icon/computer_il.svg";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "styles/calendar.css";
-import { useMe } from "hooks/useMe";
-import { gql, useQuery } from "@apollo/client";
-import { getProjects, getProjectsVariables } from "__generated__/getProjects";
+import temp from 'images/icon/bell_alarm_icon_142909.svg';
+import computer_il from 'images/icon/computer_il.svg';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import 'styles/calendar.css';
+import { useMe } from 'hooks/useMe';
+import { gql, useQuery } from '@apollo/client';
+import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 
 export const GET_PROJECTS_QUERY = gql`
-  query getProjects($input:GetProjectsInput!) {
-    getProjects(input:$input) 
-    {
+  query getProjects($input: GetProjectsInput!) {
+    getProjects(input: $input) {
       ok
       error
-      projects{
+      projects {
         id
         createAt
         updateAt
         code
         name
-        owner
-        {
+        owner {
           name
           role
           email
         }
         githubURL
-        sprints
-        {
+        sprints {
           id
           createAt
           updateAt
@@ -66,10 +63,9 @@ export const GET_PROJECTS_QUERY = gql`
           period
           purpose
         }
-        members
-        {
+        members {
           id
-          user{
+          user {
             id
             profileUrl
           }
@@ -79,32 +75,31 @@ export const GET_PROJECTS_QUERY = gql`
   }
 `;
 
-
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
 export const data = {
   labels,
   datasets: [
     {
-      type: "line" as const,
-      label: "Dataset 1",
-      borderColor: "rgb(255, 99, 132)",
+      type: 'line' as const,
+      label: 'Dataset 1',
+      borderColor: 'rgb(255, 99, 132)',
       borderWidth: 2,
       fill: false,
       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
     },
     {
-      type: "bar" as const,
-      label: "Dataset 2",
-      backgroundColor: "rgb(75, 192, 192)",
+      type: 'bar' as const,
+      label: 'Dataset 2',
+      backgroundColor: 'rgb(75, 192, 192)',
       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: "white",
+      borderColor: 'white',
       borderWidth: 2,
     },
     {
-      type: "bar" as const,
-      label: "Dataset 3",
-      backgroundColor: "rgb(53, 162, 235)",
+      type: 'bar' as const,
+      label: 'Dataset 3',
+      backgroundColor: 'rgb(53, 162, 235)',
       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
     },
   ],
@@ -152,19 +147,29 @@ const NewProject = () => {
           </div>
           <div className="bg-middleBlue rounded-xl h-60 flex justify-between relative">
             <div className="p-8 w-full">
-              <div className="text-4xl font-bold p-2">Hello! {myProfile?.me.name}</div>
+              <div className="text-4xl font-bold p-2">
+                Hello! {myProfile?.me.name}
+              </div>
               <div className="text-sm p-2">
                 네가지 애자일 방법론 활용해 최적화된 프로젝트 관리를 시작하세요.
                 <br></br>
-                스크럼, 짝 프로그래밍, 익스트림 프로그래밍, 칸반보드 등이 있습니다.
+                스크럼, 짝 프로그래밍, 익스트림 프로그래밍, 칸반보드 등이
+                있습니다.
               </div>
-              <button className="hover:scale-105 transition text-lightBlue text-lg leading-none bg-mainBlue rounded-xl p-4 m-2"
-              onClick={()=>{navigate("/create-project")}}>
+              <button
+                className="hover:scale-105 transition text-lightBlue text-lg leading-none bg-mainBlue rounded-xl p-4 m-2"
+                onClick={() => {
+                  navigate('/create-project');
+                }}
+              >
                 프로젝트 생성
               </button>
             </div>
-            <img src={computer_il} width="400" className="absolute right-16 bottom-0"></img>
-            
+            <img
+              src={computer_il}
+              width="400"
+              className="absolute right-16 bottom-0"
+            ></img>
           </div>
           {/* 여기는 폴더 부분 */}
           <div className="my-10">
@@ -176,7 +181,7 @@ const NewProject = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-10 w-full my-5">
             {
               myProjects?.getProjects.projects 

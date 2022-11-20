@@ -15,15 +15,15 @@
   }
 
   .login-btn {
-    @apply font-medium px-6 py-4 transition-colors rounded-full shadow-lg focus:outline-none;
+    @apply font-medium px-6 py-4 w-full transition-colors rounded-xl shadow-lg focus:outline-none;
   }
 
   .login-input {
-    @apply text-sm text-darkGray px-6 py-4 rounded-full shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
+    @apply text-sm text-darkGray px-6 py-4 rounded-xl shadow-lg border-2 border-lightGray focus:border-mainBlue outline-none;
   }
 
   .search-input {
-    @apply text-sm px-4 py-2 rounded-full shadow-md border-2 text-darkGray border-lightGray focus:border-mainBlue outline-none;
+    @apply text-sm px-4 py-2 rounded-xl shadow-md border-2 text-darkGray border-lightGray focus:border-mainBlue outline-none;
   }
 }
 
