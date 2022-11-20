@@ -1,27 +1,19 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { MutatingDots } from 'react-loader-spinner';
-import { useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
-import {
-  githubLoginMutation,
-  githubLoginMutationVariables,
-} from '__generated__/githubLoginMutation';
+import { authTokenVar, isLoggedInVar } from '../../apollo';
 import { LOCALSTORAGE_TOKEN } from 'constant';
-import { authTokenVar, isLoggedInVar } from '../apollo';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { MutatingDots } from 'react-loader-spinner';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  kakaoLoginMutation,
+  kakaoLoginMutationVariables,
+} from '__generated__/kakaoLoginMutation';
 
-// export const GITHUB_LOGIN_QUERY = gql`
-//   query githubLogin($oAuthInput: OAuthInput) {
-//     githubLogin(input: $oAuthInput) {
-//       token
-//     }
-//   }
-// `;
-
-export const GITHUB_LOGIN_MUTATION = gql`
-  mutation githubLoginMutation($gitHubOAuthInput: GitHubOAuthInput!) {
-    githubLogin(input: $gitHubOAuthInput) {
+export const KAKAO_LOGIN_MUTATION = gql`
+  mutation kakaoLoginMutation($kakaoOAuthInput: KakaoOAuthInput!) {
+    kakaoLogin(input: $kakaoOAuthInput) {
       ok
       token
       error
@@ -29,12 +21,12 @@ export const GITHUB_LOGIN_MUTATION = gql`
   }
 `;
 
-export function GithubConfirm() {
+export function KakaoConfirm() {
   const { search } = useLocation();
   const navigate = useNavigate();
-  const onCompleted = (data: githubLoginMutation) => {
+  const onCompleted = (data: kakaoLoginMutation) => {
     const {
-      githubLogin: { ok, token, error },
+      kakaoLogin: { ok, token, error },
     } = data;
     if (!ok) {
       alert(error);
@@ -47,17 +39,17 @@ export function GithubConfirm() {
     }
   };
 
-  const [githubLoginMutation, { loading, data: githubLoginMutationResult }] =
-    useMutation<githubLoginMutation, githubLoginMutationVariables>(
-      GITHUB_LOGIN_MUTATION,
+  const [kakaoLoginMutation, { loading, data: kakaoLoginMutationResult }] =
+    useMutation<kakaoLoginMutation, kakaoLoginMutationVariables>(
+      KAKAO_LOGIN_MUTATION,
       { onCompleted },
     );
 
   const codeSending = (code: string) => {
     if (!loading) {
-      githubLoginMutation({
+      kakaoLoginMutation({
         variables: {
-          gitHubOAuthInput: {
+          kakaoOAuthInput: {
             code: code,
           },
         },
@@ -71,10 +63,10 @@ export function GithubConfirm() {
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <Helmet>
-        <title>GitHub Confirm | Hi Agile</title>
+        <title>Kakao Confirm | Hi Agile</title>
       </Helmet>
       <h2 className="font-semibold text-2xl mb-3">
-        깃허브 로그인 중입니다....
+        카카오 로그인 중입니다....
       </h2>
       <h4 className="font-medium text-base mb-5">
         다른 페이지로 이동하지 마세요.

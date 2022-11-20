@@ -1,11 +1,11 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { NotFound } from " pages/404";
-import { Login } from " pages/login-page";
-import { Join } from " pages/join-page";
-import { Logout } from " pages/logout-page";
-import { GithubConfirm } from "routes/GithubConfirm";
-import { KakaoConfirm } from "routes/KakaoConfirm";
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { NotFound } from ' pages/404';
+import { Login } from ' pages/login/login-page';
+import { Join } from ' pages/login/join-page';
+import { Logout } from ' pages/logout-page';
+import { GithubConfirm } from ' pages/login/GithubConfirm';
+import { KakaoConfirm } from ' pages/login/KakaoConfirm';
 
 export const LoggedOutRouter = () => {
   return (

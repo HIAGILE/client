@@ -28,7 +28,7 @@ ChartJS.register(
   BarController,
 );
 
-import temp from 'images/icon/bell_alarm_icon_142909.svg';
+import temp from 'images/icon/bellAlarm.svg';
 import computer_il from 'images/icon/computer_il.svg';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -315,7 +315,7 @@ const NewProject = () => {
           </div>
         </div>
         {/* 여기는 오른쪽 사이드 바 */}
-        <div className="w-4/12 bg-blue-50 shwdow-lg">
+        <div className="w-4/12 bg-bgBlue shwdow-lg">
           <div className="mt-28">
             <div className="text-2xl px-10 py-5 font-bold">Calendar</div>
             <Calendar
