@@ -6,6 +6,6 @@ npm install
 npm run start
 npm run build
 
-### 테스트 아이디
-ID: test@tester.com
-PW: test1234!@
+## 테스트 아이디
+* ID: test@tester.com
+* PW: test1234!@
