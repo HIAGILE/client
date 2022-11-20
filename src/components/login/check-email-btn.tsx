@@ -42,13 +42,13 @@ const CheckEmailBtn = ({
     e.preventDefault();
     if (data?.validateAccount.ok === true) {
       toast.success('사용 가능한 이메일입니다', {
-        position: 'top-right',
+        position: 'bottom-center',
       });
       checkEmail(true);
     }
     if (data?.validateAccount.error) {
       toast.error('이미 등록된 이메일입니다', {
-        position: 'top-right',
+        position: 'bottom-center',
       });
       checkEmail(false);
     }

@@ -7,7 +7,7 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <main className="bg-white absolute inset-y-0 right-0 left-[160px] rounded-l-3xl overflow-scroll">
+    <main className="bg-white p-0 fixed inset-y-0 right-0 left-[160px] rounded-l-3xl overflow-scroll">
       <MainBar />
       {children}
     </main>

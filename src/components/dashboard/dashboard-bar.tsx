@@ -6,7 +6,7 @@ import bellAlarm from 'images/icon/bellAlarm.svg';
 
 const MainBar = () => {
   return (
-    <div className="flex justify-between absolute px-4 py-6 w-full">
+    <div className="flex justify-between absolute px-8 py-6 w-full">
       <SearchBar />
       <div className="flex items-center">
         <Alarm />
