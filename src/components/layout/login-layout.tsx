@@ -1,6 +1,7 @@
 import React from 'react';
 import { Process } from 'components/common/process';
 import Logo from '../common/logo';
+// import { ToastContainer } from 'react-toastify';
 
 type LoginLayoutProps = {
   children: any;
@@ -18,6 +19,7 @@ const LoginLayout = ({ children, title }: LoginLayoutProps) => {
           {children}
         </div>
       </div>
+      {/* <ToastContainer /> */}
     </>
   );
 };

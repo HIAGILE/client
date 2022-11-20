@@ -52,6 +52,10 @@ export interface LoginInput {
   password: string;
 }
 
+export interface ValidateAccountInput {
+  email: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
