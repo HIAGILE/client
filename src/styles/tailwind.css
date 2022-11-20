@@ -23,7 +23,7 @@
   }
 
   .search-input {
-    @apply text-sm px-4 py-2 rounded-xl shadow-md border-2 text-darkGray border-lightGray focus:border-mainBlue outline-none;
+    @apply text-sm w-[400px] px-4 py-2 rounded-xl shadow-md border-2 text-darkGray border-lightGray focus:border-mainBlue outline-none;
   }
 }
 

@@ -1,6 +1,5 @@
-import React, { ReactNode } from "react";
-import MainBar from "../dashboard/dashboard-bar";
-import { Process } from "components/common/process";
+import React, { ReactNode } from 'react';
+import MainBar from '../dashboard/dashboard-bar';
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -8,7 +7,7 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <main className="bg-blue-50 absolute inset-y-0 right-0 left-[160px] rounded-l-3xl overflow-scroll">
+    <main className="bg-white absolute inset-y-0 right-0 left-[160px] rounded-l-3xl overflow-scroll">
       <MainBar />
       {children}
     </main>
