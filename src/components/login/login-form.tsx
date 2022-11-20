@@ -11,7 +11,7 @@ import {
 } from '__generated__/loginMutation';
 import { authTokenVar, isLoggedInVar } from '../../apollo';
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export const LOGIN_MUTATION = gql`
   mutation loginMutation($input: LoginInput!) {
@@ -50,7 +50,7 @@ const LoginForm: React.FC = () => {
     if (error) {
       // alert(error);
       toast.error('이메일 또는 비밀번호가 틀립니다.', {
-        position: 'top-right',
+        position: 'bottom-center',
       });
     }
   };
