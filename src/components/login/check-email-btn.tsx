@@ -38,7 +38,6 @@ const CheckEmailBtn = ({
       },
     },
   });
-
   function onClick(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     if (data?.validateAccount.ok === true) {
@@ -48,7 +47,9 @@ const CheckEmailBtn = ({
       checkEmail(true);
     }
     if (data?.validateAccount.error) {
-      toast.error('이미 등록된 이메일입니다');
+      toast.error('이미 등록된 이메일입니다', {
+        position: 'top-right',
+      });
       checkEmail(false);
     }
   }

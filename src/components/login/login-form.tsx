@@ -91,10 +91,7 @@ const LoginForm: React.FC = () => {
         type="email"
         placeholder="Email"
         required
-        className={`login-input ${
-          errors.email ? 'border-mainRed focus:border-mainRed ' : ''
-        }`}
-        // className="login-input"
+        className="login-input"
         autoComplete="true"
       />
       <input
@@ -105,10 +102,7 @@ const LoginForm: React.FC = () => {
         type="password"
         required
         placeholder="Password"
-        className={`login-input ${
-          errors.password ? 'border-mainRed focus:border-mainRed' : ''
-        }`}
-        // className="login-input"
+        className="login-input"
         autoComplete="true"
       />
       {(errors.email?.type && (
