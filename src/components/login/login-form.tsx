@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormError } from '../common/form-error';
 import { LoginBtn } from './login-button';
 import { ILoginForm } from '../../interface/login-join-type';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import { LOCALSTORAGE_TOKEN } from 'constant';
 import {
   loginMutation,
@@ -34,8 +34,6 @@ const LoginForm: React.FC = () => {
   } = useForm<ILoginForm>({
     mode: 'onChange',
   });
-
-  // const [validateAccount, {data:result, loading}] = useQuery
 
   const onCompleted = (data: loginMutation) => {
     const {
