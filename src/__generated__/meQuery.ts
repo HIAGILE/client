@@ -16,6 +16,7 @@ export interface meQuery_me {
   role: UserRole;
   verified: boolean;
   name: string;
+  profileUrl: string;
 }
 
 export interface meQuery {

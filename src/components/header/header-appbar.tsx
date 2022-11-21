@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from 'components/common/logo';
+import { useNavigate } from 'react-router-dom';
 
 function AppBar() {
   return (
@@ -13,22 +14,24 @@ function AppBar() {
 export default AppBar;
 
 const AppMenu = () => {
+  const navigate = useNavigate();
+
   return (
     <nav className="text-lightGray w-full">
       <ul className="grid gap-5">
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li onClick={() =>{navigate("/")}} className="cursor-pointer py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           My Agile
         </li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li onClick={() =>{navigate("/project")}} className="cursor-pointer py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           프로젝트
         </li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li onClick={() =>{navigate("/friends")}} className="cursor-pointer py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           친구찾기
         </li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li onClick={() =>{navigate("/todolist")}} className="cursor-pointer py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           일감관리
         </li>
-        <li className="py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
+        <li onClick={() =>{navigate("/schedule")}} className="cursor-pointer py-4 hover:bg-white hover:text-darkBlue transition flex justify-center items-center">
           일정관리
         </li>
       </ul>

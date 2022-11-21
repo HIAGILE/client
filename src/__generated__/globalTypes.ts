@@ -14,6 +14,17 @@ export enum ProjectCode {
   SCRUM = "SCRUM",
 }
 
+export enum ProjectRole {
+  Leader = "Leader",
+  member = "member",
+}
+
+export enum ToDoListStatus {
+  DONE = "DONE",
+  INPROGRESS = "INPROGRESS",
+  TODO = "TODO",
+}
+
 export enum UserRole {
   Client = "Client",
   Master = "Master",
@@ -40,6 +51,10 @@ export interface GetFriendsInput {
   userId: number;
 }
 
+export interface GetProjectInput {
+  id: number;
+}
+
 export interface GetProjectsInput {
   id: number;
 }
@@ -60,6 +75,10 @@ export interface LoginInput {
 export interface ProjectMemberInput {
   userId: number;
   role: string;
+}
+
+export interface ValidateAccountInput {
+  email: string;
 }
 
 //==============================================================
