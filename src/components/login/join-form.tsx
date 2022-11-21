@@ -42,7 +42,7 @@ const JoinForm = () => {
     } = data;
     if (ok) {
       toast.success('회원가입이 완료되었습니다', {
-        position: 'top-right',
+        position: 'bottom-center',
       });
       navigate('/');
     } else {
@@ -147,7 +147,7 @@ const JoinForm = () => {
       {errors.name?.message && (
         <FormError errorMessage={errors.name?.message} />
       )}
-      <label htmlFor="email" className="flex justify-between">
+      <label htmlFor="email" className="flex justify-between items-center">
         <input
           {...register('email', {
             required: '이메일을 입력해주세요',

@@ -1,74 +1,75 @@
-import React from "react";
-import { NotFound } from " pages/404";
-import CreateProject from " pages/create-project";
-import { Logout } from " pages/logout-page";
-import MainDashboard from " pages/main-dashboard";
-import MyProfile from " pages/my-profile";
-import AppBar from "components/header/header-appbar";
-import DashboardLayout from "components/layout/dashboard-layout";
-import { Route, Routes, Navigate } from "react-router-dom";
-import AddMembers from " pages/add-members";
-import { ProjectDashboard } from " pages/project-dashboard";
-import { ProjectDetail } from " pages/project-detail";
-import { FriendsDashboard } from " pages/friends-dashboard";
-import { ScheduleDashboard } from " pages/schedule-dashboard";
-import { ToDoListDashboard } from " pages/todolist-dashboard";
+import React from 'react';
+import { NotFound } from ' pages/404';
+import CreateProject from ' pages/create-project';
+import { Logout } from ' pages/logout-page';
+import MainDashboard from ' pages/main-dashboard';
+import MyProfile from ' pages/my-profile';
+import AppBar from 'components/header/header-appbar';
+import DashboardLayout from 'components/layout/dashboard-layout';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import AddMembers from ' pages/add-members';
+import { Process } from 'components/common/process';
+import { ProjectDashboard } from ' pages/project-dashboard';
+import { ProjectDetail } from ' pages/project-detail';
+import { FriendsDashboard } from ' pages/friends-dashboard';
+import { ScheduleDashboard } from ' pages/schedule-dashboard';
+import { ToDoListDashboard } from ' pages/todolist-dashboard';
 
 const clientRoutes = [
   {
-    path: "/",
+    path: '/',
     component: <Navigate to="/main" replace={true} />,
   },
   {
-    path: "/login",
+    path: '/login',
     component: <Navigate to="/main" replace={true} />,
   },
   {
-    path: "/join",
+    path: '/join',
     component: <Navigate to="/main" replace={true} />,
   },
   {
-    path: "/main",
+    path: '/main',
     component: <MainDashboard />,
   },
   {
-    path: "/profile",
+    path: '/profile',
     component: <MyProfile />,
   },
   {
-    path: "/create-project",
+    path: '/create-project',
     component: <CreateProject />,
   },
   {
-    path: "/add-members/:projectId",
+    path: '/add-members/:projectId',
     component: <AddMembers />,
   },
   {
-    path: "/logout",
+    path: '/logout',
     component: <Logout />,
   },
   {
-    path: "/project",
+    path: '/project',
     component: <ProjectDashboard />,
   },
   {
-    path: "/project/:projectId",
+    path: '/project/:projectId',
     component: <ProjectDetail />,
   },
   {
-    path: "/friends",
-    component: <FriendsDashboard/>,
+    path: '/friends',
+    component: <FriendsDashboard />,
   },
   {
-    path: "/schedule",
-    component: <ScheduleDashboard/>,
+    path: '/schedule',
+    component: <ScheduleDashboard />,
   },
   {
-    path: "/todolist",
-    component: <ToDoListDashboard/>,
+    path: '/todolist',
+    component: <ToDoListDashboard />,
   },
   {
-    path: "*",
+    path: '*',
     component: <NotFound />,
   },
 ];
@@ -78,6 +79,7 @@ export const LoggedInRouter = () => {
     <>
       <AppBar />
       <DashboardLayout>
+        <Process />
         <Routes>
           {clientRoutes.map((route) => (
             <Route
