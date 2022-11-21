@@ -16,10 +16,10 @@ export default AppBar;
 const AppMenu = () => {
   const menus = [
     { title: 'My Agile', link: '/' },
-    { title: '프로젝트', link: '/' },
-    { title: '친구찾기', link: '/' },
-    { title: '일감관리', link: '/' },
-    { title: '일정관리', link: '/' },
+    { title: '프로젝트', link: '/project' },
+    { title: '친구찾기', link: '/friends' },
+    { title: '일감관리', link: '/todolist' },
+    { title: '일정관리', link: '/schedule' },
   ];
   return (
     <nav className="w-full mt-48 pl-2 text-lightBlue text-sm ">
@@ -28,7 +28,7 @@ const AppMenu = () => {
           return (
             <li
               key={menu.title}
-              className="transition flex justify-start items-center hover:bg-white hover:text-darkBlue "
+              className="transition flex justify-start items-center hover:bg-white hover:text-darkBlue cursor-pointer "
             >
               <Link to={menu.link}>{menu.title}</Link>
             </li>
