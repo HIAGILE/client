@@ -9,6 +9,7 @@ export const ME_QUERY = gql`
       role
       verified
       name
+      profileUrl
     }
   }
 `;

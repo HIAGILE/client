@@ -14,9 +14,25 @@ export enum ProjectCode {
   SCRUM = "SCRUM",
 }
 
+export enum ProjectRole {
+  Leader = "Leader",
+  member = "member",
+}
+
+export enum ToDoListStatus {
+  DONE = "DONE",
+  INPROGRESS = "INPROGRESS",
+  TODO = "TODO",
+}
+
 export enum UserRole {
   Client = "Client",
   Master = "Master",
+}
+
+export interface AddMembersInput {
+  projectId: number;
+  members: ProjectMemberInput[];
 }
 
 export interface CreateAccountInput {
@@ -35,6 +51,10 @@ export interface GetFriendsInput {
   userId: number;
 }
 
+export interface GetProjectInput {
+  id: number;
+}
+
 export interface GetProjectsInput {
   id: number;
 }
@@ -50,6 +70,11 @@ export interface KakaoOAuthInput {
 export interface LoginInput {
   email: string;
   password: string;
+}
+
+export interface ProjectMemberInput {
+  userId: number;
+  role: string;
 }
 
 export interface ValidateAccountInput {

@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { GetProjectsInput, ProjectCode, UserRole } from "./globalTypes";
+import { GetProjectsInput, ProjectCode, UserRole, ProjectRole } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getProjects
@@ -30,12 +30,15 @@ export interface getProjects_getProjects_projects_sprints {
 export interface getProjects_getProjects_projects_members_user {
   __typename: "User";
   id: number;
+  profileUrl: string;
+  name: string;
 }
 
 export interface getProjects_getProjects_projects_members {
   __typename: "Member";
   id: number;
   user: getProjects_getProjects_projects_members_user;
+  role: ProjectRole | null;
 }
 
 export interface getProjects_getProjects_projects {

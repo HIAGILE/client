@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { ICreateProjecForm } from "interface/project-type";
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { createProject, createProjectVariables } from "__generated__/createProject";
@@ -44,7 +45,7 @@ export function CreateProject() {
       alert(error);
     }
     if (ok && projectId) {
-      navigate("/add-members?projectId=" + projectId);
+      navigate("/add-members/" + projectId);
     }
     if (error) {
       console.log(error);
@@ -83,7 +84,6 @@ export function CreateProject() {
     setNext(false);
   }
   const onSubmit = () => {
-    console.log("hello")
     if (!loading) {
       const { name, githubURL } = getValues();
       let enums = ProjectCode.SCRUM;
@@ -113,6 +113,9 @@ export function CreateProject() {
       
   return (
     <div className="h-full px-10 pt-28 rounded-3xl bg-white">
+      <Helmet>
+          <title>Create Project | Hi Agile</title>
+      </Helmet>
       <p className="font-bold text-3xl h-16">Create New Project{agileCode ? `(${agileCode})`: ""}</p>
       <div className="flex flex-wrap">
         {!agileCode &&
