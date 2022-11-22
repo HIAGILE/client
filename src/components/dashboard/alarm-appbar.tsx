@@ -8,13 +8,11 @@ const Alarm = () => {
     setToggle(!toggle);
   }
   return (
-    <div className="cursor-pointer" onClick={clickAlarm}>
-      <p className="mr-4 pt-1 relative">
-        <img src={bellAlarm} alt="bellAlarm" />
-        {!alarm && (
-          <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-mainRed"></span>
-        )}
-      </p>
+    <div className="cursor-pointer relative mt-1 mr-4" onClick={clickAlarm}>
+      <img src={bellAlarm} alt="bellAlarm" />
+      {!alarm && (
+        <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-mainRed"></span>
+      )}
       {toggle && <AlarmList />}
     </div>
   );

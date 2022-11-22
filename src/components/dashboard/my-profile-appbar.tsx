@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import userFilled from '../../images/icon/userFilled.svg';
-import { useMe } from 'hooks/useMe';
+import { useMe } from 'lib/useMe';
 
 const MyProfile = () => {
   const { data: myProfile, loading: myProfileLoading } = useMe();
+
   const [toggle, setToggle] = useState(false);
   function clickProfile() {
     setToggle(!toggle);
