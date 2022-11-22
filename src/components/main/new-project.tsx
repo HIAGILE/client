@@ -22,7 +22,7 @@ const NewProject = ({ userName }: Props) => {
             동료를 초대해 함께 협업할 수도 있습니다.
           </p>
           <button
-            className="ml-[260px] py-4 px-8 text-lightBlue font-semibold leading-none bg-mainBlue rounded-xl transition hover:scale-105 shadow-xl"
+            className="ml-[260px] py-4 px-8 text-lightBlue font-semibold leading-none bg-mainBlue rounded-xl transition duration-300 ease-in-out hover:scale-105 shadow-xl"
             onClick={() => {
               navigate('/create-project');
             }}

@@ -5,6 +5,10 @@ import userFilled from '../../images/icon/userFilled.svg';
 import { FormError } from 'components/common/form-error';
 import axios from 'axios';
 
+interface IForm{
+  file:FileList
+}
+
 type Props = {
   me: meQuery_me;
   onEdite: () => void;
@@ -29,19 +33,18 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
     mode: 'onChange',
   });
   const watchValue = watch();
-  console.log(watchValue.profileUrl);
   return (
-    <form className="flex items-center bg-middleBlue px-16 py-8  mb-20 rounded-2xl shadow-xl relative">
+    <form className="flex items-center bg-white px-8 py-8 mb-20 rounded-lg relative">
       {me.profileUrl && (
         <div className="flex flex-col mr-10">
           <img
             src={me.profileUrl}
             alt="user"
-            width="200"
-            className="object-fill"
+            width="300"
+            className="object-fill rounded-lg shadow-xl"
           />
           <label
-            className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue"
+            className="text-white hover:bg-blue-600 transition duration-300 ease-in-out shadow-xl cursor-pointer flex h-10 justify-center items-center bg-blue-500 rounded-lg mt-4"
             htmlFor="input-file"
           >
             업로드
@@ -57,7 +60,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
         </div>
       )}
       <div className="py-auto flex flex-col gap-2">
-        <label className="text-mainBlue mr-4">
+        <label className="text-black mr-4">
           Name
           <input
             {...register('name', {
@@ -68,7 +71,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
             type="text"
             required
             autoComplete="true"
-            className="transition search-input"
+            className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
             defaultValue={me.name}
           />
         </label>
@@ -78,17 +81,29 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
         {errors.name?.message && (
           <FormError errorMessage={errors.name?.message} />
         )}
-        <div className="flex items-center">
-          <p className="text-mainBlue mr-8">Email</p>
-          <p className="text-lg mr-4">{me.email}</p>
-        </div>
-        <div className="flex items-center">
-          <p className="text-mainBlue mr-4">authenfication</p>
-          <p className="text-sm mr-4">
-            {me.verified ? 'yes' : <EmailAuthenfication />}
-          </p>
-        </div>
-        <label className="text-mainBlue mr-4">
+
+        <label className="text-black mr-4">
+          Email
+          <input
+            type="text"
+            
+            className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+            defaultValue={me.email}
+          />
+        </label>
+        <label className="text-black mr-4">
+          Authenfication
+          {
+            me.verified 
+            ? 
+            (
+              <div className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"></div>
+            )
+            :
+            (<EmailAuthenfication />)
+          }
+        </label>
+        <label className="text-black mr-4">
           Password
           <input
             {...register('password', {
@@ -100,7 +115,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
             type="password"
             required
             placeholder="Password *"
-            className="search-input"
+            className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
             autoComplete="true"
           />
         </label>
@@ -110,7 +125,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
         {errors.password?.message && (
           <FormError errorMessage={errors.password?.message} />
         )}
-        <label className="text-mainBlue mr-4">
+        <label className="text-black mr-4">
           Password Again
           <input
             {...register('passwordAgain', {
@@ -122,7 +137,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
             type="password"
             placeholder="password agin *"
             required
-            className="search-input transition-colors"
+            className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
             autoComplete="true"
           />
         </label>
@@ -133,20 +148,20 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
           (errors.passwordAgain?.message && (
             <FormError errorMessage={errors.passwordAgain?.message} />
           ))}
-      </div>
-      <div className="absolute right-20 bottom-8  flex items-center justify-between">
-        <button
-          onClick={onEdite}
-          className="mr-4 py-2 px-4 bg-mainBlue rounded-xl shadow-lg text-bgBlue"
-        >
-          confirme
-        </button>
-        <button
-          onClick={onEdite}
-          className="py-2 px-4 bg-lightGray rounded-xl shadow-lg text-darkGray"
-        >
-          cancle
-        </button>
+        <div className="flex items-center justify-end m-4">
+          <button
+            onClick={onEdite}
+            className="mr-2 hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-blue-500 text-white"
+          >
+            confirme
+          </button>
+          <button
+            onClick={onEdite}
+            className="hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-gray-100 text-black"
+          >
+            cancle
+          </button>
+        </div>
       </div>
     </form>
   );
@@ -156,7 +171,7 @@ export default MyProfileEditeForm;
 
 const EmailAuthenfication = () => {
   return (
-    <button className="py-2 px-4 bg-mainBlue rounded-xl shadow-lg text-bgBlue">
+    <button type='button' className="hover:bg-blue-600 text-white bg-blue-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">
       인증 요청
     </button>
   );

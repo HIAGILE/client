@@ -33,6 +33,7 @@ export const GET_FRIENDS_QUERY = gql`
         name
         role
         verified
+        profileUrl
       }
     }
   }

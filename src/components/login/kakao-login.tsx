@@ -1,4 +1,5 @@
 import React from 'react';
+import {FaComment} from 'react-icons/fa';
 
 type kakaoParamType = {
   client_id?: string;
@@ -18,11 +19,12 @@ const KakaoLoginBtn: React.FC = () => {
   ).toString()}`;
 
   return (
-    <button className="login-btn mb-4 bg-kakaoYello w-full">
-      <a href={kakaoCodeURL} className="w-full">
-        Login with Kakao
-      </a>
-    </button>
+    <a href={kakaoCodeURL} >
+      <button className="login-btn hover:bg-yellow-400 transition duration-300 ease-in-out flex justify-center items-center mb-4 bg-kakaoYello w-full">
+        <FaComment className='mr-2'></FaComment>
+          Login with Kakao
+      </button>
+    </a>
   );
 };
 

@@ -59,7 +59,6 @@ export const FriendsDashboard = () => {
             followUser: { ok, error },
         } = data;
 
-        console.log("hello2");
         if (!ok) {
           alert(error);
         }
@@ -76,7 +75,6 @@ export const FriendsDashboard = () => {
       });
 
       const onSubmit = (id:number) => {
-        console.log("hello1");
         if (!loading) {
             followUserMutation({
             variables: {
@@ -92,7 +90,7 @@ export const FriendsDashboard = () => {
             <Helmet>
                 <title>Friends Dashboard | Hi Agile</title>
             </Helmet>
-            <p className="font-bold text-3xl h-16">친구찾기</p>
+            <p className="font-bold text-3xl h-16">Search Friends</p>
             <div className="flex flex-wrap">
                 {
                     myUsersLoading
@@ -103,7 +101,7 @@ export const FriendsDashboard = () => {
                             <div className="flex flex-col items-center">
                                 <input onChange={(e) => {
                                     setInputName(e.target.value);
-                                }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-lg border-2 border-gray-100 rounded-lg w-96 h-16 text-xl outline-none"></input>
+                                }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-lg border-2 border-gray-100 rounded-lg w-96 h-12 text-md outline-none"></input>
                                 <div style={{ "height": "600px" }} className="bg-white shadow-md">
                                     {
                                         allUsers.map((user, index) => {

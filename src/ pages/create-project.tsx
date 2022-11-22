@@ -120,7 +120,7 @@ export function CreateProject() {
       <div className="flex flex-wrap">
         {!agileCode &&
           selectedAgile.map((agile) => (
-            <div key={agile.code} className="max-w-xs m-3 hover:scale-105 hover:bg-gray-100 transition rounded-md overflow-hidden shadow-lg" onClick={() => {
+            <div key={agile.code} className="max-w-xs m-3 hover:scale-105 hover:bg-gray-100 transition duration-300 ease-in-ou rounded-md overflow-hidden shadow-lg" onClick={() => {
               getAgileCode(agile.code);
             }}>
               <img className="w-full" src="https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/9f5d38d5-0fb4-4dfb-f6e3-a39397620700/public" alt="Sunset in the mountains"></img>

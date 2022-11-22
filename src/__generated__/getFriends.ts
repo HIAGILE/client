@@ -16,6 +16,7 @@ export interface getFriends_getFriends_friends {
   name: string;
   role: UserRole;
   verified: boolean;
+  profileUrl: string;
 }
 
 export interface getFriends_getFriends {

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from '../../components/login/login-form';
 import KakaoLoginBtn from 'components/login/kakao-login';
 import GitHubLoginBtn from 'components/login/github-login';
 import LoginLayout from 'components/layout/login-layout';
 
 export const Login: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <LoginLayout title="Sign In">
       <LoginForm />
@@ -16,7 +17,7 @@ export const Login: React.FC = () => {
         </Link>
       </div>
       <div className="w-full">
-        <KakaoLoginBtn />
+        <KakaoLoginBtn/>
         <GitHubLoginBtn />
       </div>
     </LoginLayout>

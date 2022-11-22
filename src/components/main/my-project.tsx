@@ -23,7 +23,7 @@ const MyProjects = ({
             if (index === 0) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainRed hover:bg-red-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition">
+                  <div className="bg-mainRed hover:bg-red-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
                         className="p-5 absolute right-0 cursor-pointer text-white"
@@ -71,7 +71,7 @@ const MyProjects = ({
             } else if (index === 1) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainBlue hover:bg-blue-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition">
+                  <div className="bg-mainBlue hover:bg-blue-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
                         className="p-5 absolute right-0 cursor-pointer text-white"
@@ -119,7 +119,7 @@ const MyProjects = ({
             } else if (index === 2) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainGreen hover:bg-green-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition">
+                  <div className="bg-mainGreen hover:bg-green-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
                         className="p-5 absolute right-0 cursor-pointer text-white"
