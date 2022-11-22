@@ -21,7 +21,7 @@ const MyProfile = () => {
               alt="porfileImg"
               className="w-8 "
             />
-          )) || <img src={userFilled} alt="userFilled" className="w-8" />}
+          )) || <img src={userFilled} alt="userFilled" className="w-8 p-1" />}
         </p>
         {myProfile?.me.name || 'user'}
         {toggle && <ProfileMenu />}

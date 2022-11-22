@@ -3,6 +3,7 @@ import { meQuery_me } from '__generated__/meQuery';
 import { useForm } from 'react-hook-form';
 import userFilled from '../../images/icon/userFilled.svg';
 import { FormError } from 'components/common/form-error';
+import axios from 'axios';
 
 type Props = {
   me: meQuery_me;
@@ -14,7 +15,7 @@ type MyProfile = {
   email: string;
   password: string;
   passwordAgain: string;
-  profileUrl: string;
+  profileUrl: string | FileList;
   verified: boolean;
 };
 const MyProfileEditeForm = ({ me, onEdite }: Props) => {
@@ -28,6 +29,7 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
     mode: 'onChange',
   });
   const watchValue = watch();
+  console.log(watchValue.profileUrl);
   return (
     <form className="flex items-center bg-middleBlue px-16 py-8  mb-20 rounded-2xl shadow-xl relative">
       {me.profileUrl && (
