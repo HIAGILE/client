@@ -61,7 +61,7 @@ const MyProjects = () => {
 
   return (
     <div className="grid grid-cols-3 gap-10 w-full my-5">
-      {(!myProjectsLoading && <LoadingProject />) ||
+      {(myProjectsLoading && <LoadingProject />) ||
         (myProjects?.getProjects.projects &&
           myProjects?.getProjects.projects.map((project, index) => {
             if (index === 0) {
@@ -209,7 +209,7 @@ const MyProjects = () => {
                 </div>
               );
             }
-          }) && <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>)}
+          })) || <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>}
     </div>
   );
 };
