@@ -10,10 +10,12 @@ import { setContext } from '@apollo/client/link/context';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
+import { meQuery } from './__generated__/meQuery';
 
 const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
+export const meVar = makeVar<meQuery | null>(null);
 
 const wsLink = new GraphQLWsLink(
   createClient({
@@ -77,6 +79,11 @@ export const client = new ApolloClient({
           token: {
             read() {
               return authTokenVar();
+            },
+          },
+          meVar: {
+            read() {
+              return meVar();
             },
           },
         },
