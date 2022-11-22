@@ -22,7 +22,7 @@ const wsLink = new GraphQLWsLink(
     url:
       process.env.NODE_ENV === 'production'
         ? 'ws://hi-agile.herokuapp.com/graphql'
-        : '"http://localhost:4000/graphql"',
+        : 'https://hi-agile.herokuapp.com/graphql',
     connectionParams: {
       'x-jwt': authTokenVar() || '',
     },
@@ -40,7 +40,7 @@ const httpLink = createHttpLink({
   uri:
     process.env.NODE_ENV === 'production'
       ? 'https://hi-agile.herokuapp.com/graphql'
-      : 'http://localhost:4000/graphql',
+      : 'https://hi-agile.herokuapp.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

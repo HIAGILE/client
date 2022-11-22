@@ -13,7 +13,7 @@ import {
 } from '__generated__/getFriends';
 import { ProjectMemberInput } from '__generated__/globalTypes';
 
-const NEW_MEMBERS_MUTATION = gql`
+export const NEW_MEMBERS_MUTATION = gql`
   mutation addMembers($input: AddMembersInput!) {
     addMembers(input: $input) {
       ok
@@ -22,7 +22,7 @@ const NEW_MEMBERS_MUTATION = gql`
   }
 `;
 
-const GET_FRIENDS_QUERY = gql`
+export const GET_FRIENDS_QUERY = gql`
   query getFriends($input: GetFriendsInput!) {
     getFriends(input: $input) {
       ok

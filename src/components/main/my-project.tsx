@@ -5,12 +5,14 @@ import { gql, useQuery } from '@apollo/client';
 import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 
 type Props = {
-  data: getProjects | undefined,
-  loading:boolean,
+  data: getProjects | undefined;
+  loading: boolean;
 };
 
-const MyProjects = ({data:myProjects,loading:myProjectsLoading}:Props) => {
-
+const MyProjects = ({
+  data: myProjects,
+  loading: myProjectsLoading,
+}: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -163,7 +165,7 @@ const MyProjects = ({data:myProjects,loading:myProjectsLoading}:Props) => {
                 </div>
               );
             }
-          }) || <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>)}
+          })) || <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>}
     </div>
   );
 };

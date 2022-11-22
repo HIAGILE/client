@@ -14,14 +14,14 @@ const MyProfile = () => {
   return (
     <div className="relative flex" onClick={clickProfile}>
       <div className=" text-darkGray text-sm flex items-center cursor-pointer">
-        <p className="bg-white transition w-8 h-8 mr-2 p-2 rounded-full ring-2 ring-lightGray shadow-md">
+        <p className="bg-white transition w-8 h-8 mr-2 rounded-full ring-2 ring-lightGray shadow-md">
           {(myProfile && (
             <img
               src={myProfile?.me.profileUrl}
               alt="porfileImg"
-              className="w-8"
+              className="w-8 "
             />
-          )) || <img src={userFilled} alt="userFilled" className="w-8" />}
+          )) || <img src={userFilled} alt="userFilled" className="w-8 p-1" />}
         </p>
         {myProfile?.me.name || 'user'}
         {toggle && <ProfileMenu />}
