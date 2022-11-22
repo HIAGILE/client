@@ -4,64 +4,18 @@ import { ProjectRole } from '../../__generated__/globalTypes';
 import { gql, useQuery } from '@apollo/client';
 import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 
-export const GET_PROJECTS_QUERY = gql`
-  query getProjects($input: GetProjectsInput!) {
-    getProjects(input: $input) {
-      ok
-      error
-      projects {
-        id
-        createAt
-        updateAt
-        code
-        name
-        owner {
-          name
-          role
-          email
-        }
-        githubURL
-        sprints {
-          id
-          createAt
-          updateAt
-          startDate
-          endDate
-          period
-          purpose
-        }
-        members {
-          id
-          user {
-            id
-            profileUrl
-            name
-          }
-          role
-        }
-      }
-    }
-  }
-`;
+type Props = {
+  data: getProjects | undefined,
+  loading:boolean,
+};
 
-const MyProjects = () => {
-  const { data: myProjects, loading: myProjectsLoading } = useQuery<
-    getProjects,
-    getProjectsVariables
-  >(GET_PROJECTS_QUERY, {
-    variables: {
-      input: {
-        id: 67,
-      },
-    },
-    pollInterval: 500,
-  });
-  console.log(myProjects);
+const MyProjects = ({data:myProjects,loading:myProjectsLoading}:Props) => {
+
   const navigate = useNavigate();
 
   return (
     <div className="grid grid-cols-3 gap-10 w-full my-5">
-      {(!myProjectsLoading && <LoadingProject />) ||
+      {(myProjectsLoading && <LoadingProject />) ||
         (myProjects?.getProjects.projects &&
           myProjects?.getProjects.projects.map((project, index) => {
             if (index === 0) {
@@ -209,7 +163,7 @@ const MyProjects = () => {
                 </div>
               );
             }
-          }) && <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>)}
+          }) || <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>)}
     </div>
   );
 };

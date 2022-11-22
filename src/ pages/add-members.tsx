@@ -1,4 +1,5 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useApolloClient, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { meVar } from 'apollo';
 import { useMe } from 'lib/useMe';
 import { type } from 'os';
 import React, { ChangeEvent, useEffect, useState } from 'react';
@@ -43,6 +44,8 @@ type AddMemberType = {
 };
 
 function AddMembers() {
+  // const meQueryVar = useReactiveVar(meVar);
+  // console.log(meQueryVar);
   const params = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   console.log(params.projectId);
