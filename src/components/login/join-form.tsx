@@ -9,7 +9,6 @@ import {
   createAccountMutationVariables,
 } from '__generated__/createAccountMutation';
 import { useNavigate } from 'react-router-dom';
-import userFilled from '../../images/icon/userFilled.svg';
 import CheckEmailBtn from './check-email-btn';
 import toast from 'react-hot-toast';
 
@@ -32,7 +31,7 @@ const JoinForm = () => {
   } = useForm<ICreateAccountForm>({
     mode: 'onChange',
   });
-  const { name, email, password, passwordAgin, agreeCheckbox } = getValues();
+  const { name, email, password, passwordAgain, agreeCheckbox } = getValues();
 
   const navigate = useNavigate();
 
@@ -103,32 +102,6 @@ const JoinForm = () => {
       className="grid gap-2 mt-8 mb-4 w-full"
       onSubmit={handleSubmit(onSubmit)}
     >
-      {/* 프로필 이미지 */}
-      {/* <div className="h-60 flex justify-center items-center">
-        <div className="">
-          <div className="h-40 w-32 bg-gray-200">
-            <img
-              src={userFilled}
-              alt="user"
-              className="object-fill h-40 w-32"
-            />
-          </div>
-          <label
-            className="cursor-pointer flex h-10 justify-center items-center bg-middleBlue"
-            htmlFor="input-file"
-          >
-            업로드
-          </label>
-        </div>
-      </div>
-      <input
-        id="input-file"
-        {...register('file')}
-        type="file"
-        accept="image/*"
-        required
-        className="hidden"
-      ></input> */}
       <input
         {...register('name', {
           required: '이름을 입력해주세요',
@@ -195,23 +168,23 @@ const JoinForm = () => {
         <FormError errorMessage={errors.password?.message} />
       )}
       <input
-        {...register('passwordAgin', {
+        {...register('passwordAgain', {
           required: '비밀번호를 재입력해주세요',
           pattern:
             /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,14}$/,
         })}
-        name="passwordAgin"
+        name="passwordAgain"
         type="password"
         placeholder="password agin *"
         required
         className="login-input transition-colors"
         autoComplete="true"
       />
-      {(passwordAgin && passwordAgin !== password && (
+      {(passwordAgain && passwordAgain !== password && (
         <FormError errorMessage="비밀번호가 일치하지 않습니다" />
       )) ||
-        (errors.passwordAgin?.message && (
-          <FormError errorMessage={errors.passwordAgin?.message} />
+        (errors.passwordAgain?.message && (
+          <FormError errorMessage={errors.passwordAgain?.message} />
         ))}
       <label className="ml-2 mt-4 text-sm text-darkGray flex items-center">
         <input

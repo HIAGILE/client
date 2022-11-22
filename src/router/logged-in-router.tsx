@@ -14,6 +14,8 @@ import { ProjectDetail } from ' pages/project-detail';
 import { FriendsDashboard } from ' pages/friends-dashboard';
 import { ScheduleDashboard } from ' pages/schedule-dashboard';
 import { ToDoListDashboard } from ' pages/todolist-dashboard';
+import { isLoggedInVar, meVar } from 'apollo';
+import { useReactiveVar } from '@apollo/client';
 
 const clientRoutes = [
   {

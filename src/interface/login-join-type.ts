@@ -6,9 +6,9 @@ export type ILoginForm = {
 export type ICreateAccountForm = {
   email: string;
   password: string;
-  passwordAgin: string;
+  passwordAgain: string;
   name: string;
   role: string;
   agreeCheckbox: string;
-  file:FileList;
+  file: FileList;
 };
