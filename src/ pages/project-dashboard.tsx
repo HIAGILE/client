@@ -1,23 +1,13 @@
 import { useQuery } from '@apollo/client';
+import { useProject } from 'lib/useProject';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 import { ProjectRole } from '__generated__/globalTypes';
-import { GET_PROJECTS_QUERY } from '../components/main/my-project';
 
 export const ProjectDashboard = () => {
-  const { data: myProjects, loading: myProjectsLoading } = useQuery<
-    getProjects,
-    getProjectsVariables
-  >(GET_PROJECTS_QUERY, {
-    variables: {
-      input: {
-        id: 0,
-      },
-    },
-    //pollInterval: 500
-  });
+  const { data: myProjects, loading: myProjectsLoading } = useProject(0)
   const navigate = useNavigate();
   return (
     <div className="h-full px-10 pt-28 rounded-3xl bg-white">

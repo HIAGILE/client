@@ -36,6 +36,11 @@ import { useMe } from 'lib/useMe';
 import NewProject from 'components/main/new-project';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import MyProjects from 'components/main/my-project';
+import { useProject } from 'lib/useProject';
+import { getProjects } from '__generated__/getProjects';
+import { client, isLoggedInVar, meVar } from 'apollo';
+import { useReactiveVar } from '@apollo/client';
+import { meQuery, meQuery_me } from '__generated__/meQuery';
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
@@ -74,6 +79,9 @@ function MainDashboard() {
   const userName = 'user name';
   const navigate = useNavigate();
   const { data: myProfile, loading: myProfileLoading } = useMe();
+  
+  //console.log(me);
+  const { data: myProjects, loading: myProjectsLoading } = useProject(0);
 
   return (
     <>
@@ -96,7 +104,7 @@ function MainDashboard() {
                 view all
               </button>
             </div>
-            <MyProjects />
+            <MyProjects data={myProjects} loading={myProjectsLoading}/>
           </div>
           {/* 여기는 최근 폴더 부분 */}
           <div>

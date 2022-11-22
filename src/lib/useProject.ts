@@ -54,15 +54,3 @@ export const useProject = (id: number) => {
     // pollInterval: 500,
   });
 };
-
-const { data: myProjects, loading: myProjectsLoading } = useQuery<
-  getProjects,
-  getProjectsVariables
->(GET_PROJECTS_QUERY, {
-  variables: {
-    input: {
-      id: 0,
-    },
-  },
-  // pollInterval: 500,
-});
