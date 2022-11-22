@@ -11,7 +11,7 @@ interface IForm{
 
 type Props = {
   me: meQuery_me;
-  onEdite: () => void;
+  onEdit: () => void;
 };
 
 type MyProfile = {
@@ -22,7 +22,12 @@ type MyProfile = {
   profileUrl: string | FileList;
   verified: boolean;
 };
-const MyProfileEditeForm = ({ me, onEdite }: Props) => {
+
+const onSubmit = () =>{
+  console.log('submit')
+}
+
+const MyProfileEditeForm = ({ me, onEdit }: Props) => {
   const {
     register,
     getValues,
@@ -150,16 +155,17 @@ const MyProfileEditeForm = ({ me, onEdite }: Props) => {
           ))}
         <div className="flex items-center justify-end m-4">
           <button
-            onClick={onEdite}
+            type="submit"
+            onClick={onSubmit}
             className="mr-2 hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-blue-500 text-white"
           >
-            confirme
+            Confirm
           </button>
           <button
-            onClick={onEdite}
+            onClick={onEdit}
             className="hover:bg-gray-200 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-gray-100 text-black"
           >
-            cancle
+            Cancel
           </button>
         </div>
       </div>

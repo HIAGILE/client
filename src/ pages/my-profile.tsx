@@ -17,10 +17,10 @@ import { useNavigate } from 'react-router-dom';
 function MyProfile() {
   const { data: myProfile, loading: loadingProfile } = useMe();
 
-  const [edite, setEdite] = useState<Boolean>(false);
+  const [edit, setEdit] = useState<Boolean>(false);
   const [friends, setFriends] = useState<getFriends_getFriends_friends[] | null>([]);
-  function onEdite() {
-    setEdite(!edite);
+  function onEdit() {
+    setEdit(!edit);
   }
   const [inputName, setInputName] = useState("");
   const { data: myFriends, loading: myFriendsLoading } = useQuery<
@@ -42,7 +42,7 @@ function MyProfile() {
     <div className="pt-28 px-8 flex">
       <div>
         <DashboardTitle title="My Profile" />
-        {!edite && myProfile && (
+        {!edit && myProfile && (
           <form className="flex items-center bg-white px-8 py-8 mb-20 rounded-lg relative">
           {myProfile.me.profileUrl && (
             <div className="flex flex-col mr-10">
@@ -128,7 +128,7 @@ function MyProfile() {
             </label>
             <div className="flex items-center justify-end m-4">
               <button
-                onClick={onEdite}
+                onClick={onEdit}
                 className="mr-2 hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-blue-500 text-white"
               >
                 Edit
@@ -137,8 +137,8 @@ function MyProfile() {
           </div>
         </form>
         )}
-        {edite && myProfile && (
-          <MyProfileEditeForm me={myProfile.me} onEdite={onEdite} />
+        {edit && myProfile && (
+          <MyProfileEditeForm me={myProfile.me} onEdit={onEdit} />
         )}
       </div>
       <div>
