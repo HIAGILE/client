@@ -16,6 +16,7 @@ import { ScheduleDashboard } from ' pages/schedule-dashboard';
 import { ToDoListDashboard } from ' pages/todolist-dashboard';
 import { isLoggedInVar, meVar } from 'apollo';
 import { useReactiveVar } from '@apollo/client';
+import { Confirm } from ' pages/confirm';
 
 const clientRoutes = [
   {
@@ -45,6 +46,10 @@ const clientRoutes = [
   {
     path: '/add-members/:projectId',
     component: <AddMembers />,
+  },
+  {
+    path: '/confirm/:code',
+    component: <Confirm />,
   },
   {
     path: '/logout',

@@ -51,6 +51,6 @@ export const useProject = (id: number) => {
         id: id,
       },
     },
-    pollInterval: 500,
+    //pollInterval: 500,
   });
 };

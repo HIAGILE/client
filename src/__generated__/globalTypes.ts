@@ -47,6 +47,13 @@ export interface CreateProjectInput {
   githubURL: string;
 }
 
+export interface EditProfileInput {
+  name?: string | null;
+  email?: string | null;
+  password?: string | null;
+  profileUrl?: string | null;
+}
+
 export interface FollowUserInput {
   userId: number;
 }

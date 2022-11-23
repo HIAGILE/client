@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import MyProfileEditeForm from 'components/my-profile/my-profile-edite-form';
-import { useMe } from 'lib/useMe';
-import React, { useEffect, useState } from 'react';
+import { ME_QUERY, useMe } from 'lib/useMe';
+import React, {useState } from 'react';
 import {
   getFriends,
   getFriendsVariables,
@@ -13,10 +13,15 @@ import editFilledWhite from '../images/icon/editFilledWhite.svg';
 import trashDeleteWhite from '../images/icon/trashDeleteWhite.svg';
 import { GET_FRIENDS_QUERY } from '../ pages/add-members';
 import { useNavigate } from 'react-router-dom';
+import { getVariableValues } from 'graphql';
 
 function MyProfile() {
-  const { data: myProfile, loading: loadingProfile } = useMe();
-
+  const [myProfileUrl, setMyProfileUrl] = useState("");
+  const { data: myProfile, loading: loadingProfile } = useQuery<meQuery>(ME_QUERY,{
+    onCompleted: (data) => {
+      setMyProfileUrl(data.me.profileUrl);
+    }
+  });
   const [edit, setEdit] = useState<Boolean>(false);
   const [friends, setFriends] = useState<getFriends_getFriends_friends[] | null>([]);
   function onEdit() {
@@ -37,7 +42,6 @@ function MyProfile() {
     }
   });
 
-  const navigate = useNavigate();
   return (
     <div className="pt-28 px-8 flex">
       <div>
@@ -47,16 +51,16 @@ function MyProfile() {
           {myProfile.me.profileUrl && (
             <div className="flex flex-col mr-10">
               <img
-                src={myProfile.me.profileUrl}
+                src={myProfileUrl}
                 alt="user"
-                width="300"
+                width="200"
                 className="object-fill rounded-lg shadow-xl"
               />
               <label
                 className="text-white hover:bg-blue-600 transition duration-300 ease-in-out shadow-xl cursor-pointer flex h-10 justify-center items-center bg-blue-500 rounded-lg mt-4"
                 htmlFor="input-file"
               >
-                업로드
+                사진 변경
               </label>
               <input
                 id="input-file"
@@ -96,7 +100,7 @@ function MyProfile() {
                 myProfile.me.verified 
                 ? 
                 (
-                  <div className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"></div>
+                  <div className="flex justify-center items-center transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">인증 완료</div>
                 )
                 :
                 (<EmailAuthenfication />)
@@ -107,7 +111,6 @@ function MyProfile() {
               <input
                 name="password"
                 type="password"
-                required
                 placeholder="Password *"
                 className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
                 autoComplete="true"
@@ -120,7 +123,6 @@ function MyProfile() {
                 name="passwordAgain"
                 type="password"
                 placeholder="password agin *"
-                required
                 className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
                 autoComplete="true"
                 disabled={true}
@@ -128,6 +130,7 @@ function MyProfile() {
             </label>
             <div className="flex items-center justify-end m-4">
               <button
+                type='button'
                 onClick={onEdit}
                 className="mr-2 hover:bg-blue-600 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-10 px-4 rounded-lg shadow-xl bg-blue-500 text-white"
               >
@@ -138,7 +141,7 @@ function MyProfile() {
         </form>
         )}
         {edit && myProfile && (
-          <MyProfileEditeForm me={myProfile.me} onEdit={onEdit} />
+          <MyProfileEditeForm profileUrl={myProfileUrl} setMyProfileUrl={setMyProfileUrl} me={myProfile.me} onEdit={onEdit} />
         )}
       </div>
       <div>
@@ -171,7 +174,7 @@ function MyProfile() {
         </div>
       </div>
       <div className="pt-20 grid-cols-4">
-        <button className="py-2 px-4 rounded-xl shadow-lg text-bgBlue flex items-center justify-between bg-mainRed">
+        <button type='button' className="py-2 px-4 rounded-xl shadow-lg text-bgBlue flex items-center justify-between bg-mainRed">
           <img src={trashDeleteWhite} width="20" className="mr-2" alt="삭제" />{' '}
           delete my account
         </button>

@@ -3,6 +3,7 @@ import { ICreateProjecForm } from "interface/project-type";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { createProject, createProjectVariables } from "__generated__/createProject";
 import { FormError } from "../components/common/form-error";
@@ -46,6 +47,9 @@ export function CreateProject() {
     }
     if (ok && projectId) {
       navigate("/add-members/" + projectId);
+      toast.success("프로젝트 생성 성공", {
+        position: "bottom-center",
+      });
     }
     if (error) {
       console.log(error);
