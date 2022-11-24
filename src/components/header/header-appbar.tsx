@@ -26,12 +26,14 @@ const AppMenu = () => {
       <ul className="grid gap-4">
         {menus.map((menu) => {
           return (
-            <li
-              key={menu.title}
-              className="h-10 transition duration-300 ease-in-out flex justify-center items-center hover:bg-white hover:text-darkBlue cursor-pointer "
-            >
-              <Link to={menu.link}>{menu.title}</Link>
-            </li>
+            <Link key={menu.title} to={menu.link}>
+              <li
+
+                className="h-10 transition duration-300 ease-in-out flex justify-center items-center hover:bg-white hover:text-darkBlue cursor-pointer "
+              >
+                {menu.title}
+              </li>
+            </Link>
           );
         })}
       </ul>

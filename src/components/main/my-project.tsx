@@ -23,21 +23,21 @@ const MyProjects = ({
             if (index === 0) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainRed hover:bg-red-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
+                  <div className="bg-white border-2 border-mainRed h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
-                        className="p-5 absolute right-0 cursor-pointer text-white"
+                        className="p-5 absolute right-0 cursor-pointer text-black"
                         onClick={() => {
                           navigate(`/project/${project.id}`);
                         }}
                       >
                         더보기
                       </div>
-                      <div className="p-5 text-2xl font-bold text-white">
+                      <div className="p-5 text-2xl font-bold text-mainRed">
                         {project.code}
                       </div>
                     </div>
-                    <p className="text-white px-5 pb-3 text-xl">
+                    <p className="text-black px-5 pb-3 text-xl">
                       {project.name}
                     </p>
                     <div className="relative h-16">
@@ -52,17 +52,17 @@ const MyProjects = ({
                         );
                       })}
                     </div>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       {project?.members?.map((member) => {
                         return member.role == ProjectRole.Leader
                           ? `프로젝트 리더 : ${member.user.name}`
                           : null;
                       })}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       생성일자 : {project.createAt.substr(0, 10)}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       현재 할 일 : {project?.sprints.length}개
                     </p>
                   </div>
@@ -71,21 +71,21 @@ const MyProjects = ({
             } else if (index === 1) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainBlue hover:bg-blue-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
+                  <div className="bg-white border-2 border-mainBlue h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
-                        className="p-5 absolute right-0 cursor-pointer text-white"
+                        className="p-5 absolute right-0 cursor-pointer text-black"
                         onClick={() => {
                           navigate(`/project/${project.id}`);
                         }}
                       >
                         더보기
                       </div>
-                      <div className="p-5 text-2xl font-bold text-white">
+                      <div className="p-5 text-2xl font-bold text-mainBlue">
                         {project.code}
                       </div>
                     </div>
-                    <p className="text-white px-5 pb-3 text-xl">
+                    <p className="text-black px-5 pb-3 text-xl">
                       {project.name}
                     </p>
                     <div className="relative h-16">
@@ -100,17 +100,17 @@ const MyProjects = ({
                         );
                       })}
                     </div>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       {project?.members?.map((member) => {
                         return member.role == ProjectRole.Leader
                           ? `프로젝트 리더 : ${member.user.name}`
                           : null;
                       })}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       생성일자 : {project.createAt.substr(0, 10)}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       현재 할 일 : {project?.sprints.length}개
                     </p>
                   </div>
@@ -119,17 +119,17 @@ const MyProjects = ({
             } else if (index === 2) {
               return (
                 <div key={project.id}>
-                  <div className="bg-mainGreen hover:bg-green-500 h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
+                  <div className="bg-white border-2 hover:text-white border-mainGreen h-72 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out">
                     <div className="w-12/12">
                       <div
-                        className="p-5 absolute right-0 cursor-pointer text-white"
+                        className="p-5 absolute right-0 cursor-pointer text-black"
                         onClick={() => {
                           navigate(`/project/${project.id}`);
                         }}
                       >
                         더보기
                       </div>
-                      <div className="p-5 text-2xl font-bold text-white">
+                      <div className="p-5 text-2xl font-bold text-mainGreen">
                         {project.code}
                       </div>
                     </div>
@@ -148,17 +148,17 @@ const MyProjects = ({
                         );
                       })}
                     </div>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       {project?.members?.map((member) => {
                         return member.role == ProjectRole.Leader
                           ? `프로젝트 리더 : ${member.user.name}`
                           : null;
                       })}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       생성일자 : {project.createAt.substr(0, 10)}
                     </p>
-                    <p className="px-5 text-white">
+                    <p className="px-5 text-black">
                       현재 할 일 : {project?.sprints.length}개
                     </p>
                   </div>

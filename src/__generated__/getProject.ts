@@ -43,6 +43,9 @@ export interface getProject_getProject_project_members_user {
   id: number;
   profileUrl: string;
   name: string;
+  email: string;
+  role: UserRole;
+  verified: boolean;
 }
 
 export interface getProject_getProject_project_members {

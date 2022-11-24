@@ -202,7 +202,7 @@ function AddMembers() {
       <Helmet>
         <title>Add Memebers | Hi Agile</title>
       </Helmet>
-      <p className="font-bold text-3xl h-16">Create New Project</p>
+      <p className="font-bold text-3xl h-16">Add Members</p>
       <div className="flex justify-center items-center">
         <select
           className="w-64 rounded-md p-4 h-96 shadow-xl outline-0 outline-purple-500"

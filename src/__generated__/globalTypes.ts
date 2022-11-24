@@ -92,6 +92,10 @@ export interface ValidateAccountInput {
   email: string;
 }
 
+export interface VerifyEmailInput {
+  code: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

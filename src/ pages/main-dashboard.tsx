@@ -124,13 +124,14 @@ function MainDashboard() {
             <MyProjects data={myProjects} loading={myProjectsLoading}/>
           </div>
           {/* 여기는 최근 폴더 부분 */}
-          <div>
-            <div className="flex justify-between items-start">
+          <div className='pb-10'>
+            <div className="flex justify-between items-start pb-5">
               <DashboardTitle title="Notice" />
               <button className="py-1 px-4 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-xs text-darkGray font-semibold shadow-lg transition duration-300 ease-in-out">
                 view all
               </button>
             </div>
+            <div className='overflow-scroll' style={{"height":"500px"}}>
             {
               noticesLoading 
               ? 
@@ -150,7 +151,7 @@ function MainDashboard() {
                   )
                 })
             }
-            
+            </div>
           </div>
         </div>
         {/* 여기는 오른쪽 사이드 바 */}

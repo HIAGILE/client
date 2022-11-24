@@ -9,11 +9,21 @@ import { editProfile, editProfileVariables } from '__generated__/editProfile';
 import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { MutatingDots } from 'react-loader-spinner';
+import { verificationAgain } from '__generated__/verificationAgain';
 
 
 const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile($input: EditProfileInput!) {
     editProfile(input: $input) {
+      ok
+      error
+    }
+  }
+`
+
+const VERIFICATION_AGAIN_MUTATION = gql`
+  mutation verificationAgain {
+    verificationAgain {
       ok
       error
     }
@@ -65,13 +75,27 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
     }
   };
   const watchValue = watch();
-  console.log("watchValue",watchValue);
   const [editProfileMutation, { loading, data: editProfileMutationResult }] = useMutation<
     editProfile,
     editProfileVariables
   >(EDIT_PROFILE_MUTATION,{
     onCompleted,
     refetchQueries: ['meQuery'],
+  });
+
+  const [verificationAgainMutation, {data: verificationAgainMutationResult }] = useMutation<
+    verificationAgain    
+  >(VERIFICATION_AGAIN_MUTATION,{
+    onCompleted: (data) => {
+      const {
+        verificationAgain: { ok, error },
+      } = data;
+      if (ok) {
+        toast.success('인증메일이 발송되었습니다', {
+          position: 'bottom-center',
+        });
+      }
+    },
   });
 
   const encodeFileToBase64 = (fileBlob:File) => {
@@ -239,7 +263,13 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
                 <div className="flex justify-center items-center transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">인증 완료</div>
               )
               :
-              (<EmailAuthenfication />)
+              (
+                <button onClick={()=>{
+                  verificationAgainMutation();
+                }} type='button' className="hover:bg-blue-600 text-white bg-blue-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">
+                  인증 요청
+                </button>
+              )
             }
           </label>
           <label className="text-black mr-4">
@@ -312,7 +342,8 @@ export default MyProfileEditeForm;
 
 const EmailAuthenfication = () => {
   return (
-    <button type='button' className="hover:bg-blue-600 text-white bg-blue-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">
+    <button 
+     type='button' className="hover:bg-blue-600 text-white bg-blue-500 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-mainBlue focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl">
       인증 요청
     </button>
   );

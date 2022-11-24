@@ -9,7 +9,7 @@ const NewProject = ({ userName }: Props) => {
 
   return (
     <>
-      <div className="bg-middleBlue rounded-xl h-60 p-8 flex justify-between relative shadow-xl">
+      <div className="bg-white border-2 border-darkBlue rounded-lg h-60 p-8 flex justify-between relative shadow-lg">
         <div className=" w-full">
           <h3 className="text-4xl font-bold text-darkBule">
             Hello! {userName}
@@ -22,7 +22,7 @@ const NewProject = ({ userName }: Props) => {
             동료를 초대해 함께 협업할 수도 있습니다.
           </p>
           <button
-            className="ml-[260px] py-4 px-8 text-lightBlue font-semibold leading-none bg-mainBlue rounded-xl transition duration-300 ease-in-out hover:scale-105 shadow-xl"
+            className="py-4 px-8 text-blue-600 font-semibold leading-none border-2 border-blue-500 bg-white rounded-xl transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white shadow-xl"
             onClick={() => {
               navigate('/create-project');
             }}
