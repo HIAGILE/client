@@ -47,6 +47,21 @@ export interface CreateProjectInput {
   githubURL: string;
 }
 
+export interface CreateSprintInput {
+  startDate: any;
+  endDate: any;
+  period: number;
+  purpose: string;
+  projectId: number;
+}
+
+export interface CreateToDoListInput {
+  status: ToDoListStatus;
+  title: string;
+  description: string;
+  sprintId: number;
+}
+
 export interface EditProfileInput {
   name?: string | null;
   email?: string | null;

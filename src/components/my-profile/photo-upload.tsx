@@ -17,10 +17,8 @@ const PhotoUpload = ({profileUrl}:IProps) => {
 
     const onSubmit = () =>{
         const {file} = watch();
-        console.log(file[0]);
         const formData = new FormData();
         formData.append("file", file[0]);
-        console.log(formData);
         // formData.append("upload_preset", "profile");
         // axios.post("https://api.cloudinary.com/v1_1/dxqjxqz5p/image/upload", formData, {
         //     headers:{

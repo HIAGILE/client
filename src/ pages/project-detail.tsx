@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { ChangeEvent, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
@@ -6,6 +6,9 @@ import { getProject, getProjectVariables, getProject_getProject_project_sprints_
 import { ProjectRole } from "__generated__/globalTypes";
 import Modal from 'react-modal';
 import hiAgileLogo from "images/logo.svg";
+import { useForm } from "react-hook-form";
+import { createSprint, createSprintVariables } from "__generated__/createSprint";
+import { createToDoList, createToDoListVariables } from "__generated__/createToDoList";
 
 export const GET_PROJECT_QUERY = gql`
   query getProject($input: GetProjectInput!) {
@@ -58,11 +61,135 @@ export const GET_PROJECT_QUERY = gql`
   }
 `;
 
+export const CREATE_SPRINT_MUTATION = gql`
+  mutation createSprint($input: CreateSprintInput!) {
+    createSprint(input: $input) {
+      ok
+      error
+      sprintId
+    }
+  }
+`;
 
-export const ProjectDetail = () =>{
+// export const updateSprint = gql`
+//   mutation updateSprint($input: UpdateSprintInput!) {
+//     updateSprint(input: $input) {
+//       ok
+//       error
+//     }
+//   }
+// `;
+
+// export const deleteSprint = gql`
+//   mutation deleteSprint($input: DeleteSprintInput!) {
+//     deleteSprint(input: $input) {
+//       ok
+//       error
+//     }
+//   }
+// `;
+
+export enum ToDoListStatus{
+  TODO = 'TODO',
+  INPROGRESS = 'INPROGRESS',
+  DONE = 'DONE',
+}
+
+export const CREATE_TODOLIST_MUTATION = gql`
+  mutation createToDoList($input: CreateToDoListInput!) {
+    createToDoList(input: $input) {
+      ok
+      error
+      toDoListId
+    }
+  }
+`;
+
+// export const updateToDoList = gql`
+//   mutation updateToDoList($input: UpdateToDoListInput!) {
+//     updateToDoList(input: $input) {
+//       ok
+//       error
+//     }
+//   }
+// `;
+
+// export const deleteToDoList = gql`
+//   mutation deleteToDoList($input: DeleteToDoListInput!) {
+//     deleteToDoList(input: $input) {
+//       ok
+//       error
+//     }
+//   }
+// `;
+
+interface IParams {
+  projectId: string;
+}
+
+export interface ICreateSprintForm{
+  purpose: string;
+  startDate: Date;
+  endDate: Date;
+  period: number;
+};
+
+export interface ICreateToDoListForm{
+  title: string;
+  description: string;
+  status: string;
+};
+
+export function ProjectDetail(){
     const params = useParams<{projectId: string}>();
     const [sprintSelectBox, setSprintSelectBox] = useState(1);
     const [toDoListSelectBox, setToDoListSelectBox] = useState(1);
+    const [addType, setAddType] = useState(0);
+    const {
+      register : sprintRegister,
+      getValues : sprintGetValues,
+      formState: { isValid : sprintIsValid, errors: sprintErrors },
+      handleSubmit : sprintHandleSubmit,
+    } = useForm<ICreateSprintForm>({
+      mode: "onChange",
+    });
+
+    const {
+      register : toDoListRegister,
+      getValues : toDoListGetValues,
+      formState: { isValid : toDoListIsValid, errors: toDoListErrors },
+      handleSubmit: toDoListHandleSubmit,
+    } = useForm<ICreateToDoListForm>({
+      mode: "onChange",
+    });
+
+    const [createSprintMutation, { data: createSprintResult, loading: createSprintLoading }] = useMutation<
+      createSprint,
+      createSprintVariables
+    >(CREATE_SPRINT_MUTATION, {
+      onCompleted: (data) => {
+        const { createSprint: { ok, sprintId } } = data;
+        if(ok && sprintId){
+          alert("스프린트 생성 성공");
+          window.location.reload();
+        }
+      },
+    });
+
+    const [createToDoListMutation, { data: createToDoListResult, loading:createToDoListLoading }] = useMutation<
+      createToDoList,
+      createToDoListVariables
+    >(CREATE_TODOLIST_MUTATION, {
+      onCompleted: (data) => {
+        const { createToDoList: { ok, toDoListId } } = data;
+        if(ok && toDoListId){
+          alert("할일 생성 성공");
+          window.location.reload();
+        }
+      },
+    });
+
+
     const {data:myProject,loading:myProjectLoading} = useQuery<getProject,getProjectVariables>(
       GET_PROJECT_QUERY,
       {
@@ -71,7 +198,7 @@ export const ProjectDetail = () =>{
             id: parseInt(params.projectId ?? "0")
           }
         },
-        pollInterval: 500
+        //pollInterval: 500
       }
     );
     let subtitle = "sprint-modal";
@@ -101,6 +228,38 @@ export const ProjectDetail = () =>{
         height:"500px"
       },
     };
+
+    const onSubmitSprint = () => {
+      const { purpose, startDate, endDate, period } = sprintGetValues();
+
+      createSprintMutation({
+        variables: {
+          input: {
+            startDate: startDate,
+            endDate: endDate,
+            projectId: parseInt(params.projectId ?? "0"),
+            purpose: purpose,
+            period: period,
+          },
+        },
+      });
+    }
+
+    const onSubmitToDoList = () => {
+      const { title, description, status } = toDoListGetValues();
+
+        createToDoListMutation({
+          variables: {
+            input: {
+              sprintId: parseInt(params.projectId ?? "0"),
+              title : title,
+              description : description,
+              status: status === "TODO" ? ToDoListStatus.TODO : status === "INPROGRESS" ? ToDoListStatus.INPROGRESS : ToDoListStatus.DONE
+            },
+          },
+        });
+    }
+
     
     return(
       <div className="h-screen px-10 pt-28 rounded-3xl bg-white">
@@ -133,7 +292,7 @@ export const ProjectDetail = () =>{
                         myProject?.getProject.project?.members.map((member,index) =>{
                           return  (
                             member.role === ProjectRole.Leader ?
-                            <div className="max-w-sm w-full lg:max-w-full lg:flex">
+                            <div key={member.id} className="max-w-sm w-full lg:max-w-full lg:flex">
                               <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{"backgroundImage":`url(${member.user.profileUrl})`}} title="Woman holding a mug">
                               </div>
                               <div className="lg:w-72 md:w-72 shadow-lg bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
@@ -168,7 +327,7 @@ export const ProjectDetail = () =>{
                         myProject?.getProject.project?.members.map((member,index) =>{
                           return  (
                             member.role === ProjectRole.member ?
-                            <div className="max-w-sm w-full lg:max-w-full lg:flex mb-4">
+                            <div key={member.id} className="max-w-sm w-full lg:max-w-full lg:flex mb-4">
                               <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{"backgroundImage":`url(${member.user.profileUrl})`}} title="Woman holding a mug">
                               </div>
                               <div className="lg:w-72 md:w-72 shadow-lg bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
@@ -208,11 +367,15 @@ export const ProjectDetail = () =>{
                     <div className="absolute right-0">
                       <select className="px-2 py-1 border border-gray-500 rounded mx-2 outline-none" onChange={(e)=>{
                         setSprintSelectBox(parseInt(e.target.value));
-                      }}>
-                          <option value="1" selected>진행 중</option>
+                        
+                      }} defaultValue="1">
+                          <option value="1">진행 중</option>
                           <option value="2">전체</option>
                         </select>
-                      <button onClick={openModal} className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
+                      <button onClick={()=>{
+                        openModal();
+                        setAddType(1)
+                      }}  className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
                     </div>
                   </div>
                   <div className="shadow-lg bg-white px-8 my-2 py-4">
@@ -271,7 +434,10 @@ export const ProjectDetail = () =>{
                           <option value="1" selected>진행 중</option>
                           <option value="2">전체</option>
                         </select> */}
-                        <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
+                        <button onClick={()=>{
+                          openModal();
+                          setAddType(2)
+                        }} className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
                       </div>
                      </div>
                      <div className="shadow-lg bg-white px-8 my-2 py-4">
@@ -307,20 +473,63 @@ export const ProjectDetail = () =>{
               <Modal
                 isOpen={modalIsOpen}
                 style={customStyles}
-                contentLabel="Example Modal"
+                ariaHideApp={false}
               >
-                <h2>Hello</h2>
-                <div>I am a modal</div>
-                <form>
-                  <input />
-                </form>
-                <button  onClick={closeModal}>close</button>
+                {
+                  addType === 1
+                  ?
+                  <div className="flex flex-col">
+                    <div className="flex justify-between items-center">
+                      <p className="text-xl">스프린트 추가</p>
+                      <button onClick={closeModal} className="text-2xl">X</button>
+                    </div>
+                    <form className="flex flex-col" onSubmit={sprintHandleSubmit(onSubmitSprint)}>
+                        <label className="text-lg my-2">목적</label>
+                        <input {...sprintRegister("purpose")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="text"/>
+                        <label className="text-lg my-2">시작일</label>
+                        <input {...sprintRegister("startDate")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="date" />
+                        <label className="text-lg my-2">종료일</label>
+                        <input {...sprintRegister("endDate")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="date"
+                        />
+                        <label className="text-lg my-2">주기</label>
+                        <input {...sprintRegister("period")} className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="number"
+                        />
+                        <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
+                    </form>
+                  </div>
+                  :
+                  <div className="flex flex-col">
+                    <div className="flex justify-between items-center">
+                      <p className="text-xl">할 일 추가</p>
+                      <button onClick={closeModal} className="text-2xl">X</button>
+                    </div>
+                    <form className="flex flex-col" onSubmit={toDoListHandleSubmit(onSubmitToDoList)}>
+                        <label className="text-lg">제목</label>
+                        <input {...toDoListRegister("title")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="text"/>
+                        <label className="text-lg">설명</label>
+                        <input {...toDoListRegister("description")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                         type="text" />
+                        <label className="text-lg">상태</label>
+                        <select {...toDoListRegister("status")} className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                          defaultValue="TODO">
+                          <option value="TODO">TODO</option>
+                          <option value="DOING">INPROGRESS</option>
+                          <option value="DONE">DONE</option>
+                        </select>
+                        <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
+                    </form>
+                  </div>
+                }
               </Modal>
       </div>
 
     );
 }
 
-const SprintModal = () => {
-  
-}
+
+export default ProjectDetail;

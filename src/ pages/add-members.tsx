@@ -49,7 +49,6 @@ function AddMembers() {
   // console.log(meQueryVar);
   const params = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  console.log(params.projectId);
   const { data: myProfile, loading: myProfileLoading } = useMe();
   const { data: myFriends, loading: myFriendsLoading } = useQuery<
     getFriends,
