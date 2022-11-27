@@ -29,6 +29,14 @@ export const GET_PROJECTS_QUERY = gql`
           endDate
           period
           purpose
+          toDoList {
+            id
+            createAt
+            updateAt
+            title
+            description
+            status
+          }
         }
         members {
           id

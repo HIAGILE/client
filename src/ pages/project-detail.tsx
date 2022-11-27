@@ -145,6 +145,7 @@ export function ProjectDetail(){
     const [sprintSelectBox, setSprintSelectBox] = useState(1);
     const [toDoListSelectBox, setToDoListSelectBox] = useState(1);
     const [addType, setAddType] = useState(0);
+    const [selectSprint,setSelectSprint] = useState(-1);
     const {
       register : sprintRegister,
       getValues : sprintGetValues,
@@ -163,18 +164,19 @@ export function ProjectDetail(){
       mode: "onChange",
     });
 
-    const [createSprintMutation, { data: createSprintResult, loading: createSprintLoading }] = useMutation<
-      createSprint,
-      createSprintVariables
-    >(CREATE_SPRINT_MUTATION, {
-      onCompleted: (data) => {
-        const { createSprint: { ok, sprintId } } = data;
-        if(ok && sprintId){
-          alert("스프린트 생성 성공");
-          window.location.reload();
-        }
-      },
-    });
+
+    const [createSprintMutation, { data: createSprintResult, loading:createSprintLoading }] = useMutation<
+    createSprint,
+    createSprintVariables
+  >(CREATE_SPRINT_MUTATION, {
+    onCompleted: (data) => {
+      const { createSprint: { ok, sprintId } } = data;
+      if(ok && sprintId){
+        alert("스프린트 생성 성공");
+        window.location.reload();
+      }
+    },
+  });
 
     const [createToDoListMutation, { data: createToDoListResult, loading:createToDoListLoading }] = useMutation<
       createToDoList,
@@ -201,7 +203,6 @@ export function ProjectDetail(){
         //pollInterval: 500
       }
     );
-    let subtitle = "sprint-modal";
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
@@ -231,15 +232,15 @@ export function ProjectDetail(){
 
     const onSubmitSprint = () => {
       const { purpose, startDate, endDate, period } = sprintGetValues();
-
+      
       createSprintMutation({
         variables: {
           input: {
-            startDate: startDate,
-            endDate: endDate,
             projectId: parseInt(params.projectId ?? "0"),
-            purpose: purpose,
-            period: period,
+            purpose:purpose,
+            startDate: new Date(startDate),
+            endDate: new Date(endDate),
+            period: parseInt(period.toString().trim()),
           },
         },
       });
@@ -251,7 +252,7 @@ export function ProjectDetail(){
         createToDoListMutation({
           variables: {
             input: {
-              sprintId: parseInt(params.projectId ?? "0"),
+              sprintId: parseInt(selectSprint.toString().trim()),
               title : title,
               description : description,
               status: status === "TODO" ? ToDoListStatus.TODO : status === "INPROGRESS" ? ToDoListStatus.INPROGRESS : ToDoListStatus.DONE
@@ -385,19 +386,23 @@ export function ProjectDetail(){
                           const now = new Date();
                           const startDate = new Date(sprint.startDate);
                           const endDate = new Date(sprint.endDate);
+                          const todolist = [...sprint.toDoList];
+                          const progress = todolist.filter((toDo) => toDo.status === ToDoListStatus.DONE);
+                          const progressPercent = todolist.length  !== 0 ? Math.floor((progress.length / todolist.length) * 100) : 0;
                           return(
                             sprintSelectBox === 1 
                             ?
                             (
-                              (startDate < now && endDate > now) ?
-                              <div key={sprint.id} className="hover:bg-gray-300 text-black flex flex-col my-2 border-2 border-gray-200 p-4 rounded-lg">
+                              (startDate < now && endDate > now) 
+                              ?
+                              <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
                                 <div className="flex justify-between items-center">
                                   <div className="flex flex-col">
                                     <div className="text-xl ">{sprint.purpose}</div>
                                     <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
                                   </div>
                                   <div className="flex flex-col">
-                                    <div className="text-xl ">진행률 : {"80%"}</div>
+                                    <div className="text-xl ">진행률 : {progressPercent} %</div>
                                     <div className="text-xl ">주기 : {sprint.period}주일</div>
                                   </div>
                                 </div>
@@ -406,14 +411,14 @@ export function ProjectDetail(){
                               null
                             )
                             :
-                              <div key={sprint.id} className="hover:bg-gray-300 text-white flex flex-col my-2 border-2 border-gray-200 p-4 rounded-lg">
+                              <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-white flex flex-col my-2 p-4 rounded-lg shadow-md">
                                 <div className="flex justify-between items-center">
                                   <div className="flex flex-col">
                                     <div className="text-xl ">{sprint.purpose}</div>
                                     <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
                                   </div>
                                   <div className="flex flex-col">
-                                    <div className="text-xl ">진행률 : {"80%"}</div>
+                                    <div className="text-xl ">진행률 : {progressPercent} %</div>
                                     <div className="text-xl ">주기 : {sprint.period}주일</div>
                                   </div>
                                 </div>
@@ -448,7 +453,7 @@ export function ProjectDetail(){
                             return (
                               toDoList.map((toDo,index) =>{
                                 return(
-                                  <div key={toDo.id} className="hover:bg-gray-300 text-black flex flex-col my-2 border-2 border-gray-200 p-4 rounded-lg">
+                                  <div key={toDo.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
                                     <div className="flex justify-between items-center">
                                       <div className="flex flex-col">
                                         <div className="text-xl ">{toDo.title}</div>
@@ -485,37 +490,83 @@ export function ProjectDetail(){
                     </div>
                     <form className="flex flex-col" onSubmit={sprintHandleSubmit(onSubmitSprint)}>
                         <label className="text-lg my-2">목적</label>
-                        <input {...sprintRegister("purpose")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...sprintRegister("purpose")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="text"/>
                         <label className="text-lg my-2">시작일</label>
-                        <input {...sprintRegister("startDate")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...sprintRegister("startDate")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="date" />
                         <label className="text-lg my-2">종료일</label>
-                        <input {...sprintRegister("endDate")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...sprintRegister("endDate")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="date"
                         />
                         <label className="text-lg my-2">주기</label>
-                        <input {...sprintRegister("period")} className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...sprintRegister("period")} required className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="number"
                         />
                         <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
                     </form>
                   </div>
                   :
+                  
+                  (
+                    selectSprint == -1
+                  ?
+                  <div className="flex flex-col">
+                    <div className="flex justify-between items-center">
+                      <p className="text-xl">스프린트 선택</p>
+                      <button onClick={closeModal} className="text-2xl">X</button>
+                    </div>
+                    {
+                      myProject?.getProject.project?.sprints.map((sprint,index) =>{
+                        const now = new Date();
+                        const startDate = new Date(sprint.startDate);
+                        const endDate = new Date(sprint.endDate);
+                        const todolist = [...sprint.toDoList];
+                        const progress = todolist.filter((toDo) => toDo.status === ToDoListStatus.DONE);
+                        const progressPercent = todolist.length  !== 0 ? Math.floor((progress.length / todolist.length) * 100) : 0;
+                        return(
+                          
+                            (startDate < now && endDate > now) 
+                            ?
+                            <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
+                              <div className="flex justify-between items-center">
+                                <div className="flex flex-col">
+                                  <div className="text-xl ">{sprint.purpose}</div>
+                                  <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
+                                </div>
+                                <div className="flex flex-col">
+                                  <div className="text-xl ">진행률 : {progressPercent} %</div>
+                                  <div className="text-xl ">주기 : {sprint.period}주일</div>
+                                </div>
+                                <div>
+                                  <button onClick={() =>{setSelectSprint(sprint.id)}}
+                                  className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out">선택</button>
+                                </div>
+                              </div>
+                            </div>
+                            :
+                            null 
+                        )})
+                    }
+                  </div> 
+                  :
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
                       <p className="text-xl">할 일 추가</p>
-                      <button onClick={closeModal} className="text-2xl">X</button>
+                      <button onClick={()=>{
+                        setSelectSprint(-1);
+                        closeModal();
+                      }} className="text-2xl">X</button>
                     </div>
                     <form className="flex flex-col" onSubmit={toDoListHandleSubmit(onSubmitToDoList)}>
                         <label className="text-lg">제목</label>
-                        <input {...toDoListRegister("title")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...toDoListRegister("title")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="text"/>
                         <label className="text-lg">설명</label>
-                        <input {...toDoListRegister("description")} className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <input {...toDoListRegister("description")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                          type="text" />
                         <label className="text-lg">상태</label>
-                        <select {...toDoListRegister("status")} className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <select {...toDoListRegister("status")} required className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
                           defaultValue="TODO">
                           <option value="TODO">TODO</option>
                           <option value="DOING">INPROGRESS</option>
@@ -523,7 +574,7 @@ export function ProjectDetail(){
                         </select>
                         <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
                     </form>
-                  </div>
+                  </div>)
                 }
               </Modal>
       </div>

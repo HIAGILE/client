@@ -102,7 +102,7 @@ function MainDashboard() {
 
   return (
     <>
-      <div className="flex h-full">
+      <div className="flex">
         {/* 왼쪽 사이드바 */}
         <div className="w-full lg:w-8/12 px-8 pt-28 rounded-3xl bg-white">
           {/* 메인 대시보드*/}
@@ -157,7 +157,7 @@ function MainDashboard() {
         {/* 여기는 오른쪽 사이드 바 */}
         <div className="hidden lg:block w-4/12 bg-bgBlue px-4">
           <div className="pt-28 pb-8">
-            <DashboardTitle title="Calendar" />
+            <DashboardTitle title="Calendar"/>
             <Calendar
               goToRangeStartOnSelect
               onChange={setDates}
@@ -169,6 +169,28 @@ function MainDashboard() {
             />
           </div>
           <DashboardTitle title="Your Task" />
+          <div className='overflow-scroll' style={{"height":"1000px"}}>
+          {
+            myProjects?.getProjects.projects?.map((project) => {
+              const sprints = project.sprints;
+              return (
+                sprints.map((sprint) => {
+                  return (
+                    <div key={sprint.id} className="rounded-lg h-20 hover:bg-gray-100 transition duration-300 ease-in-out flex justify-between items-center my-4 shadow-lg">
+                      <div className='flex items-center'>
+                        <div className="px-16">
+                          <img className='h-16 w-16' src={"https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/51994bb5-2349-4c7a-6b30-473360d1ba00/public"} alt="notice"></img>
+                        </div>
+                        <div className="px-12">{sprint.purpose}</div>
+                      </div>
+                      <div className="px-12">{sprint.startDate.substr(0,10)}</div>
+                    </div>
+                  )
+                })
+              )
+            })
+          }
+          </div>
         </div>
       </div>
     </>

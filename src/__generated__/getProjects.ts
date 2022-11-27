@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { GetProjectsInput, ProjectCode, UserRole, ProjectRole } from "./globalTypes";
+import { GetProjectsInput, ProjectCode, UserRole, ToDoListStatus, ProjectRole } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getProjects
@@ -16,6 +16,16 @@ export interface getProjects_getProjects_projects_owner {
   email: string;
 }
 
+export interface getProjects_getProjects_projects_sprints_toDoList {
+  __typename: "ToDoList";
+  id: number;
+  createAt: any;
+  updateAt: any;
+  title: string;
+  description: string;
+  status: ToDoListStatus;
+}
+
 export interface getProjects_getProjects_projects_sprints {
   __typename: "Sprint";
   id: number;
@@ -25,6 +35,7 @@ export interface getProjects_getProjects_projects_sprints {
   endDate: any;
   period: number;
   purpose: string;
+  toDoList: getProjects_getProjects_projects_sprints_toDoList[];
 }
 
 export interface getProjects_getProjects_projects_members_user {
