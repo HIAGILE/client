@@ -24,6 +24,14 @@ const clientRoutes = [
     component: <Navigate to="/main" replace={true} />,
   },
   {
+    path: '/social/github',
+    component: <Navigate to="/main" replace={true} />,
+  },
+  {
+    path: '/social/kakao',
+    component: <Navigate to="/main" replace={true} />,
+  },
+  {
     path: '/login',
     component: <Navigate to="/main" replace={true} />,
   },
