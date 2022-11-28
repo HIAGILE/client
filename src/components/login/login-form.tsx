@@ -59,10 +59,8 @@ const LoginForm: React.FC = () => {
   >(LOGIN_MUTATION, {
     onCompleted,
   });
-
-  const { email, password } = getValues();
-
   const onSubmit = () => {
+    const { email, password } = getValues();
     if (!loading) {
       loginMutation({
         variables: {

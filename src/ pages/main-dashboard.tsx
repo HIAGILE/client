@@ -37,10 +37,11 @@ import NewProject from 'components/main/new-project';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import MyProjects from 'components/main/my-project';
 import { useProject } from 'lib/useProject';
-import { getProjects } from '__generated__/getProjects';
+import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 import { client, isLoggedInVar, meVar } from 'apollo';
-import { useReactiveVar } from '@apollo/client';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { meQuery, meQuery_me } from '__generated__/meQuery';
+import { getNotices } from '__generated__/getNotices';
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
@@ -72,6 +73,21 @@ export const data = {
   ],
 };
 
+export const GET_NOTICES_QUERY = gql`
+  query getNotices {
+    getNotices {
+      ok
+      error
+      notices{
+        createAt
+        updateAt
+        description
+        id
+      }
+    }
+  }
+`;
+
 function MainDashboard() {
   const project = false;
   // apollo
@@ -82,10 +98,11 @@ function MainDashboard() {
   
   //console.log(me);
   const { data: myProjects, loading: myProjectsLoading } = useProject(0);
+  const { data: notices, loading: noticesLoading } = useQuery<getNotices>(GET_NOTICES_QUERY)
 
   return (
     <>
-      <div className="flex h-full">
+      <div className="flex">
         {/* 왼쪽 사이드바 */}
         <div className="w-full lg:w-8/12 px-8 pt-28 rounded-3xl bg-white">
           {/* 메인 대시보드*/}
@@ -96,7 +113,7 @@ function MainDashboard() {
             <div className="flex justify-between items-start">
               <DashboardTitle title="My Project" />
               <button
-                className="py-1 px-4 h-10 bg-lightGray rounded-xl text-xs text-darkGray font-semibold shadow-lg"
+                className="py-1 px-4 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-xs text-darkGray font-semibold shadow-lg transition duration-300 ease-in-out"
                 onClick={() => {
                   navigate('/project');
                 }}
@@ -107,43 +124,40 @@ function MainDashboard() {
             <MyProjects data={myProjects} loading={myProjectsLoading}/>
           </div>
           {/* 여기는 최근 폴더 부분 */}
-          <div>
-            <div className="flex justify-between items-start">
+          <div className='pb-10'>
+            <div className="flex justify-between items-start pb-5">
               <DashboardTitle title="Notice" />
-              <button className="py-1 px-4 h-10 bg-lightGray rounded-xl text-xs text-darkGray font-semibold shadow-lg">
+              <button className="py-1 px-4 h-10 bg-gray-100 hover:bg-gray-200 rounded-xl text-xs text-darkGray font-semibold shadow-lg transition duration-300 ease-in-out">
                 view all
               </button>
             </div>
-            <div className="rounded-3xl bg-gray-100 h-20 hover:bg-mainBlue transition flex items-center justify-center my-2 shadow-lg">
-              <img src={temp} className="px-5"></img>
-              <div className="w-96">알림내용</div>
-              <div className="px-6">프로젝트명</div>
-              <div className="px-6">아바타/사용자명</div>
-              <div className="px-6">일자</div>
-              <div className="px-6">자세히보기</div>
-            </div>
-            <div className="rounded-3xl bg-gray-100 h-20 hover:bg-mainBlue transition flex items-center justify-center my-2 shadow-lg">
-              <img src={temp} className="px-5"></img>
-              <div className="w-96">하이 애자일 프로젝트 ㅎㅎㅎㅎ</div>
-              <div className="px-6">12 Nov 2023</div>
-              <div className="px-6">3,000₩</div>
-              <div className="px-6">hello there</div>
-              <div className="px-6">hello</div>
-            </div>
-            <div className="rounded-3xl bg-gray-100 h-20 hover:bg-mainBlue transition flex items-center justify-center my-2 shadow-lg">
-              <img src={temp} className="px-5"></img>
-              <div className="w-96">하이 애자일 프로젝트 ㅎㅎㅎㅎ</div>
-              <div className="px-6">12 Nov 2023</div>
-              <div className="px-6">3,000₩</div>
-              <div className="px-6">hello there</div>
-              <div className="px-6">hello</div>
+            <div className='overflow-scroll' style={{"height":"500px"}}>
+            {
+              noticesLoading 
+              ? 
+              <div>loading</div> 
+              : 
+                notices?.getNotices.notices && notices?.getNotices.notices.map((notice) => {
+                  return (
+                    <div key={notice.id} className="rounded-lg h-20 hover:bg-gray-100 transition duration-300 ease-in-out flex justify-between items-center my-4 shadow-lg">
+                      <div className='flex items-center'>
+                        <div className="px-16">
+                          <img className='h-16 w-16' src={"https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/a0949a56-bdc7-4c68-4afb-057c08b2c100/public"} alt="notice"></img>
+                        </div>
+                        <div className="px-12">{notice.description}</div>
+                      </div>
+                      <div className="px-12">{notice.createAt.substr(0,10)}</div>
+                    </div>
+                  )
+                })
+            }
             </div>
           </div>
         </div>
         {/* 여기는 오른쪽 사이드 바 */}
         <div className="hidden lg:block w-4/12 bg-bgBlue px-4">
           <div className="pt-28 pb-8">
-            <DashboardTitle title="Calendar" />
+            <DashboardTitle title="Calendar"/>
             <Calendar
               goToRangeStartOnSelect
               onChange={setDates}
@@ -155,6 +169,28 @@ function MainDashboard() {
             />
           </div>
           <DashboardTitle title="Your Task" />
+          <div className='overflow-scroll' style={{"height":"1000px"}}>
+          {
+            myProjects?.getProjects.projects?.map((project) => {
+              const sprints = project.sprints;
+              return (
+                sprints.map((sprint) => {
+                  return (
+                    <div key={sprint.id} className="rounded-lg h-20 hover:bg-gray-100 transition duration-300 ease-in-out flex justify-between items-center my-4 shadow-lg">
+                      <div className='flex items-center'>
+                        <div className="px-16">
+                          <img className='h-16 w-16' src={"https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/51994bb5-2349-4c7a-6b30-473360d1ba00/public"} alt="notice"></img>
+                        </div>
+                        <div className="px-12">{sprint.purpose}</div>
+                      </div>
+                      <div className="px-12">{sprint.startDate.substr(0,10)}</div>
+                    </div>
+                  )
+                })
+              )
+            })
+          }
+          </div>
         </div>
       </div>
     </>

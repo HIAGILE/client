@@ -6,7 +6,6 @@ export const Process: React.FC = () => {
   useEffect(() => {
     setPathname(pathname.slice(1).toUpperCase());
   }, []);
-  console.log(window.location.pathname);
 
   return (
     <>

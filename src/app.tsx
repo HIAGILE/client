@@ -10,7 +10,7 @@ import { UserRole } from '__generated__/globalTypes';
 export const App = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data: myProfile, loading: myProfileLoading } = useMe();
-  const me = meVar(myProfile);
+  //const me = meVar(myProfile);
 
   return (
     <>

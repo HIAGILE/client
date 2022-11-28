@@ -33,6 +33,7 @@ export const GET_FRIENDS_QUERY = gql`
         name
         role
         verified
+        profileUrl
       }
     }
   }
@@ -48,7 +49,6 @@ function AddMembers() {
   // console.log(meQueryVar);
   const params = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  console.log(params.projectId);
   const { data: myProfile, loading: myProfileLoading } = useMe();
   const { data: myFriends, loading: myFriendsLoading } = useQuery<
     getFriends,
@@ -201,7 +201,7 @@ function AddMembers() {
       <Helmet>
         <title>Add Memebers | Hi Agile</title>
       </Helmet>
-      <p className="font-bold text-3xl h-16">Create New Project</p>
+      <p className="font-bold text-3xl h-16">Add Members</p>
       <div className="flex justify-center items-center">
         <select
           className="w-64 rounded-md p-4 h-96 shadow-xl outline-0 outline-purple-500"

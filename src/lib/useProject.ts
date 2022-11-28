@@ -29,6 +29,14 @@ export const GET_PROJECTS_QUERY = gql`
           endDate
           period
           purpose
+          toDoList {
+            id
+            createAt
+            updateAt
+            title
+            description
+            status
+          }
         }
         members {
           id
@@ -51,6 +59,6 @@ export const useProject = (id: number) => {
         id: id,
       },
     },
-    // pollInterval: 500,
+    //pollInterval: 500,
   });
 };

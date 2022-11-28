@@ -44,7 +44,7 @@ const ProfileMenu = () => {
       <ol className="absolute top-16 right-0 w-[160px] mt-1 shadow-lg bg-white rounded-lg overflow-hidden">
         {menus.map((menu) => (
           <Link to={menu.link} className="text-darkGray" key={menu.title}>
-            <li className="hover:bg-middleBlue transition px-4 py-2 w-full text-center text-sm text-darkGray border-2 border-lightGray">
+            <li className="hover:bg-middleBlue transition duration-300 ease-in-out px-4 py-2 w-full text-center text-sm text-darkGray border-2 border-lightGray">
               {menu.title}
             </li>
           </Link>

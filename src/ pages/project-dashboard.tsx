@@ -1,10 +1,11 @@
-import { useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import { useProject } from 'lib/useProject';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getProjects, getProjectsVariables } from '__generated__/getProjects';
 import { ProjectRole } from '__generated__/globalTypes';
+
 
 export const ProjectDashboard = () => {
   const { data: myProjects, loading: myProjectsLoading } = useProject(0)
@@ -99,7 +100,7 @@ export const ProjectDashboard = () => {
             return index % 3 == 0 ? (
               <div key={project.id}>
                 <div
-                  className="bg-red-400 hover:bg-red-500 h-72 w-96 m-10 relative rounded-3xl shadow-2xl hover:scale-105 transition"
+                  className="bg-red-400 hover:bg-red-500 h-72 w-96 m-10 relative rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out"
                   onClick={() => {
                     navigate(`/project/${project.id}`);
                   }}
@@ -140,7 +141,7 @@ export const ProjectDashboard = () => {
             ) : index % 3 == 1 ? (
               <div key={project.id}>
                 <div
-                  className="bg-blue-400 hover:bg-blue-500 h-72 w-96 m-10 rounded-3xl shadow-2xl hover:scale-105 transition"
+                  className="bg-blue-400 hover:bg-blue-500 h-72 w-96 m-10 rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out"
                   onClick={() => {
                     navigate(`/project/${project.id}`);
                   }}
@@ -181,7 +182,7 @@ export const ProjectDashboard = () => {
             ) : (
               <div key={project.id}>
                 <div
-                  className="bg-green-400 hover:bg-green-500 h-72 w-96 m-10 rounded-3xl shadow-2xl hover:scale-105 transition"
+                  className="bg-green-400 hover:bg-green-500 h-72 w-96 m-10 rounded-3xl shadow-2xl hover:scale-105 transition duration-300 ease-in-out"
                   onClick={() => {
                     navigate(`/project/${project.id}`);
                   }}
