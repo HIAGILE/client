@@ -4,7 +4,7 @@ module.exports = {
     tagName: 'gql',
     service: {
       name: 'hi-agile',
-      url: 'http://hi-agile.herokuapp.com/graphql',
+      url: 'https://hi-agile.herokuapp.com/graphql',
     },
   },
 };
