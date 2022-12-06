@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ProjectRole } from '../../__generated__/globalTypes';
-import { gql, useQuery } from '@apollo/client';
-import { getProjects, getProjectsVariables } from '__generated__/getProjects';
+import { getProjects } from '__generated__/getProjects';
+import LoadingProject from './loading-project';
 
 type Props = {
   data: getProjects | undefined;
@@ -14,11 +14,11 @@ const MyProjects = ({
   loading: myProjectsLoading,
 }: Props) => {
   const navigate = useNavigate();
-
   return (
     <div className="grid grid-cols-3 gap-10 w-full my-5">
       {(myProjectsLoading && <LoadingProject />) ||
         (myProjects?.getProjects.projects &&
+          myProjects?.getProjects.projects?.length > 0 &&
           myProjects?.getProjects.projects.map((project, index) => {
             if (index === 0) {
               return (
@@ -165,91 +165,14 @@ const MyProjects = ({
                 </div>
               );
             }
-          })) || <p className="ml-2 text-sm">생성한 프로젝트가 없습니다.</p>}
+          })) ||
+        (myProjects?.getProjects.projects?.length === 0 && (
+          <p className="w-full ml-2 text-sm text-darkBlue">
+            생성한 프로젝트가 없습니다.
+          </p>
+        ))}
     </div>
   );
 };
 
 export default MyProjects;
-
-const LoadingProject = () => {
-  return (
-    <>
-      <div className="bg-mainRed rounded-md p-4 max-w-sm w-full mx-auto shadow-2xl">
-        <div className="animate-pulse flex space-x-4">
-          <div className="flex-1 space-y-6 py-1">
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-5">
-              <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="bg-mainBlue rounded-md p-4 max-w-sm w-full mx-auto  shadow-2xl">
-        <div className="animate-pulse flex space-x-4">
-          <div className="flex-1 space-y-6 py-1">
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-5">
-              <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="bg-mainGreen rounded-md p-4 max-w-sm w-full shadow-2xl">
-        <div className="animate-pulse flex space-x-4">
-          <div className="flex-1 space-y-6 py-1">
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="grid grid-cols-4 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-3"></div>
-                <div className="h-4 rounded col-span-1"></div>
-              </div>
-            </div>
-            <div className="space-y-5">
-              <div className="rounded-full bg-slate-200 h-10 w-10"></div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-                <div className="h-4 bg-slate-200 rounded col-span-2"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
