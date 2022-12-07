@@ -1,4 +1,5 @@
-import React from 'react';
+import { changeDate } from 'lib/changeDate';
+import React, { useEffect, useState } from 'react';
 import { getNotices } from '__generated__/getNotices';
 
 type MainNoticeProps = {
@@ -8,31 +9,25 @@ type MainNoticeProps = {
 
 const MainNotice = ({ loading, notices }: MainNoticeProps) => {
   return (
-    <div className="overflow-scroll" style={{ height: '500px' }}>
+    <div className="overflow-scroll h-[300px]">
       {loading ? (
         <div>loading</div>
       ) : (
         notices?.getNotices.notices &&
-        notices?.getNotices.notices.map((notice) => {
+        notices?.getNotices.notices?.map((notice) => {
           return (
-            <div
+            <p
               key={notice.id}
-              className="rounded-lg h-20 hover:bg-gray-100 transition duration-300 ease-in-out flex justify-between items-center my-4 shadow-lg"
+              className="bg-white border-2 border-lightGray rounded-xl my-4 p-4 flex items-center shadow-lg"
             >
-              <div className="flex items-center">
-                <div className="px-16">
-                  <img
-                    className="h-16 w-16"
-                    src={
-                      'https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/a0949a56-bdc7-4c68-4afb-057c08b2c100/public'
-                    }
-                    alt="notice"
-                  ></img>
-                </div>
-                <div className="px-12">{notice.description}</div>
-              </div>
-              <div className="px-12">{notice.createAt.substr(0, 10)}</div>
-            </div>
+              <span className="w-1/6 text-xs font-semibold text-mainRed">
+                New
+              </span>
+              <span className="w-4/6 text-xs">{notice.description}</span>
+              <span className="w-1/6 text-xs">
+                {changeDate(notice.createAt)}
+              </span>
+            </p>
           );
         })
       )}

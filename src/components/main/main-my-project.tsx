@@ -6,6 +6,7 @@ import {
   getProjects_getProjects_projects,
 } from '__generated__/getProjects';
 import LoadingProject from './loading-project';
+import { changeDate } from 'lib/changeDate';
 
 type Props = {
   data: getProjects | undefined;
@@ -98,7 +99,7 @@ const ProjectBlock = ({ project, color }: ProjectBlockProps) => {
         })}
       </p>
       <p className="text-darkGray text-sm">
-        Create date : {project.createAt.substr(0, 10).replaceAll('-', '.')}
+        Create date : {changeDate(project.createAt)}
       </p>
       <p className="text-darkGray text-sm">
         Currently tasks : {project?.sprints.length}
