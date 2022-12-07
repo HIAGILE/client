@@ -51,6 +51,7 @@ export const FriendsDashboard = () => {
             setAllUsers(data.allUsers.users ?? []);
             setmyFriends(data.allUsers.friends ?? []);
         }
+        ,pollInterval: 1000,
     },
     );
 
@@ -90,7 +91,7 @@ export const FriendsDashboard = () => {
             <Helmet>
                 <title>Friends Dashboard | Hi Agile</title>
             </Helmet>
-            <p className="font-bold text-3xl h-16">Search Friends</p>
+            <p className="font-bold text-lg h-16">Search Friends</p>
             <div className="flex flex-wrap">
                 {
                     myUsersLoading
@@ -101,36 +102,38 @@ export const FriendsDashboard = () => {
                             <div className="flex flex-col items-center">
                                 <input onChange={(e) => {
                                     setInputName(e.target.value);
-                                }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-lg border-2 border-gray-100 rounded-lg w-96 h-12 text-md outline-none"></input>
-                                <div style={{ "height": "600px" }} className="bg-white shadow-md">
+                                }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-md border border-zinc-200 rounded-md w-96 h-12 text-sm outline-none"></input>
+                                <div style={{ "height": "600px" }} className="bg-white shadow-md border border-zinc-200 rounded-md">
                                     {
                                         allUsers.map((user, index) => {
                                             return (
 
                                                 user.name !== "" && user.name.includes(inputName) ?
-                                                    <div key={user.id} className="relative flex w-96 h-16 bg-white shadow-lg rounded-lg m-2">
+                                                    <div key={user.id} className="relative border border-zinc-200 flex w-96 h-16 bg-white shadow-md rounded-md m-2">
                                                         <div className="flex justify-center items-center h-full px-2">
-                                                            <img src={user.profileUrl} alt="profileImg" className="w-10 h-10"></img>
+                                                            <img src={user.profileUrl} alt="profileImg" className="w-10 h-10 rounded-full"></img>
                                                         </div>
-                                                        <div className="flex flex-col p-2">
-                                                            <p className="text-lg">{user.name}</p>
+                                                        <div className="flex flex-col p-2 text-sm">
+                                                            <p >{user.name}</p>
                                                             <p>{user.email}</p>
                                                         </div>
-                                                        <div className="absolute right-0 flex justify-center items-center h-full px-2">
+                                                        <div className="absolute text-xs right-0 flex justify-center items-center h-full px-2">
                                                             {
                                                                 myFriends.find((friend) => friend.friendId === user.id && friend.verified === true)
                                                                     ?
-                                                                    <button onClick={() => {onSubmit(user.id)}} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                                                    <button onClick={() => {
+                                                                        onSubmit(user.id)
+                                                                    }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
                                                                         팔로워
                                                                     </button>
                                                                     :
                                                                         myFriends.find((friend) => friend.friendId === user.id && friend.verified !== true) 
                                                                         ?
-                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
                                                                             친구 요청 중
                                                                         </button>
                                                                         :
-                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
                                                                             팔로우
                                                                         </button>
                                                             }

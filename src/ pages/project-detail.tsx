@@ -257,7 +257,8 @@ export function ProjectDetail(){
               sprintId: parseInt(selectSprint.toString().trim()),
               title : title,
               description : description,
-              status: status === "TODO" ? ToDoListStatus.TODO : status === "INPROGRESS" ? ToDoListStatus.INPROGRESS : ToDoListStatus.DONE
+              status: status === "TODO" ? ToDoListStatus.TODO : status === "INPROGRESS" ? ToDoListStatus.INPROGRESS : ToDoListStatus.DONE,
+              memberId: checkMembers.join(",")
             },
           },
         });
@@ -359,7 +360,7 @@ export function ProjectDetail(){
                       }
                      </div>
                   </div>
-                     <div className="relative flex justify-between items-center">
+                  <div className="relative flex justify-between items-center">
                       <p className="px-4 py-2 text-sm text-black">
                           할 일
                       </p>
@@ -376,7 +377,7 @@ export function ProjectDetail(){
                         }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-100 transition duration-300 ease-in-out" type="button">추가하기</button>
                       </div>
                      </div>
-                     <div className="shadow-md bg-white px-8 my-2 py-4" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
+                  <div className="shadow-md bg-white px-8 my-2 py-4" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
                       <div className="overflow-scroll h-80">
                         {
                           myProject?.getProject.project?.sprints.map((sprint,index) =>{
