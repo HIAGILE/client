@@ -1,3 +1,4 @@
+import { changeDate } from 'lib/changeDate';
 import React from 'react';
 import { getProjects_getProjects_projects } from '__generated__/getProjects';
 
@@ -22,7 +23,7 @@ const MainTasks = ({
                 <span className="w-2/6 text-xs">{todo.title}</span>
                 <span className="w-2/6 text-xs">{todo.description}</span>
                 <span className="w-1/6 text-xs">
-                  {sprint.startDate.substr(0, 10).replaceAll('-', '.')}
+                  {changeDate(sprint.startDate)}
                 </span>
               </p>
             );

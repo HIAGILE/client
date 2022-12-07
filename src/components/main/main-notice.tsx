@@ -1,3 +1,4 @@
+import { changeDate } from 'lib/changeDate';
 import React, { useEffect, useState } from 'react';
 import { getNotices } from '__generated__/getNotices';
 
@@ -24,7 +25,7 @@ const MainNotice = ({ loading, notices }: MainNoticeProps) => {
               </span>
               <span className="w-4/6 text-xs">{notice.description}</span>
               <span className="w-1/6 text-xs">
-                {notice.createAt.substr(0, 10).replaceAll('-', '.')}
+                {changeDate(notice.createAt)}
               </span>
             </p>
           );
