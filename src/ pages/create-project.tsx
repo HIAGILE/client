@@ -123,7 +123,9 @@ export function CreateProject() {
       <p className="font-bold text-3xl h-16">Create New Project{agileCode ? `(${agileCode})`: ""}</p>
       <div className="flex flex-wrap">
         {!agileCode &&
-          selectedAgile.map((agile) => (
+          selectedAgile.map((agile,index) => (
+            index === 0 ?
+            (
             <div key={agile.code} className="max-w-xs m-3 hover:scale-105 hover:bg-gray-100 transition duration-300 ease-in-ou rounded-md overflow-hidden shadow-lg" onClick={() => {
               getAgileCode(agile.code);
             }}>
@@ -144,6 +146,28 @@ export function CreateProject() {
                 }
               </div>
             </div>
+            )
+            :
+            (
+              <div key={agile.code} className="max-w-xs m-3 hover:scale-105 hover:bg-gray-100 transition duration-300 ease-in-ou rounded-md overflow-hidden shadow-lg" onClick={() => {alert("준비 중입니다 ✅")}}>
+                <img className="w-full" src="https://imagedelivery.net/6qzLODAqs2g1LZbVYqtuQw/9f5d38d5-0fb4-4dfb-f6e3-a39397620700/public" alt="Sunset in the mountains"></img>
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2">{agile.name}</div>
+                  <p className="text-gray-700 text-base">
+                    {agile.description}
+                  </p>
+                </div>
+                <div className="px-6 pt-4 pb-2">
+                  {
+                    agile.tag.map((tag) => {
+                      return (
+                        <span key={tag} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{tag}</span>
+                      )
+                    })
+                  }
+                </div>
+              </div>
+            )
           ))}
       </div>
       {

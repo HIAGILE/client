@@ -146,6 +146,8 @@ export function ProjectDetail(){
     const [toDoListSelectBox, setToDoListSelectBox] = useState(1);
     const [addType, setAddType] = useState(0);
     const [selectSprint,setSelectSprint] = useState(-1);
+    const [checkMembers, setCheckMembers] = useState<number[]>([]);
+    const [checkMembersPass, setCheckMembersPass] = useState<boolean>(false);
     const {
       register : sprintRegister,
       getValues : sprintGetValues,
@@ -267,106 +269,19 @@ export function ProjectDetail(){
             <Helmet>
                 <title>Project Dashboard | Hi Agile</title>
             </Helmet>
-            <p className="font-bold text-3xl h-10">
-              Project Detail</p>
+            <p className="text-md py-4">{myProject?.getProject.project?.name}</p>
             {
               myProjectLoading ?
               <h1>Loading...</h1>
               :
               <div className="flex flex-wrap">
-                <div className="w-5/12 px-10">
-                  <div>
-                  <p className="p-4 text-xl font-bold text-black">
-                      프로젝트 종류</p>
-                    <div className="px-8 text-md h-16 flex justify-start items-center bg-white text-black rounded-lg">{myProject?.getProject.project?.code}</div>
-                  </div>
-                  <div>
-                  <p className="p-4 text-xl font-bold text-black">
-                      프로젝트명</p>
-                    <div className="px-8 text-md h-16 flex justify-start items-center bg-white text-black rounded-lg">{myProject?.getProject.project?.name}</div>
-                  </div>
-                  <div>
-                  <p className="p-4 text-xl font-bold text-black">
-                      프로젝트 리더</p>
-                    <div className="text-lg flex justify-start items-center w-full">
-                      {
-                        myProject?.getProject.project?.members.map((member,index) =>{
-                          return  (
-                            member.role === ProjectRole.Leader ?
-                            <div key={member.id} className="max-w-sm w-full lg:max-w-full lg:flex">
-                              <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{"backgroundImage":`url(${member.user.profileUrl})`}} title="Woman holding a mug">
-                              </div>
-                              <div className="lg:w-72 md:w-72 shadow-lg bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                                <div className="mb-8">
-                                  <p className="text-sm text-gray-600 flex items-center">
-                                    Hi Agile!
-                                  </p>
-                                  <div className="text-gray-900 font-bold text-xl mb-2">{member.user.name}</div>
-                                  <p className="text-gray-700 text-base">프로젝트 리더</p>
-                                </div>
-                                <div className="flex items-center">
-                                  <img className="w-10 h-10 rounded-full mr-4" src={hiAgileLogo} alt="Avatar of Jonathan Reinink"></img>
-                                  <div className="text-sm">
-                                    <p className="text-gray-900 leading-none">{member.user.email}</p>
-                                    <p className="text-gray-600">{member.user.verified  ? "인증완료" : "미인증"}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            :
-                            null
-                          )
-                        })
-                      }
-                    </div>
-                  </div>
-                  <div>
-                  <p className="p-4 text-xl font-bold text-black">
-                      프로젝트 구성원</p>
-                    <div className="text-lg flex flex-col justify-start items-center w-full">
-                      {
-                        myProject?.getProject.project?.members.map((member,index) =>{
-                          return  (
-                            member.role === ProjectRole.member ?
-                            <div key={member.id} className="max-w-sm w-full lg:max-w-full lg:flex mb-4">
-                              <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style={{"backgroundImage":`url(${member.user.profileUrl})`}} title="Woman holding a mug">
-                              </div>
-                              <div className="lg:w-72 md:w-72 shadow-lg bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
-                                <div className="mb-8">
-                                  <p className="text-sm text-gray-600 flex items-center">
-                                    Hi Agile!
-                                  </p>
-                                  <div className="text-gray-900 font-bold text-xl mb-2">{member.user.name}</div>
-                                  <p className="text-gray-700 text-base">프로젝트 리더</p>
-                                </div>
-                                <div className="flex items-center">
-                                  <img className="w-10 h-10 rounded-full mr-4" src={hiAgileLogo} alt="Avatar of Jonathan Reinink"></img>
-                                  <div className="text-sm">
-                                    <p className="text-gray-900 leading-none">{member.user.email}</p>
-                                    <p className="text-gray-600">{member.user.verified  ? "인증완료" : "미인증"}</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            :null
-                          )
-                        })
-                      }
-                    </div>
-                  </div>
-                  <div className="mb-10">
-                    <p className="p-4 text-xl font-bold text-black">
-                      프로젝트 생성일자</p>
-                    <div className="px-8 text-md h-16 flex justify-start items-center bg-white text-black rounded-lg">{myProject?.getProject.project?.createAt.substr(0,10)}</div>
-                  </div>
-                </div>
                 <div className="w-5/12">
                   <div className="relative flex justify-between items-center">
-                    <p className="p-4 text-xl font-bold text-black">
+                    <p className="px-4 py-2 text-sm text-black">
                       스프린트
                     </p>
                     <div className="absolute right-0">
-                      <select className="px-2 py-1 border border-gray-500 rounded mx-2 outline-none" onChange={(e)=>{
+                      <select style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 text-xs py-1 rounded mx-2 outline-none" onChange={(e)=>{
                         setSprintSelectBox(parseInt(e.target.value));
                         
                       }} defaultValue="1">
@@ -376,10 +291,10 @@ export function ProjectDetail(){
                       <button onClick={()=>{
                         openModal();
                         setAddType(1)
-                      }}  className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-100 transition duration-300 ease-in-out" type="button">추가하기</button>
                     </div>
                   </div>
-                  <div className="shadow-lg bg-white px-8 my-2 py-4">
+                  <div className="shadow-md bg-white px-8 my-2 py-4" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
                   <div className="overflow-scroll h-60">
                       {
                         myProject?.getProject.project?.sprints.map((sprint,index) =>{
@@ -395,15 +310,23 @@ export function ProjectDetail(){
                             (
                               (startDate < now && endDate > now) 
                               ?
-                              <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
-                                <div className="flex justify-between items-center">
-                                  <div className="flex flex-col">
-                                    <div className="text-xl ">{sprint.purpose}</div>
-                                    <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
+                              <div key={sprint.id} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="hover:bg-zinc-50 transition duration-200 ease-in-out text-black flex flex-col my-2 p-4 rounded-md shadow-md">
+                                <div className="flex flex-col justify-center items-center px-4 text-xs">
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                    <div>스프린트 목적</div>
+                                    <div>{sprint.purpose}</div>
                                   </div>
-                                  <div className="flex flex-col">
-                                    <div className="text-xl ">진행률 : {progressPercent} %</div>
-                                    <div className="text-xl ">주기 : {sprint.period}주일</div>
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                  <div>스프린트 기간</div>
+                                    <div>{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>                            
+                                    </div>
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                  <div>스프린트 진행율</div>
+                                    <div>{progressPercent} %</div>
+                                    </div>
+                                  <div className="flex justify-between items-center w-full py-2">
+                                    <div>스프린트 주기</div>
+                                    <div className="text-sm ">{sprint.period}주일</div>
                                   </div>
                                 </div>
                               </div>
@@ -411,25 +334,33 @@ export function ProjectDetail(){
                               null
                             )
                             :
-                              <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-white flex flex-col my-2 p-4 rounded-lg shadow-md">
-                                <div className="flex justify-between items-center">
-                                  <div className="flex flex-col">
-                                    <div className="text-xl ">{sprint.purpose}</div>
-                                    <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
+                            <div key={sprint.id} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="hover:bg-zinc-50 transition duration-200 ease-in-out text-black flex flex-col my-2 p-4 rounded-md shadow-md">
+                              <div className="flex flex-col justify-center items-center px-4 text-xs">
+                                <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                  <div>스프린트 목적</div>
+                                  <div>{sprint.purpose}</div>
+                                </div>
+                                <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                <div>스프린트 기간</div>
+                                  <div>{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>                            
                                   </div>
-                                  <div className="flex flex-col">
-                                    <div className="text-xl ">진행률 : {progressPercent} %</div>
-                                    <div className="text-xl ">주기 : {sprint.period}주일</div>
+                                <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                <div>스프린트 진행율</div>
+                                  <div>{progressPercent} %</div>
                                   </div>
+                                <div className="flex justify-between items-center w-full py-2">
+                                  <div>스프린트 주기</div>
+                                  <div className="text-sm ">{sprint.period}주일</div>
                                 </div>
                               </div>
+                            </div>
                           )
                         })
                       }
                      </div>
                   </div>
                      <div className="relative flex justify-between items-center">
-                      <p className="px-4 py-2 text-xl font-bold text-black">
+                      <p className="px-4 py-2 text-sm text-black">
                           할 일
                       </p>
                       <div className="absolute right-0">
@@ -442,10 +373,10 @@ export function ProjectDetail(){
                         <button onClick={()=>{
                           openModal();
                           setAddType(2)
-                        }} className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type="button">추가하기</button>
+                        }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-100 transition duration-300 ease-in-out" type="button">추가하기</button>
                       </div>
                      </div>
-                     <div className="shadow-lg bg-white px-8 my-2 py-4">
+                     <div className="shadow-md bg-white px-8 my-2 py-4" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
                       <div className="overflow-scroll h-80">
                         {
                           myProject?.getProject.project?.sprints.map((sprint,index) =>{
@@ -453,16 +384,23 @@ export function ProjectDetail(){
                             return (
                               toDoList.map((toDo,index) =>{
                                 return(
-                                  <div key={toDo.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
-                                    <div className="flex justify-between items-center">
-                                      <div className="flex flex-col">
-                                        <div className="text-xl ">{toDo.title}</div>
-                                        <div className="text-xl ">{toDo.description}</div>
+                                  <div key={toDo.id} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-md shadow-md">
+                                    <div className="flex flex-col justify-center items-center px-4 text-xs">
+                                      <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                        <div>할 일 목적</div>
+                                        <div>{toDo.title}</div>
                                       </div>
-                                      <div className="flex flex-col">
-                                        <div className="text-xl ">상태 : {toDo.status}</div>
-                                        <div className="text-xl ">생성일 : {toDo.createAt.substr(0,10)}
+                                      <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                      <div>할 일 내용</div>
+                                        <div>{toDo.description}</div>                            
                                         </div>
+                                      <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                      <div>할 일 상태</div>
+                                        <div>{toDo.status}</div>
+                                        </div>
+                                      <div className="flex justify-between items-center w-full py-2">
+                                        <div>할 일 생성일</div>
+                                        <div className="text-sm ">{toDo.createAt.substr(0,10)}</div>
                                       </div>
                                     </div>
                                   </div>
@@ -472,6 +410,80 @@ export function ProjectDetail(){
                         }
                       </div>
                     </div>
+                </div>
+                <div className="w-5/12 px-10">
+                  <div>
+                   <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 종류</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.code}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트명</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.name}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      Github</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.githubURL}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 매니저</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.owner.name}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 매니저 이메일</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.owner.email}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      현재 스프린트 개수</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.sprints.length}</div>
+                  </div>
+                  <div>
+                  <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 리더</p>
+                    <div className="px-8 py-4 text-lg flex justify-start items-center w-full rounded-md" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
+                      {
+                        myProject?.getProject.project?.members.map((member,index) =>{
+                          return  (
+                            member.role === ProjectRole.Leader ?
+                            <div key={member.id} className="flex flex-col items-center justify-center">
+                              <img className="w-10 h-10 rounded-full" src={member.user.profileUrl} alt="Avatar of Jonathan Reinink"></img>
+                              <div className="text-gray-900 font-light text-xs">{member.user.name}</div>
+                            </div>
+                            :
+                            null
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                  <div>
+                    <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 구성원</p>
+                    <div className="px-8 py-4 flex justify-start items-center w-full rounded-md" style={{border:"1px solid rgba(220,220,220,0.8)"}}>
+                      {
+                        myProject?.getProject.project?.members.map((member,index) =>{
+                          return  (
+                            member.role === ProjectRole.member ?
+                            <div key={member.id} className="flex flex-col items-center justify-center mr-4">
+                              <img className="w-10 h-10 rounded-full" src={member.user.profileUrl} alt="Avatar of Jonathan Reinink"></img>
+                              <div className="text-gray-900 font-light text-xs">{member.user.name}</div>
+                            </div>
+                            :null
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                  <div className="mb-10">
+                    <p className="px-4 py-2 text-sm text-zinc-500">
+                      프로젝트 생성일자</p>
+                    <div style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-8 text-xs py-2 flex justify-start items-center bg-white text-black rounded-md">{myProject?.getProject.project?.createAt.substr(0,10)}</div>
+                  </div>
                 </div>
               </div>
             }
@@ -485,25 +497,25 @@ export function ProjectDetail(){
                   ?
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                      <p className="text-xl">스프린트 추가</p>
-                      <button onClick={closeModal} className="text-2xl">X</button>
+                      <p className="text-sm py-1">스프린트 추가</p>
+                      <button onClick={closeModal} className="text-md hover:bg-zinc-200 p-1 rounded-full">X</button>
                     </div>
                     <form className="flex flex-col" onSubmit={sprintHandleSubmit(onSubmitSprint)}>
-                        <label className="text-lg my-2">목적</label>
-                        <input {...sprintRegister("purpose")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">목적</label>
+                        <input {...sprintRegister("purpose")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="text"/>
-                        <label className="text-lg my-2">시작일</label>
-                        <input {...sprintRegister("startDate")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">시작일</label>
+                        <input {...sprintRegister("startDate")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="date" />
-                        <label className="text-lg my-2">종료일</label>
-                        <input {...sprintRegister("endDate")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">종료일</label>
+                        <input {...sprintRegister("endDate")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="date"
                         />
-                        <label className="text-lg my-2">주기</label>
-                        <input {...sprintRegister("period")} required className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">주기</label>
+                        <input {...sprintRegister("period")} required className="mb-4 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="number"
                         />
-                        <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
+                        <button style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
                     </form>
                   </div>
                   :
@@ -513,8 +525,13 @@ export function ProjectDetail(){
                   ?
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                      <p className="text-xl">스프린트 선택</p>
-                      <button onClick={closeModal} className="text-2xl">X</button>
+                      <p className="text-sm py-1">스프린트 선택</p>
+                      <button onClick={()=>{
+                        setSelectSprint(-1)
+                        setCheckMembers([]);
+                        setCheckMembersPass(false);
+                        closeModal();
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="mr-2 px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">X</button>
                     </div>
                     {
                       myProject?.getProject.project?.sprints.map((sprint,index) =>{
@@ -528,51 +545,109 @@ export function ProjectDetail(){
                           
                             (startDate < now && endDate > now) 
                             ?
-                            <div key={sprint.id} className="hover:bg-gray-100 transition duration-300 ease-in-out text-black flex flex-col my-2 p-4 rounded-lg shadow-md">
-                              <div className="flex justify-between items-center">
-                                <div className="flex flex-col">
-                                  <div className="text-xl ">{sprint.purpose}</div>
-                                  <div className="text-xl ">{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>
-                                </div>
-                                <div className="flex flex-col">
-                                  <div className="text-xl ">진행률 : {progressPercent} %</div>
-                                  <div className="text-xl ">주기 : {sprint.period}주일</div>
-                                </div>
-                                <div>
+                            <div key={sprint.id} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="text-black flex flex-col my-2 p-4 rounded-md shadow-md">
+                                <div className="flex flex-col justify-center items-center px-4 text-xs">
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                    <div>스프린트 목적</div>
+                                    <div>{sprint.purpose}</div>
+                                  </div>
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                  <div>스프린트 기간</div>
+                                    <div>{sprint.startDate.substr(0,10)} ~ {sprint.endDate.substr(0,10)}</div>                            
+                                    </div>
+                                  <div className="flex justify-between items-center w-full py-2" style={{borderBottom:"1px solid rgba(220,220,220,0.8)"}}>
+                                  <div>스프린트 진행율</div>
+                                    <div>{progressPercent} %</div>
+                                    </div>
+                                  <div className="flex justify-between items-center w-full py-2">
+                                    <div>스프린트 주기</div>
+                                    <div className="text-sm ">{sprint.period}주일</div>
+                                  </div>
+                                  <div>
                                   <button onClick={() =>{setSelectSprint(sprint.id)}}
-                                  className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out">선택</button>
+                                    style={{border:"1px solid rgba(220,220,220,0.8)"}} className="w-full px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">선택</button>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
                             :
                             null 
                         )})
                     }
                   </div> 
                   :
+                  //  TODO: 여기서는 멤버 선택 구현 필요
+                  !checkMembersPass
+                  ?
                   <div className="flex flex-col">
                     <div className="flex justify-between items-center">
-                      <p className="text-xl">할 일 추가</p>
+                      <p className="text-sm py-1 mb-5">스프린트 선택</p>
+                      <span className="mx-auto"></span>
+                      <button onClick={() => {
+                        setSelectSprint(-1)
+                        setCheckMembers([]);
+                        setCheckMembersPass(false);
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="mr-2 px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">이전</button>
+                      <button onClick={() => {
+                        setCheckMembersPass(true);
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="mr-2 px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">다음</button>
                       <button onClick={()=>{
-                        setSelectSprint(-1);
+                        setSelectSprint(-1)
+                        setCheckMembers([]);
+                        setCheckMembersPass(false);
                         closeModal();
-                      }} className="text-2xl">X</button>
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="mr-2 px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">X</button>
+                    </div>
+                    {
+                      myProject?.getProject.project?.members.map((member) => {
+                        return(
+                          <div key={member.id} className="flex justify-between items-center text-sm py-1 px-2">
+                            <div className="flex items-center">
+                              <img src={member.user.profileUrl} className="w-8 h-8 rounded-full mr-2"></img>
+                              <div>{member.user.name}</div>
+                            </div>
+                            <input type={"checkbox"} onClick={() => {
+                              if(checkMembers.includes(member.id)){
+                                setCheckMembers(checkMembers.filter((id) => id !== member.id));
+                              }else{
+                                setCheckMembers([...checkMembers, member.id]);
+                              }
+                            }}></input>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                  :
+                  <div className="flex flex-col">
+                    <div className="flex justify-between items-center">
+                    <p className="text-sm py-1">할 일 추가</p>
+                    <span className="mx-auto"></span>
+                      <button onClick={() => {
+                        setCheckMembers([]);
+                        setCheckMembersPass(false);
+                      }} style={{border:"1px solid rgba(220,220,220,0.8)"}} className="mr-2 px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out">이전</button>
+                      <button onClick={()=>{
+                        setSelectSprint(-1)
+                        setCheckMembers([]);
+                        setCheckMembersPass(false);
+                        closeModal();
+                      }} className="text-md hover:bg-zinc-200 p-1 rounded-full">X</button>
                     </div>
                     <form className="flex flex-col" onSubmit={toDoListHandleSubmit(onSubmitToDoList)}>
-                        <label className="text-lg">제목</label>
-                        <input {...toDoListRegister("title")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">제목</label>
+                        <input {...toDoListRegister("title")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="text"/>
-                        <label className="text-lg">설명</label>
-                        <input {...toDoListRegister("description")} required className="mb-2 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">설명</label>
+                        <input {...toDoListRegister("description")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                          type="text" />
-                        <label className="text-lg">상태</label>
-                        <select {...toDoListRegister("status")} required className="mb-4 px-4 py-1 bg-white shadow-lg border-2 border-gray-100 rounded-lg h-10 text-md outline-none"
+                        <label className="text-sm my-2">상태</label>
+                        <select {...toDoListRegister("status")} required className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none" style={{border:"1px solid rgba(220,220,220,0.8)"}}
                           defaultValue="TODO">
                           <option value="TODO">TODO</option>
                           <option value="DOING">INPROGRESS</option>
                           <option value="DONE">DONE</option>
                         </select>
-                        <button className="px-2 py-1 bg-purple-500 rounded text-white hover:bg-purple-600 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
+                        <button style={{border:"1px solid rgba(220,220,220,0.8)"}} className="px-2 py-1 text-xs text-zinc-600 border-2 rounded text-white hover:bg-zinc-200 bg-zinc-100 transition duration-300 ease-in-out" type={"submit"}>추가하기</button>
                     </form>
                   </div>)
                 }

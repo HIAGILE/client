@@ -14,87 +14,84 @@ import { ProjectDetail } from ' pages/project-detail';
 import { FriendsDashboard } from ' pages/friends-dashboard';
 import { ScheduleDashboard } from ' pages/schedule-dashboard';
 import { ToDoListDashboard } from ' pages/todolist-dashboard';
-import { isLoggedInVar, meVar } from 'apollo';
-import { useReactiveVar } from '@apollo/client';
 import { Confirm } from ' pages/confirm';
 
-const clientRoutes = [
-  {
-    path: '/',
-    component: <Navigate to="/main" replace={true} />,
-  },
-  {
-    path: '/social/github',
-    component: <Navigate to="/main" replace={true} />,
-  },
-  {
-    path: '/social/kakao',
-    component: <Navigate to="/main" replace={true} />,
-  },
-  {
-    path: '/login',
-    component: <Navigate to="/main" replace={true} />,
-  },
-  {
-    path: '/join',
-    component: <Navigate to="/main" replace={true} />,
-  },
-  {
-    path: '/main',
-    component: <MainDashboard />,
-  },
-  {
-    path: '/profile',
-    component: <MyProfile />,
-  },
-  {
-    path: '/create-project',
-    component: <CreateProject />,
-  },
-  {
-    path: '/add-members/:projectId',
-    component: <AddMembers />,
-  },
-  {
-    path: '/confirm/:code',
-    component: <Confirm />,
-  },
-  {
-    path: '/logout',
-    component: <Logout />,
-  },
-  {
-    path: '/project',
-    component: <ProjectDashboard />,
-  },
-  {
-    path: '/project/:projectId',
-    component: <ProjectDetail />,
-  },
-  {
-    path: '/friends',
-    component: <FriendsDashboard />,
-  },
-  {
-    path: '/schedule',
-    component: <ScheduleDashboard />,
-  },
-  {
-    path: '/todolist',
-    component: <ToDoListDashboard />,
-  },
-  {
-    path: '*',
-    component: <NotFound />,
-  },
-];
-
 export const LoggedInRouter = () => {
+  const clientRoutes = [
+    {
+      path: '/',
+      component: <Navigate to="/main" replace={true} />,
+    },
+    {
+      path: '/social/github',
+      component: <Navigate to="/main" replace={true} />,
+    },
+    {
+      path: '/social/kakao',
+      component: <Navigate to="/main" replace={true} />,
+    },
+    {
+      path: '/login',
+      component: <Navigate to="/main" replace={true} />,
+    },
+    {
+      path: '/join',
+      component: <Navigate to="/main" replace={true} />,
+    },
+    {
+      path: '/main',
+      component: <MainDashboard />,
+    },
+    {
+      path: '/profile',
+      component: <MyProfile />,
+    },
+    {
+      path: '/create-project',
+      component: <CreateProject />,
+    },
+    {
+      path: '/add-members/:projectId',
+      component: <AddMembers />,
+    },
+    {
+      path: '/confirm/:code',
+      component: <Confirm />,
+    },
+    {
+      path: '/logout',
+      component: <Logout />,
+    },
+    {
+      path: '/project',
+      component: <ProjectDashboard />,
+    },
+    {
+      path: '/project/:projectId',
+      component: <ProjectDetail />,
+    },
+    {
+      path: '/friends',
+      component: <FriendsDashboard />,
+    },
+    {
+      path: '/schedule',
+      component: <ScheduleDashboard />,
+    },
+    {
+      path: '/todolist',
+      component: <ToDoListDashboard />,
+    },
+    {
+      path: '*',
+      component: <NotFound />,
+    },
+  ];
   return (
     <>
+      {/* <Process /> */}
       <AppBar />
       <DashboardLayout>
-        <Process />
         <Routes>
           {clientRoutes.map((route) => (
             <Route
