@@ -1,4 +1,10 @@
-import { gql, useApolloClient, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import {
+  gql,
+  useApolloClient,
+  useMutation,
+  useQuery,
+  useReactiveVar,
+} from '@apollo/client';
 import { meVar } from 'apollo';
 import { useMe } from 'lib/useMe';
 import { type } from 'os';
@@ -77,7 +83,7 @@ function AddMembers() {
     } = data;
     if (ok) {
       alert('멤버 추가가 완료되었습니다!');
-      navigate('/', { replace: true, state: { refresh: true } });
+      navigate('/');
     }
     if (!ok) {
       alert(error);
