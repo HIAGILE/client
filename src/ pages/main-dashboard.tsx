@@ -5,34 +5,16 @@ import NewProject from 'components/main/main-new-project';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import MyProjects from 'components/main/main-my-project';
 import { useProject } from 'lib/useProject';
-import { gql, useQuery } from '@apollo/client';
-import { getNotices } from '__generated__/getNotices';
+import { useNotices } from 'lib/useNotices';
 import { Process } from 'components/common/process';
 import MainNotice from 'components/main/main-notice';
 import dotMenu from 'images/icon/dotMenu.svg';
 import MainTasks from 'components/main/main-my-task';
 
-export const GET_NOTICES_QUERY = gql`
-  query getNotices {
-    getNotices {
-      ok
-      error
-      notices {
-        createAt
-        updateAt
-        description
-        id
-      }
-    }
-  }
-`;
-
 function MainDashboard() {
-  // apollo
   const { data: myProfile, loading: myProfileLoading } = useMe();
   const { data: myProjects, loading: myProjectsLoading } = useProject(0);
-  const { data: notices, loading: noticesLoading } =
-    useQuery<getNotices>(GET_NOTICES_QUERY);
+  const { data: notices, loading: noticesLoading } = useNotices(0);
   return (
     <>
       <Process />
