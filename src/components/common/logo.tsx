@@ -20,7 +20,7 @@ const Logo = ({ className, mode }: LogoType) => {
           mode === 'login' ? 'text-darkBlue' : 'text-lightGray'
         }`}
       >
-        Hi, Agile!
+        HiAgile
       </h2>
     </Link>
   );
