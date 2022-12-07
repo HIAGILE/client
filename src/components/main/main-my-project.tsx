@@ -72,13 +72,13 @@ const ProjectBlock = ({ project, color }: ProjectBlockProps) => {
   const navigate = useNavigate();
   return (
     <article
-      className={`bg-white border-2 border-${color} h-68 p-8 relative rounded-xl shadow-xl hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
+      className={`bg-white border border-${color} h-68 p-8 relative rounded-md shadow-md hover:scale-105 transition duration-300 ease-in-out cursor-pointer`}
       onClick={() => {
         navigate(`/project/${project.id}`);
       }}
     >
-      <h4 className={`font-bold text-${color}`}>{project.code}</h4>
-      <h3 className="font-bold text-darkBlue text-2xl py-2">{project.name}</h3>
+      <h4 className={`text-${color}`}>{project.code}</h4>
+      <h3 className="text-darkBlue text-md py-2">{project.name}</h3>
       <div className="relative h-10 my-4">
         {project?.members?.map((member, index) => {
           return (

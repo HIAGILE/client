@@ -59,6 +59,7 @@ export interface CreateToDoListInput {
   status: ToDoListStatus;
   title: string;
   description: string;
+  memberId: string;
   sprintId: number;
 }
 

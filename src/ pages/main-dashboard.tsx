@@ -27,7 +27,7 @@ function MainDashboard() {
           {/* 프로젝트 */}
           <div className="my-20">
             <div className="flex justify-between items-center">
-              <DashboardTitle title="My Project" />
+              <DashboardTitle title="My Projects" />
               <ViewMore goNavi="/project" />
             </div>
             <MyProjects data={myProjects} loading={myProjectsLoading} />
@@ -39,14 +39,14 @@ function MainDashboard() {
           {/* 할 일 */}
           <div className=" pb-8">
             <div className="flex justify-between items-center">
-              <DashboardTitle title="My Task" />
+              <DashboardTitle title="My Tasks" />
               <ViewMore goNavi="/todolist" />
             </div>
             <MainTasks projects={myProjects?.getProjects.projects} />
           </div>
           {/* 알림 */}
           <div className="pb-10">
-            <DashboardTitle title="Notice" />
+            <DashboardTitle title="Notices" />
             <MainNotice loading={noticesLoading} notices={notices} />
           </div>
         </div>

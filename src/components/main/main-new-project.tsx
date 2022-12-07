@@ -9,9 +9,9 @@ const NewProject = ({ userName }: Props) => {
 
   return (
     <>
-      <div className="bg-white border-2 border-darkBlue rounded-xl h-60 p-8 flex justify-between relative shadow-lg">
+      <div className="bg-white border border-darkBlue rounded-md h-60 p-8 flex justify-between relative shadow-md">
         <div className=" w-full">
-          <h3 className="text-4xl font-bold text-darkBule">
+          <h3 className="text-3xl text-darkBule">
             Hello, {userName?.toUpperCase()}!
           </h3>
           <p className="text-sm text-darkGray py-4 leading-tight">
@@ -23,7 +23,7 @@ const NewProject = ({ userName }: Props) => {
             동료를 초대해 함께 협업할 수도 있습니다.
           </p>
           <button
-            className="py-4 px-10 bg-white text-darkBlue font-semibold leading-none border-2 border-darkBlue rounded-xl transition duration-300 ease-in-out hover:bg-darkBlue hover:text-white shadow-xl"
+            className="py-4 px-10 bg-white text-darkBlue font-semibold leading-none border border-darkBlue rounded-xl transition duration-300 ease-in-out hover:bg-darkBlue hover:text-white shadow-xl"
             onClick={() => {
               navigate('/create-project');
             }}
