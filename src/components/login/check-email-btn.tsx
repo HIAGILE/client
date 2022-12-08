@@ -58,7 +58,7 @@ const CheckEmailBtn = ({
     <>
       <button
         onClick={onClick}
-        className={`login-btn hover:bg-blue-500 transition duration-300 ease-in-out w-1/5 text-bgBlue  ${
+        className={`login-btn w-1/5 text-bgBlue  ${
           canCheckEmail ? 'bg-mainBlue ' : 'bg-gray-300'
         }`}
       >
