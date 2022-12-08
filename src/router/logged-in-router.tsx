@@ -12,7 +12,7 @@ import { Process } from 'components/common/process';
 import { ProjectDashboard } from ' pages/project-dashboard';
 import { ProjectDetail } from ' pages/project-detail';
 import { FriendsDashboard } from ' pages/friends-dashboard';
-import { ScheduleDashboard } from ' pages/schedule-dashboard';
+import ScheduleDashboard from ' pages/schedule-dashboard';
 import { ToDoListDashboard } from ' pages/todolist-dashboard';
 import { Confirm } from ' pages/confirm';
 
