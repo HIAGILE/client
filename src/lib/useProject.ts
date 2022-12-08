@@ -36,6 +36,14 @@ export const GET_PROJECTS_QUERY = gql`
             title
             description
             status
+            members {
+              id
+              user {
+                id
+                profileUrl
+                name
+              }
+            }
           }
         }
         members {

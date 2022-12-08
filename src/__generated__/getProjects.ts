@@ -16,6 +16,19 @@ export interface getProjects_getProjects_projects_owner {
   email: string;
 }
 
+export interface getProjects_getProjects_projects_sprints_toDoList_members_user {
+  __typename: "User";
+  id: number;
+  profileUrl: string;
+  name: string;
+}
+
+export interface getProjects_getProjects_projects_sprints_toDoList_members {
+  __typename: "Member";
+  id: number;
+  user: getProjects_getProjects_projects_sprints_toDoList_members_user;
+}
+
 export interface getProjects_getProjects_projects_sprints_toDoList {
   __typename: "ToDoList";
   id: number;
@@ -24,6 +37,7 @@ export interface getProjects_getProjects_projects_sprints_toDoList {
   title: string;
   description: string;
   status: ToDoListStatus;
+  members: getProjects_getProjects_projects_sprints_toDoList_members[] | null;
 }
 
 export interface getProjects_getProjects_projects_sprints {
