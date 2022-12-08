@@ -27,12 +27,12 @@ const AlarmList = ({
   notices: getNotices_getNotices_notices[] | undefined | null;
 }) => {
   return (
-    <div className="fixed top-0 right-4 z-50 w-full overflow-scroll h-[600px]">
-      <ol className="absolute top-16 right-0 w-[360px] mt-1 shadow-lg bg-white rounded-lg overflow-hidden">
+    <div className="fixed top-0 right-0 z-50 w-screen h-screen cursor-default">
+      <ol className="absolute top-16 right-4 w-[360px] h-[360px] overflow-scroll mt-1 shadow-lg bg-white rounded-lg">
         {notices?.map((notice) => (
           <li
             key={notice.id}
-            className="hover:bg-middleBlue transition px-4 py-3 w-full text-sm text-darkGray border-2 border-lightGray"
+            className="px-4 py-3 w-full text-sm text-darkGray border-2 border-lightGray"
           >
             {notice.description}
           </li>
