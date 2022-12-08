@@ -129,7 +129,7 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
         const formData = new FormData();
         formData.append('file', actualFile ?? '');
         const {url:profileImg} = await (
-            await fetch('http://localhost:4000/uploads/', {
+            await fetch(`${process.env.REACT_APP_HEROKU_URL}/uploads/`, {
               method: 'POST',
               body: formData,
             })
