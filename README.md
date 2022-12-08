@@ -38,7 +38,7 @@
 - 일감관리 대시보드로 이동해 전체 일감을 확인하고 관리할 수 있습니다.
 
 ## Getting Started
-> git clone https://github.com/thewoowon/client.git
+> git clone https://github.com/HIAGILE/client.git
 
 ## 테스트 아이디
 * ID: test@tester.com
@@ -70,13 +70,16 @@
 - 프로젝트 생성이 메인에 위치합니다.
 - 최근 프로젝트 3개를 출력합니다.
 - 최근의 알림을 출력합니다.
-- 달력을 출력합니다.
-- 나의 스프린트를 출력합니다.
-- 좌측 메뉴에는 4가지 네비게이션 메뉴가 있습니다.
+- 나의 할일을 출력합니다.
+- 좌측 메뉴에는 5가지 네비게이션 메뉴가 있습니다.
 - 우측 상단에는 나의 프로필에 해당하는 메뉴를 펼칠 수 있습니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 00 49" src="https://user-images.githubusercontent.com/60413257/204127072-f0c49495-2059-4065-86f5-0eb54051c2bf.png">
-<img width="289" alt="스크린샷 2022-11-27 오후 6 10 36" src="https://user-images.githubusercontent.com/60413257/204127419-18baa118-900f-4b92-8b00-32fd5592cd2e.png">
-<img width="218" alt="스크린샷 2022-11-27 오후 6 10 54" src="https://user-images.githubusercontent.com/60413257/204127435-68e3fc48-0c61-47c6-9b98-bf652e4fb945.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 1 58 41" src="https://user-images.githubusercontent.com/60413257/206360442-701001a5-41bf-495d-988a-de04311bdb4c.png">
+<img width="1047" alt="스크린샷 2022-12-08 오후 1 59 04" src="https://user-images.githubusercontent.com/60413257/206360492-142d712b-486c-4c6f-bbac-e3dbbef9e2a5.png">
+<img width="1046" alt="스크린샷 2022-12-08 오후 1 59 16" src="https://user-images.githubusercontent.com/60413257/206360518-dcf2cb5f-78e2-4462-8672-33086c358e3d.png">
+<img width="523" alt="스크린샷 2022-12-08 오후 1 59 28" src="https://user-images.githubusercontent.com/60413257/206360549-77f62749-3dc0-4a2a-9515-154270e274e5.png">
+<img width="183" alt="스크린샷 2022-12-08 오후 1 59 39" src="https://user-images.githubusercontent.com/60413257/206360579-fedc85fd-1365-4b7c-8fa7-dbbced1e63a1.png">
+<img width="398" alt="스크린샷 2022-12-08 오후 2 00 01" src="https://user-images.githubusercontent.com/60413257/206360619-12a45736-11a9-48eb-9535-a6c03144a72d.png">
+
 
 ## Create Project
 - 4가지의 방법론을 선택할 수 있습니다.
@@ -93,36 +96,39 @@
 
 ## Project Dashboard
 - 오너인 내가 가지고 있는 프로젝트를 볼 수 있는 대시보드입니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 16 17" src="https://user-images.githubusercontent.com/60413257/204127632-152121ac-a7d1-474c-83ef-1cda47f8b68a.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 00 31" src="https://user-images.githubusercontent.com/60413257/206360697-76193337-740f-49e0-a0d0-2b2c7f13458d.png">
 
 ## Project Detail
 - 프로젝트 디테일입니다.
 - 내 프로젝트 상세 및 참가 중인 인원, 스프린트, 할 일 목록 등을 확인 할 수 있습니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 16 38" src="https://user-images.githubusercontent.com/60413257/204127647-81e067e1-c98a-45fb-afb2-186576a45b19.png">
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 17 49" src="https://user-images.githubusercontent.com/60413257/204127693-687d7b18-410a-4a5d-ae6d-7b207a5a6393.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 01 00" src="https://user-images.githubusercontent.com/60413257/206360748-068b83bd-7dcc-4e4b-b559-3729b29ad444.png">
+<img width="675" alt="스크린샷 2022-12-08 오후 2 01 24" src="https://user-images.githubusercontent.com/60413257/206360788-bec01519-aef0-4f27-9012-deb8652d6722.png">
+<img width="664" alt="스크린샷 2022-12-08 오후 2 01 40" src="https://user-images.githubusercontent.com/60413257/206360821-a9154828-21d2-422e-85fd-3f35876fd56b.png">
+<img width="594" alt="스크린샷 2022-12-08 오후 2 01 51" src="https://user-images.githubusercontent.com/60413257/206360835-07efd644-1749-429f-b8c8-3cab92735e45.png">
 
 ## Add Sprint
 - 스프린트 추가 모달입니다.
-<img width="1727" alt="스크린샷 2022-11-27 오후 6 18 05" src="https://user-images.githubusercontent.com/60413257/204127707-24f110cc-a1f6-4db4-a56a-381e23a051e3.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 02 21" src="https://user-images.githubusercontent.com/60413257/206360931-afbf067e-bd5f-4491-add2-9c3c6581488c.png">
 
 ## Add ToDoList
 - 할 일 추가 모달입니다.
 - 먼저 스프린트를 선택합니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 19 20" src="https://user-images.githubusercontent.com/60413257/204127764-33b4c5ae-1625-418e-b408-f331a076e7bc.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 02 36" src="https://user-images.githubusercontent.com/60413257/206360969-0af934ee-bfc5-47dd-94fe-6fda978e0063.png">
+- 인원을 선택합니다.
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 03 05" src="https://user-images.githubusercontent.com/60413257/206361007-7662064d-55f8-46ae-94ec-29f9ddf29633.png">
 - 할 일 내용을 작성합니다.
-<img width="1727" alt="스크린샷 2022-11-27 오후 6 20 01" src="https://user-images.githubusercontent.com/60413257/204127796-04b41dd5-98f5-40ca-b791-8b05f2dc40bf.png">
-
-## After Add
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 20 44" src="https://user-images.githubusercontent.com/60413257/204127833-34423e35-dd1f-413f-87a9-cb453cdf6adb.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 03 19" src="https://user-images.githubusercontent.com/60413257/206361032-80ae7322-f99c-43b1-a7bf-c6878a2b0785.png">
 
 ## Search Friends
 - 친구 목록 확인과 검색, 친구 신청을 할 수 있습니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 21 23" src="https://user-images.githubusercontent.com/60413257/204127855-edbff03e-ed10-43e0-9bcc-65644c92d54f.png">
+<img width="1728" alt="스크린샷 2022-12-08 오후 2 04 45" src="https://user-images.githubusercontent.com/60413257/206361198-e5a67440-aa83-4fde-b517-3da0159e1e56.png">
 
 ## Edit Profile
 - 내 프로필 사진 및 내용을 수정 할 수 있습니다.
-<img width="1728" alt="스크린샷 2022-11-27 오후 6 22 19" src="https://user-images.githubusercontent.com/60413257/204127894-d59353ee-dc46-46a6-a5bb-661117f096fb.png">
+<img width="1727" alt="스크린샷 2022-12-08 오후 2 05 02" src="https://user-images.githubusercontent.com/60413257/206361238-01c0e74a-d684-4d72-b96a-7f91e1aebe74.png">
 
+## To Do List Dashboard
+<img width="1727" alt="스크린샷 2022-12-08 오후 2 05 24" src="https://user-images.githubusercontent.com/60413257/206361292-713700dd-2072-473f-869d-2e388ea905fd.png">
 
 ## Styling
 - TailwindCSS
