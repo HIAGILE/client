@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Process } from 'components/common/process';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import Calendar from '@toast-ui/react-calendar';
@@ -8,6 +8,8 @@ import {
   getToDoLists,
   getToDoListsVariables,
 } from '__generated__/getToDoLists';
+import { useProject } from 'lib/useProject';
+import { getProjects_getProjects_projects } from '__generated__/getProjects';
 
 export const GET_TODO_LISTS_QUERY = gql`
   query getToDoLists($input: GetToDoListsInput!) {
@@ -61,15 +63,18 @@ const ScheduleDashboard = () => {
     },
   );
 
+  const { data: myProject, loading: myProjectLoading } = useProject(0);
   const [viewType, setViewType] = useState<CalendarType>(CalendarType.Monthly);
-  console.log('togolist :', data, loading);
   return (
     <>
       <Process />
       <div className="pt-28 px-8">
         <DashboardTitle title="My Schedule" />
         <CalendarHeader setViewType={setViewType} />
-        <CalendarBody viewType={viewType} />
+        <CalendarBody
+          data={myProject?.getProjects.projects}
+          viewType={viewType}
+        />
       </div>
     </>
   );
@@ -122,26 +127,50 @@ const CalendarHeader = ({
   );
 };
 
-const CalendarBody = ({ viewType }: { viewType: CalendarType }) => {
-  const calendars = [{ id: 'cal1', name: 'Personal' }];
-  const initialEvents = [
-    {
-      id: '1',
-      calendarId: 'cal1',
-      title: 'Lunch',
-      category: 'time',
-      start: '2022-12-03T12:00:00',
-      end: '2022-12-08T13:30:00',
-    },
-    {
-      id: '2',
-      calendarId: 'cal1',
-      title: 'Coffee Break',
-      category: 'time',
-      start: '2022-12-08T15:00:00',
-      end: '2022-12-10T15:30:00',
-    },
-  ];
+type CalendarsType = { id: string; name: string };
+const CalendarBody = ({
+  viewType,
+  data,
+}: {
+  viewType: CalendarType;
+  data: getProjects_getProjects_projects[] | undefined | null;
+}) => {
+  const [calendars, setCalendars] = useState<CalendarsType[]>([]);
+  const [events, setEvents] = useState<any>([]);
+
+  useEffect(() => {
+    if (data !== null && data !== undefined) {
+      console.log(data);
+      const calendar: CalendarsType[] = [];
+      const event: any = [];
+      data.forEach((project, k) => {
+        console.log(k, project.name);
+        calendar.push({
+          id: project.name,
+          name: project.name,
+        });
+        project.sprints.forEach((sprint) => {
+          sprint.toDoList.forEach((todo, key) => {
+            console.log('k', key);
+            event.push({
+              id: `${(project.name, key)}`,
+              calendarId: project.name,
+              title: todo.title,
+              category: sprint.purpose,
+              start: sprint.startDate,
+              end: sprint.endDate,
+            });
+          });
+        });
+      });
+      setCalendars(calendars.concat(calendar));
+      setEvents(events.concat(event));
+    }
+  }, [data]);
+
+  useEffect(() => {
+    console.log('1', calendars);
+  }, [calendars]);
 
   const onAfterRenderEvent = (event: any) => {
     console.log(event.title);
@@ -162,7 +191,7 @@ const CalendarBody = ({ viewType }: { viewType: CalendarType }) => {
         isReadOnly={true}
         gridSelection={false}
         calendars={calendars}
-        events={initialEvents}
+        events={events}
         onAfterRenderEvent={onAfterRenderEvent}
       />
     </>
