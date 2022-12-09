@@ -28,7 +28,7 @@ const AlarmList = ({
 }) => {
   return (
     <div className="fixed top-0 right-0 z-50 w-screen h-screen cursor-default">
-      <ol className="absolute top-16 right-4 w-[360px] h-[360px] overflow-scroll mt-1 shadow-lg bg-white rounded-lg">
+      <ol className="absolute top-16 right-4 w-[360px] h-[360px] overflow-y-scroll mt-1 shadow-lg bg-white rounded-lg">
         {notices?.map((notice) => (
           <li
             key={notice.id}
