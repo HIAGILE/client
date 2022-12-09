@@ -86,6 +86,10 @@ export interface GetProjectsInput {
   id: number;
 }
 
+export interface GetToDoListsInput {
+  id: number;
+}
+
 export interface GitHubOAuthInput {
   code: string;
 }

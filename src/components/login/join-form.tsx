@@ -141,7 +141,6 @@ const JoinForm = () => {
           email={email}
         />
       </label>
-
       {(errors.email?.type === 'pattern' && (
         <FormError errorMessage="올바른 이메일 형식을 입력해주세요" />
       )) ||

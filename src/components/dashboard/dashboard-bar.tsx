@@ -15,4 +15,4 @@ const MainBar = () => {
   );
 };
 
-export default MainBar;
+export default React.memo(MainBar);
