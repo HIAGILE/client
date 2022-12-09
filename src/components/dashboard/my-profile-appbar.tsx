@@ -19,11 +19,13 @@ const MyProfile = () => {
             <img
               src={myProfile?.me.profileUrl}
               alt="porfileImg"
-              className="w-8 rounded-full"
+              className="object-cover h-full rounded-full"
             />
           )) || <img src={userFilled} alt="userFilled" className="w-8 p-1" />}
         </p>
-        {myProfile?.me.name.toUpperCase() || 'user'}
+        <p className="font-semibold">
+          {myProfile?.me.name.toUpperCase() || 'user'}
+        </p>
         {toggle && <ProfileMenu />}
       </div>
     </div>
