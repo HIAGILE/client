@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Process } from 'components/common/process';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import Calendar from '@toast-ui/react-calendar';
@@ -88,32 +88,37 @@ const CalendarHeader = ({
     setViewType(type);
   }
   return (
-    <>
-      <button
-        className={`p-4 border ${
-          btnState === CalendarType.Monthly ? 'bg-mainBlue text-lightBlue' : ''
-        }`}
-        onClick={() => changeViewType(CalendarType.Monthly)}
-      >
-        Monthly
-      </button>
-      <button
-        className={`p-4 border ${
-          btnState === CalendarType.Weekly ? 'bg-mainBlue text-lightBlue' : ''
-        }`}
-        onClick={() => changeViewType(CalendarType.Weekly)}
-      >
-        Weekly
-      </button>
-      <button
-        className={`p-4 border ${
-          btnState === CalendarType.Daily ? 'bg-mainBlue text-lightBlue' : ''
-        }`}
-        onClick={() => changeViewType(CalendarType.Daily)}
-      >
-        Daily
-      </button>
-    </>
+    <div className="py-2 mb-4 border-b-2 flex justify-between">
+      <div></div>
+      <div>
+        <button
+          className={`mx-1 px-4 py-2 rounded-lg border text-sm ${
+            btnState === CalendarType.Monthly
+              ? 'bg-mainBlue text-lightBlue'
+              : ''
+          }`}
+          onClick={() => changeViewType(CalendarType.Monthly)}
+        >
+          Monthly
+        </button>
+        <button
+          className={`mx-1 px-4 py-2 rounded-lg border text-sm ${
+            btnState === CalendarType.Weekly ? 'bg-mainBlue text-lightBlue' : ''
+          }`}
+          onClick={() => changeViewType(CalendarType.Weekly)}
+        >
+          Weekly
+        </button>
+        <button
+          className={`mx-1 px-4 py-2 rounded-lg border text-sm ${
+            btnState === CalendarType.Daily ? 'bg-mainBlue text-lightBlue' : ''
+          }`}
+          onClick={() => changeViewType(CalendarType.Daily)}
+        >
+          Daily
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -141,18 +146,25 @@ const CalendarBody = ({ viewType }: { viewType: CalendarType }) => {
   const onAfterRenderEvent = (event: any) => {
     console.log(event.title);
   };
+
   return (
-    <Calendar
-      usageStatistics={false}
-      height="1000px"
-      view={viewType}
-      month={{
-        dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-        visibleWeeksCount: 10,
-      }}
-      calendars={calendars}
-      events={initialEvents}
-      onAfterRenderEvent={onAfterRenderEvent}
-    />
+    <>
+      <Calendar
+        usageStatistics={false}
+        height="800px"
+        view={viewType}
+        month={{
+          dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+          visibleWeeksCount: 5,
+        }}
+        week={{}}
+        useDetailPopup={true}
+        isReadOnly={true}
+        gridSelection={false}
+        calendars={calendars}
+        events={initialEvents}
+        onAfterRenderEvent={onAfterRenderEvent}
+      />
+    </>
   );
 };
