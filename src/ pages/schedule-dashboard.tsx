@@ -231,7 +231,7 @@ const CalendarHeader = ({
   );
 };
 
-type CalendarsType = { id: string; name: string };
+type CalendarsType = { id: string; name: string; backgroundColor: string };
 
 const CalendarBody = ({
   viewType,
@@ -244,28 +244,60 @@ const CalendarBody = ({
 }) => {
   const [calendars, setCalendars] = useState<CalendarsType[]>([]);
   const [events, setEvents] = useState<any>([]);
-
+  const Color = [
+    '#f9b84b',
+    '#e7533d',
+    '#6671fa',
+    '#131532',
+    '#20998d',
+    '#f7f7f7',
+    '#404149',
+  ];
   useEffect(() => {
     if (data !== null && data !== undefined) {
       const calendar: CalendarsType[] = [];
       const event: any = [];
 
       data.forEach((project, k) => {
-        console.log(k, project.name);
+        console.log(k, project);
         calendar.push({
           id: project.name,
           name: project.name,
+          backgroundColor: Color[k < 7 ? k : k - 7],
         });
-        project.sprints.forEach((sprint) => {
+        project.sprints.forEach((sprint, k) => {
+          const projectMem: string[] = [];
+          project.members.forEach((mem) => {
+            projectMem.push(mem.user.name);
+          });
+          event.push({
+            id: `${(project.name, k)}`,
+            calendarId: project.name,
+            title: sprint.purpose,
+            attendees: projectMem,
+            state: project.code,
+            category: sprint.purpose,
+            start: sprint.startDate,
+            end: sprint.endDate,
+            isReadOnly: true,
+          });
           sprint.toDoList.forEach((todo, key) => {
-            console.log('k', key);
+            const todoMembers: string[] = [];
+            todo.members?.forEach((mem) => {
+              todoMembers.push(mem.user.name);
+            });
+            console.log('k', key, todoMembers);
             event.push({
               id: `${(project.name, key)}`,
               calendarId: project.name,
               title: todo.title,
+              body: todo.description,
+              attendees: todoMembers,
+              state: todo.status,
               category: sprint.purpose,
-              start: sprint.startDate,
-              end: sprint.endDate,
+              start: todo.createAt,
+              end: todo.createAt,
+              isReadOnly: true,
             });
           });
         });
@@ -280,26 +312,20 @@ const CalendarBody = ({
     console.log('1', calendars);
   }, [calendars]);
 
-  const onAfterRenderEvent = (event: any) => {
-    console.log(event.title);
-  };
-
   return (
     <>
       <Calendar
         usageStatistics={false}
-        height="800px"
+        height="700px"
         view={viewType}
         month={{
           dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+          startDayOfWeek: 1,
         }}
-        week={{}}
         useDetailPopup={true}
-        isReadOnly={true}
         gridSelection={false}
         calendars={calendars}
         events={events}
-        onAfterRenderEvent={onAfterRenderEvent}
         ref={calendarRef}
       />
     </>
