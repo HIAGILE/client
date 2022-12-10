@@ -114,7 +114,7 @@ const CalendarHeader = ({
   };
 
   return (
-    <div className="py-2 mb-4 border-b-2 flex justify-between">
+    <div className="py-2 mb-2 border-b flex justify-between">
       <div>
         {btnState === CalendarType.Daily || (
           <>
@@ -236,7 +236,7 @@ const CalendarBody = ({
             });
             // 할일 이벤트에 추가
             event.push({
-              id: `${(project.name, key)}`,
+              id: `${(project.name, k, key)}`,
               calendarId: project.name,
               title: todo.title,
               body: todo.description,
@@ -258,6 +258,29 @@ const CalendarBody = ({
 
   return (
     <>
+      <div className="mb-2 pb-2 border-b flex justify-between items-start">
+        <div className="w-10/12">
+          <button className="px-4 py-2 border rounded-lg text-xs">all</button>
+          {calendars.length > 0 &&
+            calendars.map((cal) => {
+              return (
+                <button
+                  key={cal.id}
+                  className="mx-1 px-4 py-2 border rounded-lg text-xs items-center"
+                >
+                  <span
+                    className={`inline-block bg-[${cal.backgroundColor}] w-2 h-2 rounded-full`}
+                  ></span>
+                  {cal.name}
+                </button>
+              );
+            })}
+        </div>
+        <label htmlFor="" className="text-xs flex items-center">
+          <input type="checkbox" className="mr-2" />
+          only me
+        </label>
+      </div>
       <Calendar
         usageStatistics={false}
         height="1000px"
@@ -271,6 +294,23 @@ const CalendarBody = ({
         calendars={calendars}
         events={events}
         ref={calendarRef}
+        template={{
+          milestone(event) {
+            return `<span style:"color: blue;">${event.title}</span>`;
+          },
+          comingDuration(event) {
+            return `<span>${event.comingDuration}</span>`;
+          },
+          monthMoreTitleDate(moreTitle) {
+            const { date } = moreTitle;
+            return `<span>${date}</span>`;
+          },
+          monthGridHeader(model) {
+            const date = parseInt(model.date.split('-')[2], 10);
+
+            return `<span>${date}</span>`;
+          },
+        }}
       />
     </>
   );
