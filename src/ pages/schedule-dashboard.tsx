@@ -19,7 +19,7 @@ const ScheduleDashboard = () => {
   return (
     <>
       <Process />
-      <div className="pt-28 px-8">
+      <div className="pt-28 px-8 pb-20">
         <DashboardTitle title="My Schedule" />
         <CalendarHeader setViewType={setViewType} calendarRef={calendarRef} />
         <CalendarBody
@@ -251,25 +251,26 @@ const CalendarBody = ({
         });
       });
 
-      setCalendars(calendars.concat(calendar));
-      setEvents(events.concat(event));
+      setCalendars(calendar);
+      setEvents(event);
     }
   }, [data]);
 
   return (
     <>
-      <div className="mb-2 pb-2 border-b flex justify-between items-start">
+      <div className="pb-4 border-b flex justify-between items-start">
         <div className="w-10/12">
-          <button className="px-4 py-2 border rounded-lg text-xs">all</button>
+          <button className="px-4 py-1 border rounded-lg text-xs">all</button>
           {calendars.length > 0 &&
             calendars.map((cal) => {
               return (
                 <button
                   key={cal.id}
-                  className="mx-1 px-4 py-2 border rounded-lg text-xs items-center"
+                  className="mx-1 px-2 py-1 border rounded-lg text-xs items-center"
                 >
                   <span
-                    className={`inline-block bg-[${cal.backgroundColor}] w-2 h-2 rounded-full`}
+                    className={`inline-block mr-2 w-2 h-2 rounded-full`}
+                    style={{ backgroundColor: cal.backgroundColor }}
                   ></span>
                   {cal.name}
                 </button>
