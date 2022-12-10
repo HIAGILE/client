@@ -124,7 +124,7 @@ const CalendarHeader = ({
 
     switch (viewName) {
       case 'month': {
-        dateRangeText = `${year}-${month}`;
+        dateRangeText = `${year}.${month}`;
         break;
       }
       case 'week': {
@@ -134,21 +134,25 @@ const CalendarHeader = ({
         const endMonth = rangeEnd.getMonth() + 1;
         const endDate = rangeEnd.getDate();
 
-        const start = `${year}-${month < 10 ? '0' : ''}${month}-${
+        const start = `${year}.${month < 10 ? '0' : ''}${month}.${
           date < 10 ? '0' : ''
         }${date}`;
-        const end = `${year}-${endMonth < 10 ? '0' : ''}${endMonth}-${
+        const end = `${year}.${endMonth < 10 ? '0' : ''}${endMonth}.${
           endDate < 10 ? '0' : ''
         }${endDate}`;
         dateRangeText = `${start} ~ ${end}`;
         break;
       }
       default:
-        dateRangeText = `${year}-${month}-${date}`;
+        dateRangeText = `${year}.${month}.${date}`;
     }
 
     setSelectedDateRangeText(dateRangeText);
   }, [getCalInstance]);
+
+  useEffect(() => {
+    updateRenderRangeText();
+  }, [btnState, updateRenderRangeText]);
 
   const onClickNavi = (ev: React.MouseEvent<HTMLButtonElement>) => {
     if ((ev.target as HTMLButtonElement).tagName === 'BUTTON') {
