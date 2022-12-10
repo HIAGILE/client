@@ -3,48 +3,8 @@ import { Process } from 'components/common/process';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
-import { gql, useQuery } from '@apollo/client';
-import {
-  getToDoLists,
-  getToDoListsVariables,
-} from '__generated__/getToDoLists';
 import { useProject } from 'lib/useProject';
 import { getProjects_getProjects_projects } from '__generated__/getProjects';
-import ToastUIReactCalendar from '@toast-ui/react-calendar';
-
-export const GET_TODO_LISTS_QUERY = gql`
-  query getToDoLists($input: GetToDoListsInput!) {
-    getToDoLists(input: $input) {
-      ok
-      error
-      toDoLists {
-        id
-        createAt
-        updateAt
-        status
-        title
-        description
-        sprint {
-          id
-          createAt
-          updateAt
-          startDate
-          endDate
-          period
-          purpose
-        }
-        members {
-          id
-          user {
-            id
-            profileUrl
-            name
-          }
-        }
-      }
-    }
-  }
-`;
 
 export enum CalendarType {
   Monthly = 'month',
@@ -54,24 +14,12 @@ export enum CalendarType {
 
 const ScheduleDashboard = () => {
   const calendarRef = useRef<typeof Calendar>(null);
-
-  const { data, loading } = useQuery<getToDoLists, getToDoListsVariables>(
-    GET_TODO_LISTS_QUERY,
-    {
-      variables: {
-        input: {
-          id: 0,
-        },
-      },
-    },
-  );
-
   const { data: myProject, loading: myProjectLoading } = useProject(0);
   const [viewType, setViewType] = useState<CalendarType>(CalendarType.Monthly);
   return (
     <>
       <Process />
-      <div className="pt-28 px-8">
+      <div className="pt-28 px-8 pb-20">
         <DashboardTitle title="My Schedule" />
         <CalendarHeader setViewType={setViewType} calendarRef={calendarRef} />
         <CalendarBody
@@ -166,7 +114,7 @@ const CalendarHeader = ({
   };
 
   return (
-    <div className="py-2 mb-4 border-b-2 flex justify-between">
+    <div className="py-2 mb-2 border-b flex justify-between">
       <div>
         {btnState === CalendarType.Daily || (
           <>
@@ -247,7 +195,6 @@ const CalendarBody = ({
   const Color = [
     '#f9b84b',
     '#e7533d',
-    '#6671fa',
     '#131532',
     '#20998d',
     '#f7f7f7',
@@ -259,17 +206,18 @@ const CalendarBody = ({
       const event: any = [];
 
       data.forEach((project, k) => {
-        console.log(k, project);
+        // 프로젝트 목록 생성
         calendar.push({
           id: project.name,
           name: project.name,
-          backgroundColor: Color[k < 7 ? k : k - 7],
+          backgroundColor: Color[k % 6],
         });
         project.sprints.forEach((sprint, k) => {
           const projectMem: string[] = [];
           project.members.forEach((mem) => {
             projectMem.push(mem.user.name);
           });
+          // 스프린트 이벤트에 추가
           event.push({
             id: `${(project.name, k)}`,
             calendarId: project.name,
@@ -286,9 +234,9 @@ const CalendarBody = ({
             todo.members?.forEach((mem) => {
               todoMembers.push(mem.user.name);
             });
-            console.log('k', key, todoMembers);
+            // 할일 이벤트에 추가
             event.push({
-              id: `${(project.name, key)}`,
+              id: `${(project.name, k, key)}`,
               calendarId: project.name,
               title: todo.title,
               body: todo.description,
@@ -303,20 +251,40 @@ const CalendarBody = ({
         });
       });
 
-      setCalendars(calendars.concat(calendar));
-      setEvents(events.concat(event));
+      setCalendars(calendar);
+      setEvents(event);
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log('1', calendars);
-  }, [calendars]);
-
   return (
     <>
+      <div className="pb-4 border-b flex justify-between items-start">
+        <div className="w-10/12">
+          <button className="px-4 py-1 border rounded-lg text-xs">all</button>
+          {calendars.length > 0 &&
+            calendars.map((cal) => {
+              return (
+                <button
+                  key={cal.id}
+                  className="mx-1 px-2 py-1 border rounded-lg text-xs items-center"
+                >
+                  <span
+                    className={`inline-block mr-2 w-2 h-2 rounded-full`}
+                    style={{ backgroundColor: cal.backgroundColor }}
+                  ></span>
+                  {cal.name}
+                </button>
+              );
+            })}
+        </div>
+        <label htmlFor="" className="text-xs flex items-center">
+          <input type="checkbox" className="mr-2" />
+          only me
+        </label>
+      </div>
       <Calendar
         usageStatistics={false}
-        height="700px"
+        height="1000px"
         view={viewType}
         month={{
           dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
@@ -327,6 +295,23 @@ const CalendarBody = ({
         calendars={calendars}
         events={events}
         ref={calendarRef}
+        template={{
+          milestone(event) {
+            return `<span style:"color: blue;">${event.title}</span>`;
+          },
+          comingDuration(event) {
+            return `<span>${event.comingDuration}</span>`;
+          },
+          monthMoreTitleDate(moreTitle) {
+            const { date } = moreTitle;
+            return `<span>${date}</span>`;
+          },
+          monthGridHeader(model) {
+            const date = parseInt(model.date.split('-')[2], 10);
+
+            return `<span>${date}</span>`;
+          },
+        }}
       />
     </>
   );
