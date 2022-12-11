@@ -21,6 +21,8 @@ export interface getProject_getProject_project_sprints_toDoList {
   id: number;
   createAt: any;
   updateAt: any;
+  startDate: any;
+  endDate: any;
   title: string;
   description: string;
   status: ToDoListStatus;
