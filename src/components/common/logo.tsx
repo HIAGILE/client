@@ -26,4 +26,4 @@ const Logo = ({ className, mode }: LogoType) => {
   );
 };
 
-export default Logo;
+export default React.memo(Logo);

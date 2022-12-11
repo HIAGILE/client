@@ -1,10 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Process } from 'components/common/process';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 import { useProject } from 'lib/useProject';
 import { getProjects_getProjects_projects } from '__generated__/getProjects';
+import type {
+  EventObject,
+  ExternalEventTypes,
+  Options,
+} from '@toast-ui/calendar';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useMe } from 'lib/useMe';
 
 export enum CalendarType {
   Monthly = 'month',
@@ -41,12 +54,47 @@ const CalendarHeader = ({
   setViewType: React.Dispatch<React.SetStateAction<CalendarType>>;
   calendarRef: any;
 }) => {
-  const [btnState, setBtnState] = useState<string>('month');
+  const [btnState, setBtnState] = useState<CalendarType | null>(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState('');
 
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryMe = new URLSearchParams(search).get('me');
+
+  useEffect(() => {
+    if (queryView !== undefined && queryView !== null) {
+      checkViewType(queryView);
+    }
+  }, [queryView]);
+
+  function checkViewType(type: CalendarType | string) {
+    switch (type) {
+      case 'month':
+        setViewType(CalendarType.Monthly);
+        setBtnState(CalendarType.Monthly);
+        break;
+
+      case 'week':
+        setViewType(CalendarType.Weekly);
+        setBtnState(CalendarType.Weekly);
+        break;
+
+      case 'day':
+        setViewType(CalendarType.Daily);
+        setBtnState(CalendarType.Daily);
+        break;
+
+      default:
+        setViewType(CalendarType.Monthly);
+        setBtnState(CalendarType.Monthly);
+        break;
+    }
+  }
+
   function changeViewType(type: CalendarType) {
-    setBtnState(type);
-    setViewType(type);
+    checkViewType(type);
+    navigate({ search: `?view=${type}&me=${queryMe}` }, { replace: true });
   }
 
   const getCalInstance = useCallback(() => {
@@ -116,37 +164,32 @@ const CalendarHeader = ({
   return (
     <div className="py-2 mb-2 border-b flex justify-between">
       <div>
-        {btnState === CalendarType.Daily || (
-          <>
-            <button
-              type="button"
-              className="bg-mainBlue mx-1 px-4 py-2 rounded-lg border text-sm text-lightBlue"
-              data-action="move-today"
-              onClick={onClickNavi}
-            >
-              Today
-            </button>
-            <button
-              type="button"
-              className="mx-1 px-4 py-2 rounded-lg border text-sm"
-              data-action="move-prev"
-              onClick={onClickNavi}
-            >
-              Prev
-            </button>
-            <span className="px-8">{selectedDateRangeText}</span>
-            <button
-              type="button"
-              className="mx-1 px-4 py-2 rounded-lg border text-sm"
-              data-action="move-next"
-              onClick={onClickNavi}
-            >
-              Next
-            </button>
-          </>
-        )}
+        <button
+          type="button"
+          className="bg-mainBlue mx-1 px-4 py-2 rounded-lg border text-sm text-lightBlue"
+          data-action="move-today"
+          onClick={onClickNavi}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          className="mx-1 px-4 py-2 rounded-lg border text-sm"
+          data-action="move-prev"
+          onClick={onClickNavi}
+        >
+          Prev
+        </button>
+        <span className="px-8">{selectedDateRangeText}</span>
+        <button
+          type="button"
+          className="mx-1 px-4 py-2 rounded-lg border text-sm"
+          data-action="move-next"
+          onClick={onClickNavi}
+        >
+          Next
+        </button>
       </div>
-
       <div>
         <button
           className={`mx-1 px-4 py-2 rounded-lg border text-sm ${
@@ -179,8 +222,6 @@ const CalendarHeader = ({
   );
 };
 
-type CalendarsType = { id: string; name: string; backgroundColor: string };
-
 const CalendarBody = ({
   viewType,
   data,
@@ -190,20 +231,21 @@ const CalendarBody = ({
   data: getProjects_getProjects_projects[] | undefined | null;
   calendarRef: any;
 }) => {
-  const [calendars, setCalendars] = useState<CalendarsType[]>([]);
-  const [events, setEvents] = useState<any>([]);
+  const [calendars, setCalendars] = useState<Options['calendars']>([]);
+  const [events, setEvents] = useState<Partial<EventObject>[]>([]);
   const Color = [
     '#f9b84b',
     '#e7533d',
     '#131532',
     '#20998d',
-    '#f7f7f7',
     '#404149',
+    '#6671fa',
   ];
+
   useEffect(() => {
     if (data !== null && data !== undefined) {
-      const calendar: CalendarsType[] = [];
-      const event: any = [];
+      const calendar: Options['calendars'] = [];
+      const event: Partial<EventObject>[] = [];
 
       data.forEach((project, k) => {
         // 프로젝트 목록 생성
@@ -224,10 +266,11 @@ const CalendarBody = ({
             title: sprint.purpose,
             attendees: projectMem,
             state: project.code,
-            category: sprint.purpose,
+            category: 'allday', // milestone, task, allday, time
             start: sprint.startDate,
             end: sprint.endDate,
             isReadOnly: true,
+            isVisible: true,
           });
           sprint.toDoList.forEach((todo, key) => {
             const todoMembers: string[] = [];
@@ -241,32 +284,101 @@ const CalendarBody = ({
               title: todo.title,
               body: todo.description,
               attendees: todoMembers,
-              state: todo.status,
-              category: sprint.purpose,
-              start: todo.createAt,
-              end: todo.createAt,
+              state: String(todo.status),
+              category: 'task', // milestone, task, allday, time
+              start: String(todo.createAt),
+              end: String(todo.createAt),
               isReadOnly: true,
+              isVisible: true,
             });
           });
         });
       });
 
-      setCalendars(calendar);
-      setEvents(event);
+      setCalendars(calendars?.concat(calendar));
+      setEvents(events?.concat(event));
     }
   }, [data]);
+  const [checkProjects, setCheckProjects] = useState<string[]>(['all']);
 
+  function checkCheck(show: string) {
+    if (checkProjects.includes(show)) {
+      setCheckProjects((pre) => {
+        return [...pre.filter((pro) => pro !== 'all' && pro !== show)];
+      });
+    } else {
+      setCheckProjects((pre) => {
+        return [...pre.filter((pro) => pro !== 'all'), show];
+      });
+    }
+  }
+
+  function checkAll() {
+    setCheckProjects((pre) => [...pre.filter(() => false), 'all']);
+  }
+
+  useEffect(() => {
+    setEvents(
+      events.map((ev) => {
+        if (checkProjects.includes('all')) {
+          return { ...ev, isVisible: true };
+        }
+        if (checkProjects.includes(ev.calendarId)) {
+          return { ...ev, isVisible: true };
+        } else {
+          return { ...ev, isVisible: false };
+        }
+      }),
+    );
+  }, [checkProjects]);
+
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryMe = new URLSearchParams(search).get('me');
+  const [onlyMe, setOnlyMe] = useState(false);
+  const { data: me } = useMe();
+  useEffect(() => {
+    if (onlyMe === true) {
+      setEvents(
+        events.map((ev) => {
+          if (ev.attendees.includes(me?.me.name)) {
+            return { ...ev, isVisible: true };
+          } else {
+            return { ...ev, isVisible: false };
+          }
+        }),
+      );
+    } else {
+      setEvents(
+        events.map((ev) => {
+          return { ...ev, isVisible: true };
+        }),
+      );
+    }
+    navigate({ search: `?view=${queryView}&me=${onlyMe ? '1' : '0'}` });
+  }, [onlyMe]);
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
         <div className="w-10/12">
-          <button className="px-4 py-1 border rounded-lg text-xs">all</button>
-          {calendars.length > 0 &&
+          <button
+            className={`px-4 py-1 border rounded-lg text-xs ${
+              checkProjects.includes('all') ? 'bg-lightGray' : ''
+            }`}
+            onClick={checkAll}
+          >
+            all
+          </button>
+          {calendars &&
             calendars.map((cal) => {
               return (
                 <button
                   key={cal.id}
-                  className="mx-1 px-2 py-1 border rounded-lg text-xs items-center"
+                  className={`px-4 py-1 border rounded-lg text-xs ${
+                    checkProjects.includes(cal.name) ? 'bg-lightGray' : ''
+                  }`}
+                  onClick={() => checkCheck(cal.name)}
                 >
                   <span
                     className={`inline-block mr-2 w-2 h-2 rounded-full`}
@@ -278,40 +390,27 @@ const CalendarBody = ({
             })}
         </div>
         <label htmlFor="" className="text-xs flex items-center">
-          <input type="checkbox" className="mr-2" />
+          <input
+            type="checkbox"
+            className="mr-2"
+            onChange={() => setOnlyMe(!onlyMe)}
+          />
           only me
         </label>
       </div>
       <Calendar
         usageStatistics={false}
-        height="1000px"
+        height="800px"
         view={viewType}
         month={{
           dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-          startDayOfWeek: 1,
         }}
         useDetailPopup={true}
         gridSelection={false}
         calendars={calendars}
         events={events}
+        // eventFilter={scheduleFilter}
         ref={calendarRef}
-        template={{
-          milestone(event) {
-            return `<span style:"color: blue;">${event.title}</span>`;
-          },
-          comingDuration(event) {
-            return `<span>${event.comingDuration}</span>`;
-          },
-          monthMoreTitleDate(moreTitle) {
-            const { date } = moreTitle;
-            return `<span>${date}</span>`;
-          },
-          monthGridHeader(model) {
-            const date = parseInt(model.date.split('-')[2], 10);
-
-            return `<span>${date}</span>`;
-          },
-        }}
       />
     </>
   );

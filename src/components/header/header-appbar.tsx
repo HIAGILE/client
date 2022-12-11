@@ -13,7 +13,7 @@ function AppBar() {
   );
 }
 
-export default AppBar;
+export default React.memo(AppBar);
 
 const AppMenu = () => {
   const menus = [
@@ -21,7 +21,7 @@ const AppMenu = () => {
     { title: 'My Projects', link: '/project' },
     { title: 'My Friends', link: '/friends' },
     { title: 'My To-do', link: '/todolist' },
-    { title: 'My Schedules', link: '/schedule' },
+    { title: 'My Schedules', link: '/schedule?view=month&me=0' },
   ];
   return (
     <nav className="w-full mt-48 text-lightBlue text-md">
