@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Process } from 'components/common/process';
 import DashboardTitle from 'components/dashboard/dashbord-title';
 import Calendar from '@toast-ui/react-calendar';
@@ -11,6 +17,7 @@ import type {
   Options,
 } from '@toast-ui/calendar';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useMe } from 'lib/useMe';
 
 export enum CalendarType {
   Monthly = 'month',
@@ -53,7 +60,6 @@ const CalendarHeader = ({
   const navigate = useNavigate();
   const { search } = useLocation();
   const queryView = new URLSearchParams(search).get('view');
-  const queryProject = new URLSearchParams(search).get('project');
   const queryMe = new URLSearchParams(search).get('me');
 
   useEffect(() => {
@@ -88,10 +94,7 @@ const CalendarHeader = ({
 
   function changeViewType(type: CalendarType) {
     checkViewType(type);
-    navigate(
-      { search: `?view=${type}&project=${queryProject}&me=${queryMe}` },
-      { replace: true },
-    );
+    navigate({ search: `?view=${type}&me=${queryMe}` }, { replace: true });
   }
 
   const getCalInstance = useCallback(() => {
@@ -228,11 +231,6 @@ const CalendarBody = ({
   data: getProjects_getProjects_projects[] | undefined | null;
   calendarRef: any;
 }) => {
-  const { search } = useLocation();
-  const queryView = new URLSearchParams(search).get('view');
-  const queryProject = new URLSearchParams(search).get('project');
-  const queryMe = new URLSearchParams(search).get('me');
-
   const [calendars, setCalendars] = useState<Options['calendars']>([]);
   const [events, setEvents] = useState<Partial<EventObject>[]>([]);
   const Color = [
@@ -272,6 +270,7 @@ const CalendarBody = ({
             start: sprint.startDate,
             end: sprint.endDate,
             isReadOnly: true,
+            isVisible: true,
           });
           sprint.toDoList.forEach((todo, key) => {
             const todoMembers: string[] = [];
@@ -290,6 +289,7 @@ const CalendarBody = ({
               start: String(todo.createAt),
               end: String(todo.createAt),
               isReadOnly: true,
+              isVisible: true,
             });
           });
         });
@@ -302,18 +302,62 @@ const CalendarBody = ({
   const [checkProjects, setCheckProjects] = useState<string[]>(['all']);
 
   function checkCheck(show: string) {
-    if (show === 'all') {
-      setCheckProjects(() => ['all']);
+    if (checkProjects.includes(show)) {
+      setCheckProjects((pre) => {
+        return [...pre.filter((pro) => pro !== 'all' && pro !== show)];
+      });
     } else {
       setCheckProjects((pre) => {
         return [...pre.filter((pro) => pro !== 'all'), show];
       });
     }
   }
-  function scheduleFilter(event: EventObject) {
-    console.log(event);
-    return true;
+
+  function checkAll() {
+    setCheckProjects((pre) => [...pre.filter(() => false), 'all']);
   }
+
+  useEffect(() => {
+    setEvents(
+      events.map((ev) => {
+        if (checkProjects.includes('all')) {
+          return { ...ev, isVisible: true };
+        }
+        if (checkProjects.includes(ev.calendarId)) {
+          return { ...ev, isVisible: true };
+        } else {
+          return { ...ev, isVisible: false };
+        }
+      }),
+    );
+  }, [checkProjects]);
+
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryMe = new URLSearchParams(search).get('me');
+  const [onlyMe, setOnlyMe] = useState(false);
+  const { data: me } = useMe();
+  useEffect(() => {
+    if (onlyMe === true) {
+      setEvents(
+        events.map((ev) => {
+          if (ev.attendees.includes(me?.me.name)) {
+            return { ...ev, isVisible: true };
+          } else {
+            return { ...ev, isVisible: false };
+          }
+        }),
+      );
+    } else {
+      setEvents(
+        events.map((ev) => {
+          return { ...ev, isVisible: true };
+        }),
+      );
+    }
+    navigate({ search: `?view=${queryView}&me=${onlyMe ? '1' : '0'}` });
+  }, [onlyMe]);
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
@@ -322,7 +366,7 @@ const CalendarBody = ({
             className={`px-4 py-1 border rounded-lg text-xs ${
               checkProjects.includes('all') ? 'bg-lightGray' : ''
             }`}
-            onClick={() => checkCheck('all')}
+            onClick={checkAll}
           >
             all
           </button>
@@ -346,7 +390,11 @@ const CalendarBody = ({
             })}
         </div>
         <label htmlFor="" className="text-xs flex items-center">
-          <input type="checkbox" className="mr-2" />
+          <input
+            type="checkbox"
+            className="mr-2"
+            onChange={() => setOnlyMe(!onlyMe)}
+          />
           only me
         </label>
       </div>
@@ -361,24 +409,8 @@ const CalendarBody = ({
         gridSelection={false}
         calendars={calendars}
         events={events}
-        eventFilter={scheduleFilter}
+        // eventFilter={scheduleFilter}
         ref={calendarRef}
-        template={{
-          milestone(event) {
-            return `<span style:"color: blue;">${event.title}</span>`;
-          },
-          comingDuration(event) {
-            return `<span>${event.comingDuration}</span>`;
-          },
-          monthMoreTitleDate(moreTitle) {
-            const { date } = moreTitle;
-            return `<span>${date}</span>`;
-          },
-          monthGridHeader(model) {
-            const date = parseInt(model.date.split('-')[2], 10);
-            return `<span>${date}</span>`;
-          },
-        }}
       />
     </>
   );
