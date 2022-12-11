@@ -10,6 +10,7 @@ import type {
   ExternalEventTypes,
   Options,
 } from '@toast-ui/calendar';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export enum CalendarType {
   Monthly = 'month',
@@ -46,12 +47,51 @@ const CalendarHeader = ({
   setViewType: React.Dispatch<React.SetStateAction<CalendarType>>;
   calendarRef: any;
 }) => {
-  const [btnState, setBtnState] = useState<string>('month');
+  const [btnState, setBtnState] = useState<CalendarType | null>(null);
   const [selectedDateRangeText, setSelectedDateRangeText] = useState('');
 
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryProject = new URLSearchParams(search).get('project');
+  const queryMe = new URLSearchParams(search).get('me');
+
+  useEffect(() => {
+    if (queryView !== undefined && queryView !== null) {
+      checkViewType(queryView);
+    }
+  }, [queryView]);
+
+  function checkViewType(type: CalendarType | string) {
+    switch (type) {
+      case 'month':
+        setViewType(CalendarType.Monthly);
+        setBtnState(CalendarType.Monthly);
+        break;
+
+      case 'week':
+        setViewType(CalendarType.Weekly);
+        setBtnState(CalendarType.Weekly);
+        break;
+
+      case 'day':
+        setViewType(CalendarType.Daily);
+        setBtnState(CalendarType.Daily);
+        break;
+
+      default:
+        setViewType(CalendarType.Monthly);
+        setBtnState(CalendarType.Monthly);
+        break;
+    }
+  }
+
   function changeViewType(type: CalendarType) {
-    setBtnState(type);
-    setViewType(type);
+    checkViewType(type);
+    navigate(
+      { search: `?view=${type}&project=${queryProject}&me=${queryMe}` },
+      { replace: true },
+    );
   }
 
   const getCalInstance = useCallback(() => {
@@ -188,6 +228,11 @@ const CalendarBody = ({
   data: getProjects_getProjects_projects[] | undefined | null;
   calendarRef: any;
 }) => {
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryProject = new URLSearchParams(search).get('project');
+  const queryMe = new URLSearchParams(search).get('me');
+
   const [calendars, setCalendars] = useState<Options['calendars']>([]);
   const [events, setEvents] = useState<Partial<EventObject>[]>([]);
   const Color = [
@@ -254,27 +299,6 @@ const CalendarBody = ({
       setEvents(events?.concat(event));
     }
   }, [data]);
-  const test = [{ id: 'cal1', name: 'Personal' }];
-  const initialEvents = [
-    {
-      id: '1',
-      calendarId: 'cal1',
-      title: 'Lunch',
-      category: 'time',
-      start: '2022-12-28T12:00:00',
-      end: '2022-12-29T13:30:00',
-      isReadOnly: true,
-    },
-    {
-      id: '2',
-      calendarId: 'cal1',
-      title: 'Coffee Break',
-      category: 'time',
-      start: '2022-12-28T15:00:00',
-      end: '2022-12-28T15:30:00',
-      isReadOnly: true,
-    },
-  ];
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
@@ -313,7 +337,7 @@ const CalendarBody = ({
         calendars={calendars}
         events={events}
         eventFilter={(event) => {
-          console.log(event);
+          // console.log(event);
           return true;
         }}
         ref={calendarRef}
