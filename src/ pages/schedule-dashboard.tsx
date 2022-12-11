@@ -318,18 +318,19 @@ const CalendarBody = ({
   }
 
   useEffect(() => {
-    setEvents(
-      events.map((ev) => {
-        if (checkProjects.includes('all')) {
-          return { ...ev, isVisible: true };
-        }
-        if (checkProjects.includes(ev.calendarId)) {
-          return { ...ev, isVisible: true };
-        } else {
-          return { ...ev, isVisible: false };
-        }
-      }),
-    );
+    if (!onlyMe)
+      setEvents(
+        events.map((ev) => {
+          if (checkProjects.includes('all')) {
+            return { ...ev, isVisible: true };
+          }
+          if (checkProjects.includes(ev.calendarId)) {
+            return { ...ev, isVisible: true };
+          } else {
+            return { ...ev, isVisible: false };
+          }
+        }),
+      );
   }, [checkProjects]);
 
   const navigate = useNavigate();
@@ -339,6 +340,7 @@ const CalendarBody = ({
   const [onlyMe, setOnlyMe] = useState(false);
   const { data: me } = useMe();
   useEffect(() => {
+    checkAll();
     if (onlyMe === true) {
       setEvents(
         events.map((ev) => {
