@@ -294,11 +294,13 @@ const CalendarBody = ({
           });
         });
       });
-
       setCalendars(calendars?.concat(calendar));
       setEvents(events?.concat(event));
     }
   }, [data]);
+
+  useEffect(() => {}, [events]);
+
   const [checkProjects, setCheckProjects] = useState<string[]>(['all']);
 
   function checkCheck(show: string) {
@@ -318,7 +320,7 @@ const CalendarBody = ({
   }
 
   useEffect(() => {
-    if (!onlyMe)
+    if (events.length > 0 && onlyMe !== true) {
       setEvents(
         events.map((ev) => {
           if (checkProjects.includes('all')) {
@@ -331,6 +333,7 @@ const CalendarBody = ({
           }
         }),
       );
+    }
   }, [checkProjects]);
 
   const navigate = useNavigate();
@@ -340,23 +343,26 @@ const CalendarBody = ({
   const [onlyMe, setOnlyMe] = useState(false);
   const { data: me } = useMe();
   useEffect(() => {
-    checkAll();
-    if (onlyMe === true) {
-      setEvents(
-        events.map((ev) => {
-          if (ev.attendees.includes(me?.me.name)) {
+    if (events.length > 0) {
+      checkAll();
+      if (onlyMe === true) {
+        setEvents(
+          events.map((ev) => {
+            if (ev.attendees.includes(me?.me.name)) {
+              return { ...ev, isVisible: true };
+            } else {
+              return { ...ev, isVisible: false };
+            }
+          }),
+        );
+      }
+      if (onlyMe === false) {
+        setEvents(
+          events.map((ev) => {
             return { ...ev, isVisible: true };
-          } else {
-            return { ...ev, isVisible: false };
-          }
-        }),
-      );
-    } else {
-      setEvents(
-        events.map((ev) => {
-          return { ...ev, isVisible: true };
-        }),
-      );
+          }),
+        );
+      }
     }
     navigate({ search: `?view=${queryView}&me=${onlyMe ? '1' : '0'}` });
   }, [onlyMe]);
@@ -411,7 +417,6 @@ const CalendarBody = ({
         gridSelection={false}
         calendars={calendars}
         events={events}
-        // eventFilter={scheduleFilter}
         ref={calendarRef}
       />
     </>
