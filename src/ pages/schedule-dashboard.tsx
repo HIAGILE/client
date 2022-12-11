@@ -240,8 +240,8 @@ const CalendarBody = ({
     '#e7533d',
     '#131532',
     '#20998d',
-    '#f7f7f7',
     '#404149',
+    '#6671fa',
   ];
 
   useEffect(() => {
@@ -299,17 +299,42 @@ const CalendarBody = ({
       setEvents(events?.concat(event));
     }
   }, [data]);
+  const [checkProjects, setCheckProjects] = useState<string[]>(['all']);
+
+  function checkCheck(show: string) {
+    if (show === 'all') {
+      setCheckProjects(() => ['all']);
+    } else {
+      setCheckProjects((pre) => {
+        return [...pre.filter((pro) => pro !== 'all'), show];
+      });
+    }
+  }
+  function scheduleFilter(event: EventObject) {
+    console.log(event);
+    return true;
+  }
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
         <div className="w-10/12">
-          <button className="px-4 py-1 border rounded-lg text-xs">all</button>
+          <button
+            className={`px-4 py-1 border rounded-lg text-xs ${
+              checkProjects.includes('all') ? 'bg-lightGray' : ''
+            }`}
+            onClick={() => checkCheck('all')}
+          >
+            all
+          </button>
           {calendars &&
             calendars.map((cal) => {
               return (
                 <button
                   key={cal.id}
-                  className="mx-1 px-2 py-1 border rounded-lg text-xs items-center"
+                  className={`px-4 py-1 border rounded-lg text-xs ${
+                    checkProjects.includes(cal.name) ? 'bg-lightGray' : ''
+                  }`}
+                  onClick={() => checkCheck(cal.name)}
                 >
                   <span
                     className={`inline-block mr-2 w-2 h-2 rounded-full`}
@@ -336,10 +361,7 @@ const CalendarBody = ({
         gridSelection={false}
         calendars={calendars}
         events={events}
-        eventFilter={(event) => {
-          // console.log(event);
-          return true;
-        }}
+        eventFilter={scheduleFilter}
         ref={calendarRef}
         template={{
           milestone(event) {
