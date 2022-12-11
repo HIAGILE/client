@@ -5,6 +5,11 @@ import Calendar from '@toast-ui/react-calendar';
 import '@toast-ui/calendar/dist/toastui-calendar.min.css';
 import { useProject } from 'lib/useProject';
 import { getProjects_getProjects_projects } from '__generated__/getProjects';
+import type {
+  EventObject,
+  ExternalEventTypes,
+  Options,
+} from '@toast-ui/calendar';
 
 export enum CalendarType {
   Monthly = 'month',
@@ -116,37 +121,32 @@ const CalendarHeader = ({
   return (
     <div className="py-2 mb-2 border-b flex justify-between">
       <div>
-        {btnState === CalendarType.Daily || (
-          <>
-            <button
-              type="button"
-              className="bg-mainBlue mx-1 px-4 py-2 rounded-lg border text-sm text-lightBlue"
-              data-action="move-today"
-              onClick={onClickNavi}
-            >
-              Today
-            </button>
-            <button
-              type="button"
-              className="mx-1 px-4 py-2 rounded-lg border text-sm"
-              data-action="move-prev"
-              onClick={onClickNavi}
-            >
-              Prev
-            </button>
-            <span className="px-8">{selectedDateRangeText}</span>
-            <button
-              type="button"
-              className="mx-1 px-4 py-2 rounded-lg border text-sm"
-              data-action="move-next"
-              onClick={onClickNavi}
-            >
-              Next
-            </button>
-          </>
-        )}
+        <button
+          type="button"
+          className="bg-mainBlue mx-1 px-4 py-2 rounded-lg border text-sm text-lightBlue"
+          data-action="move-today"
+          onClick={onClickNavi}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          className="mx-1 px-4 py-2 rounded-lg border text-sm"
+          data-action="move-prev"
+          onClick={onClickNavi}
+        >
+          Prev
+        </button>
+        <span className="px-8">{selectedDateRangeText}</span>
+        <button
+          type="button"
+          className="mx-1 px-4 py-2 rounded-lg border text-sm"
+          data-action="move-next"
+          onClick={onClickNavi}
+        >
+          Next
+        </button>
       </div>
-
       <div>
         <button
           className={`mx-1 px-4 py-2 rounded-lg border text-sm ${
@@ -179,8 +179,6 @@ const CalendarHeader = ({
   );
 };
 
-type CalendarsType = { id: string; name: string; backgroundColor: string };
-
 const CalendarBody = ({
   viewType,
   data,
@@ -190,8 +188,8 @@ const CalendarBody = ({
   data: getProjects_getProjects_projects[] | undefined | null;
   calendarRef: any;
 }) => {
-  const [calendars, setCalendars] = useState<CalendarsType[]>([]);
-  const [events, setEvents] = useState<any>([]);
+  const [calendars, setCalendars] = useState<Options['calendars']>([]);
+  const [events, setEvents] = useState<Partial<EventObject>[]>([]);
   const Color = [
     '#f9b84b',
     '#e7533d',
@@ -200,10 +198,11 @@ const CalendarBody = ({
     '#f7f7f7',
     '#404149',
   ];
+
   useEffect(() => {
     if (data !== null && data !== undefined) {
-      const calendar: CalendarsType[] = [];
-      const event: any = [];
+      const calendar: Options['calendars'] = [];
+      const event: Partial<EventObject>[] = [];
 
       data.forEach((project, k) => {
         // 프로젝트 목록 생성
@@ -224,7 +223,7 @@ const CalendarBody = ({
             title: sprint.purpose,
             attendees: projectMem,
             state: project.code,
-            category: sprint.purpose,
+            category: 'allday', // milestone, task, allday, time
             start: sprint.startDate,
             end: sprint.endDate,
             isReadOnly: true,
@@ -241,27 +240,47 @@ const CalendarBody = ({
               title: todo.title,
               body: todo.description,
               attendees: todoMembers,
-              state: todo.status,
-              category: sprint.purpose,
-              start: todo.createAt,
-              end: todo.createAt,
+              state: String(todo.status),
+              category: 'task', // milestone, task, allday, time
+              start: String(todo.createAt),
+              end: String(todo.createAt),
               isReadOnly: true,
             });
           });
         });
       });
 
-      setCalendars(calendar);
-      setEvents(event);
+      setCalendars(calendars?.concat(calendar));
+      setEvents(events?.concat(event));
     }
   }, [data]);
-
+  const test = [{ id: 'cal1', name: 'Personal' }];
+  const initialEvents = [
+    {
+      id: '1',
+      calendarId: 'cal1',
+      title: 'Lunch',
+      category: 'time',
+      start: '2022-12-28T12:00:00',
+      end: '2022-12-29T13:30:00',
+      isReadOnly: true,
+    },
+    {
+      id: '2',
+      calendarId: 'cal1',
+      title: 'Coffee Break',
+      category: 'time',
+      start: '2022-12-28T15:00:00',
+      end: '2022-12-28T15:30:00',
+      isReadOnly: true,
+    },
+  ];
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
         <div className="w-10/12">
           <button className="px-4 py-1 border rounded-lg text-xs">all</button>
-          {calendars.length > 0 &&
+          {calendars &&
             calendars.map((cal) => {
               return (
                 <button
@@ -284,16 +303,19 @@ const CalendarBody = ({
       </div>
       <Calendar
         usageStatistics={false}
-        height="1000px"
+        height="800px"
         view={viewType}
         month={{
           dayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-          startDayOfWeek: 1,
         }}
         useDetailPopup={true}
         gridSelection={false}
         calendars={calendars}
         events={events}
+        eventFilter={(event) => {
+          console.log(event);
+          return true;
+        }}
         ref={calendarRef}
         template={{
           milestone(event) {
@@ -308,7 +330,6 @@ const CalendarBody = ({
           },
           monthGridHeader(model) {
             const date = parseInt(model.date.split('-')[2], 10);
-
             return `<span>${date}</span>`;
           },
         }}
