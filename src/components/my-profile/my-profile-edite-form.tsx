@@ -234,7 +234,7 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
               type="text"
               required
               autoComplete="true"
-              className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+              className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
               defaultValue={me.name}
             />
           </label>
@@ -250,7 +250,7 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
             <input
               type="text"
               {...register('email')}
-              className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+              className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
               defaultValue={me.email}
             />
           </label>
@@ -284,7 +284,7 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
               type="password"
               required
               placeholder="Password *"
-              className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+              className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
               autoComplete="true"
             />
           </label>
@@ -306,7 +306,7 @@ const MyProfileEditeForm = ({ me, onEdit,setMyProfileUrl,profileUrl }: Props) =>
               type="password"
               placeholder="password agin *"
               required
-              className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+              className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
               autoComplete="true"
             />
           </label>

@@ -49,6 +49,8 @@ export const GET_PROJECT_QUERY = gql`
             id
             createAt
             updateAt
+            startDate
+            endDate
             title
             description
             status
@@ -147,6 +149,8 @@ export interface ICreateSprintForm {
 export interface ICreateToDoListForm {
   title: string;
   description: string;
+  startDate: Date;
+  endDate: Date;
   status: string;
 }
 
@@ -264,7 +268,7 @@ export function ProjectDetail() {
   };
 
   const onSubmitToDoList = () => {
-    const { title, description, status } = toDoListGetValues();
+    const { title, description, status,startDate,endDate } = toDoListGetValues();
 
     createToDoListMutation({
       variables: {
@@ -272,12 +276,9 @@ export function ProjectDetail() {
           sprintId: parseInt(selectSprint.toString().trim()),
           title: title,
           description: description,
-          status:
-            status === 'TODO'
-              ? ToDoListStatus.TODO
-              : status === 'INPROGRESS'
-              ? ToDoListStatus.INPROGRESS
-              : ToDoListStatus.DONE,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+          status:ToDoListStatus.TODO,
           memberId: checkMembers.join(','),
         },
       },
@@ -329,7 +330,7 @@ export function ProjectDetail() {
               <div className="overflow-y-scroll h-60">
                 {myProject?.getProject.project?.sprints.map((sprint, index) => {
                   const now = new Date();
-                  const startDate = new Date(sprint.startDate);
+                  const startDate = new Date(sprint.startDate ?? '');
                   const endDate = new Date(sprint.endDate);
                   const todolist = [...sprint.toDoList];
                   const progress = todolist.filter(
@@ -485,6 +486,24 @@ export function ProjectDetail() {
                           >
                             <div>할 일 내용</div>
                             <div>{toDo.description}</div>
+                          </div>
+                          <div
+                            className="flex justify-between items-center w-full py-2"
+                            style={{
+                              borderBottom: '1px solid rgba(220,220,220,0.8)',
+                            }}
+                          >
+                            <div>할 일 시작일</div>
+                            <div>{toDo.startDate.substr(0, 10)}</div>
+                          </div>
+                          <div
+                            className="flex justify-between items-center w-full py-2"
+                            style={{
+                              borderBottom: '1px solid rgba(220,220,220,0.8)',
+                            }}
+                          >
+                            <div>할 일 종료일</div>
+                            <div>{toDo.endDate.substr(0, 10)}</div>
                           </div>
                           <div
                             className="flex justify-between items-center w-full py-2"
@@ -890,16 +909,33 @@ export function ProjectDetail() {
                 style={{ border: '1px solid rgba(220,220,220,0.8)' }}
                 type="text"
               />
+              <label className="text-sm my-2">시작일</label>
+              <input
+                {...toDoListRegister('startDate')}
+                required
+                className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none"
+                style={{ border: '1px solid rgba(220,220,220,0.8)' }}
+                type="date"
+              />
+              <label className="text-sm my-2">종료일</label>
+              <input
+                {...toDoListRegister('endDate')}
+                required
+                className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none"
+                style={{ border: '1px solid rgba(220,220,220,0.8)' }}
+                type="date"
+              />
               <label className="text-sm my-2">상태</label>
               <select
                 {...toDoListRegister('status')}
                 required
+                disabled
                 className="mb-2 px-4 py-1 bg-white shadow-sm rounded-sm h-10 text-xs outline-none"
                 style={{ border: '1px solid rgba(220,220,220,0.8)' }}
                 defaultValue="TODO"
               >
                 <option value="TODO">TODO</option>
-                <option value="DOING">INPROGRESS</option>
+                <option value="INPROGRESS">INPROGRESS</option>
                 <option value="DONE">DONE</option>
               </select>
               <button

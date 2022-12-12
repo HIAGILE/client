@@ -6,27 +6,27 @@
 import { FollowUserInput } from "./globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: followUser
+// GraphQL mutation operation: acceptUser
 // ====================================================
 
-export interface followUser_followUser_friends {
+export interface acceptUser_acceptUser_friends {
   __typename: "Friends";
   id: number;
   verified: boolean;
   friendId: number;
 }
 
-export interface followUser_followUser {
+export interface acceptUser_acceptUser {
   __typename: "FollowUserOutput";
   ok: boolean;
   error: string | null;
-  friends: followUser_followUser_friends[] | null;
+  friends: acceptUser_acceptUser_friends[] | null;
 }
 
-export interface followUser {
-  followUser: followUser_followUser;
+export interface acceptUser {
+  acceptUser: acceptUser_acceptUser;
 }
 
-export interface followUserVariables {
+export interface acceptUserVariables {
   input: FollowUserInput;
 }

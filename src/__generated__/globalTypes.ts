@@ -59,6 +59,8 @@ export interface CreateToDoListInput {
   status: ToDoListStatus;
   title: string;
   description: string;
+  startDate: any;
+  endDate: any;
   memberId: string;
   sprintId: number;
 }
@@ -86,10 +88,6 @@ export interface GetProjectsInput {
   id: number;
 }
 
-export interface GetToDoListsInput {
-  id: number;
-}
-
 export interface GitHubOAuthInput {
   code: string;
 }
@@ -106,6 +104,10 @@ export interface LoginInput {
 export interface ProjectMemberInput {
   userId: number;
   role: string;
+}
+
+export interface UnfollowUserInput {
+  userId: number;
 }
 
 export interface ValidateAccountInput {
