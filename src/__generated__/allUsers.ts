@@ -26,12 +26,26 @@ export interface allUsers_allUsers_friends {
   friendId: number;
 }
 
+export interface allUsers_allUsers_inMyFriends_user {
+  __typename: "User";
+  id: number;
+}
+
+export interface allUsers_allUsers_inMyFriends {
+  __typename: "Friends";
+  user: allUsers_allUsers_inMyFriends_user;
+  id: number;
+  verified: boolean;
+  friendId: number;
+}
+
 export interface allUsers_allUsers {
   __typename: "AllUsersOutput";
   ok: boolean;
   error: string | null;
   users: allUsers_allUsers_users[] | null;
   friends: allUsers_allUsers_friends[] | null;
+  inMyFriends: allUsers_allUsers_inMyFriends[] | null;
 }
 
 export interface allUsers {

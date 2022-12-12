@@ -303,6 +303,13 @@ const CalendarBody = ({
 
   const [checkProjects, setCheckProjects] = useState<string[]>(['all']);
 
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const queryView = new URLSearchParams(search).get('view');
+  const queryMe = new URLSearchParams(search).get('me');
+  const [onlyMe, setOnlyMe] = useState(false);
+  const { data: me } = useMe();
+
   function checkCheck(show: string) {
     if (checkProjects.includes(show)) {
       setCheckProjects((pre) => {
@@ -313,38 +320,26 @@ const CalendarBody = ({
         return [...pre.filter((pro) => pro !== 'all'), show];
       });
     }
+
+    if (onlyMe !== false) {
+      setOnlyMe(false);
+    }
   }
 
   function checkAll() {
     setCheckProjects((pre) => [...pre.filter(() => false), 'all']);
+
+    if (onlyMe !== false) {
+      setOnlyMe(false);
+    }
   }
 
-  useEffect(() => {
-    if (events.length > 0 && onlyMe !== true) {
-      setEvents(
-        events.map((ev) => {
-          if (checkProjects.includes('all')) {
-            return { ...ev, isVisible: true };
-          }
-          if (checkProjects.includes(ev.calendarId)) {
-            return { ...ev, isVisible: true };
-          } else {
-            return { ...ev, isVisible: false };
-          }
-        }),
-      );
-    }
-  }, [checkProjects]);
-
-  const navigate = useNavigate();
-  const { search } = useLocation();
-  const queryView = new URLSearchParams(search).get('view');
-  const queryMe = new URLSearchParams(search).get('me');
-  const [onlyMe, setOnlyMe] = useState(false);
-  const { data: me } = useMe();
+  function checkOnlyMe() {
+    checkAll();
+    setOnlyMe(!onlyMe);
+  }
   useEffect(() => {
     if (events.length > 0) {
-      checkAll();
       if (onlyMe === true) {
         setEvents(
           events.map((ev) => {
@@ -356,16 +351,26 @@ const CalendarBody = ({
           }),
         );
       }
+
       if (onlyMe === false) {
         setEvents(
           events.map((ev) => {
-            return { ...ev, isVisible: true };
+            if (checkProjects.includes('all')) {
+              return { ...ev, isVisible: true };
+            } else if (checkProjects.includes(ev.calendarId)) {
+              return { ...ev, isVisible: true };
+            } else {
+              return { ...ev, isVisible: false };
+            }
           }),
         );
       }
+
+      if (onlyMe !== (queryMe === '0' ? false : true)) {
+        navigate({ search: `?view=${queryView}&me=${onlyMe ? '1' : '0'}` });
+      }
     }
-    navigate({ search: `?view=${queryView}&me=${onlyMe ? '1' : '0'}` });
-  }, [onlyMe]);
+  }, [onlyMe, checkProjects]);
   return (
     <>
       <div className="pb-4 border-b flex justify-between items-start">
@@ -398,11 +403,7 @@ const CalendarBody = ({
             })}
         </div>
         <label htmlFor="" className="text-xs flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            onChange={() => setOnlyMe(!onlyMe)}
-          />
+          <input type="checkbox" className="mr-2" onChange={checkOnlyMe} />
           only me
         </label>
       </div>

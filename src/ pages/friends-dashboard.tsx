@@ -2,8 +2,10 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { allUsers, allUsers_allUsers_friends, allUsers_allUsers_users } from "__generated__/allUsers";
+import { acceptUser, acceptUserVariables } from "__generated__/acceptUser";
+import { allUsers, allUsers_allUsers_friends, allUsers_allUsers_inMyFriends, allUsers_allUsers_users } from "__generated__/allUsers";
 import { followUser, followUserVariables } from "__generated__/followUser";
+import { unfollowUser, unfollowUserVariables } from "__generated__/unfollowUser";
 
 export const ALL_USERS_QUERY = gql`
   query allUsers {
@@ -23,6 +25,14 @@ export const ALL_USERS_QUERY = gql`
         verified
         friendId
         }
+      inMyFriends{
+        user{
+            id
+        }
+        id
+        verified
+        friendId
+        }
     }
   }
 `;
@@ -32,6 +42,39 @@ export const FOLLOW_USER_MUTATION = gql`
         followUser(input: $input) {
             ok
             error
+            friends{
+                id
+                verified
+                friendId
+            }
+        }
+    }
+`
+
+export const UNFOLLOW_USER_MUTATION = gql`
+    mutation unfollowUser($input: UnfollowUserInput!) {
+        unfollowUser(input: $input) {
+            ok
+            error
+            friends{
+                id
+                verified
+                friendId
+            }
+        }
+    }
+`
+
+export const ACCEPT_USER_MUTATION = gql`
+    mutation acceptUser($input: FollowUserInput!) {
+        acceptUser(input: $input) {
+            ok
+            error
+            friends{
+                id
+                verified
+                friendId
+            }
         }
     }
 `
@@ -42,50 +85,111 @@ export const FriendsDashboard = () => {
     const navigate = useNavigate();
     const [allUsers, setAllUsers] = useState<allUsers_allUsers_users[]>([]);
     const [myFriends, setmyFriends] = useState<allUsers_allUsers_friends[]>([]);
+    const [inMyFriends, setinMyFriends] = useState<allUsers_allUsers_inMyFriends[]>([]);
     const [inputName, setInputName] = useState("");
     const { data: myUsers, loading: myUsersLoading } = useQuery<
         allUsers
-    >(ALL_USERS_QUERY, {
+        >(ALL_USERS_QUERY, {
         // pollInterval: 500,
         onCompleted: (data) => {
             setAllUsers(data.allUsers.users ?? []);
             setmyFriends(data.allUsers.friends ?? []);
+            setinMyFriends(data.allUsers.inMyFriends ?? []);
         }
         ,pollInterval: 1000,
-    },
+        },
     );
-
-    const onCompleted = (data: followUser) => {
-        const {
-            followUser: { ok, error },
-        } = data;
-
-        if (!ok) {
-          alert(error);
-        }
-        if (error) {
-          console.log(error);
-        }
-      };
     
-      const [followUserMutation, { data: followUserResult, loading }] = useMutation<
+    const [followUserMutation, { data: followUserResult, loading:followLoading }] = useMutation<
         followUser,
         followUserVariables
-      >(FOLLOW_USER_MUTATION, {
-        onCompleted,
-      });
+      >(FOLLOW_USER_MUTATION);
 
-      const onSubmit = (id:number) => {
-        if (!loading) {
+    const [unfollowUserMutation, { data: unfollowUserResult, loading:unfollowLoading }] = useMutation<
+        unfollowUser,
+        unfollowUserVariables
+      >(UNFOLLOW_USER_MUTATION);
+
+    const [acceptUserMutation, { data: acceptUserResult, loading:acceptLoading }] = useMutation<
+        acceptUser,
+        acceptUserVariables
+      >(ACCEPT_USER_MUTATION);
+
+    const onFollowMutation = (id:number) => {
+        if (!followLoading) {
             followUserMutation({
             variables: {
               input: {
                 userId: id,
               },
             },
+            onCompleted: (data) => {
+                const {
+                    followUser: { ok, error, friends },
+                } = data;
+                if (!ok) {
+                    alert(error);
+                }else{
+                    setmyFriends(friends ?? [])
+                }
+                if (error) {
+                    console.log(error);
+                }
+                }
           });
         }
-      }
+    }
+
+    const onUnfollowMutation = (id:number) => {
+        if (!unfollowLoading) {
+            unfollowUserMutation({
+            variables: {
+                input: {
+                    userId: id,
+                },
+            },
+            onCompleted: (data) => {
+                const {
+                    unfollowUser: { ok, error, friends },
+                } = data;
+                if (!ok) {
+                    alert(error);
+                }else{
+                    setmyFriends(friends ?? [])
+                }
+                if (error) {
+                    console.log(error);
+                }
+                }
+            });
+        }
+    }
+
+    const onAcceptMutation = (id:number) => {
+        if (!acceptLoading) {
+            acceptUserMutation({
+            variables: {
+                input: {
+                    userId: id,
+                },
+            },
+            onCompleted: (data) => {
+                const {
+                    acceptUser : { ok, error, friends },
+                } = data;
+                if (!ok) {
+                    alert(error);
+                }else{
+                    setmyFriends(friends ?? [])
+                }
+                if (error) {
+                    console.log(error);
+                }
+                }
+            });
+        }
+    }
+
     return (
         <div className="h-full px-10 pt-28 rounded-3xl bg-white">
             <Helmet>
@@ -106,6 +210,31 @@ export const FriendsDashboard = () => {
                                 <div style={{ "height": "600px" }} className="bg-white shadow-md border border-zinc-200 rounded-md">
                                     {
                                         allUsers.map((user, index) => {
+                                            // 나의 친구목록에 있는 사람인지 확인
+                                            const isFriend = myFriends.find((friend) => friend.friendId === user.id);
+                                            let type = 0;
+                                            if (isFriend){
+                                                // 내 친구 목록에 있는 사람이면 isInMyFriends에도 있다는 말이됨....
+                                                const isInMyFriends = inMyFriends.find((friend) => friend.user.id === user.id);
+                                                // 둘 다 서로를 승인 했다면 타입은 "이미 친구" 상태
+                                                isFriend.verified && isInMyFriends?.verified
+                                                ?
+                                                    type = 4 
+                                                :
+                                                    isFriend.verified && !isInMyFriends?.verified
+                                                    ?
+                                                        type = 2
+                                                    :
+                                                        !isFriend.verified && isInMyFriends?.verified
+                                                        ?
+                                                            type = 3
+                                                        :
+                                                            type = 1
+                                            }
+                                            else{
+                                                // 내 친구 목록에 없는 사람이면
+                                                type = 1
+                                            }
                                             return (
 
                                                 user.name !== "" && user.name.includes(inputName) ?
@@ -119,23 +248,43 @@ export const FriendsDashboard = () => {
                                                         </div>
                                                         <div className="absolute text-xs right-0 flex justify-center items-center h-full px-2">
                                                             {
-                                                                myFriends.find((friend) => friend.friendId === user.id && friend.verified === true)
+                                                                type === 1
+                                                                ?
+                                                                <button onClick={() => {
+                                                                    onFollowMutation(user.id)
+                                                                }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
+                                                                    친구 요청
+                                                                </button>
+                                                                :
+                                                                    type === 2
                                                                     ?
                                                                     <button onClick={() => {
-                                                                        onSubmit(user.id)
+                                                                        onUnfollowMutation(user.id)
                                                                     }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
-                                                                        팔로워
+                                                                        친구 요청 중
                                                                     </button>
                                                                     :
-                                                                        myFriends.find((friend) => friend.friendId === user.id && friend.verified !== true) 
+                                                                        type === 3
                                                                         ?
-                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
-                                                                            친구 요청 중
+                                                                        <button onClick={() => {
+                                                                            onAcceptMutation(user.id)
+                                                                        }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
+                                                                            친구 요청 수락
                                                                         </button>
                                                                         :
-                                                                        <button onClick={() => {onSubmit(user.id)}} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
-                                                                            팔로우
-                                                                        </button>
+                                                                            type === 4
+                                                                            ?
+                                                                            <button onClick={() => {
+                                                                                onUnfollowMutation(user.id)
+                                                                            }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
+                                                                                이미 친구에요
+                                                                            </button>
+                                                                            :
+                                                                            <button onClick={() => {
+                                                                                onFollowMutation(user.id)
+                                                                            }} className="px-2 py-1 hover:bg-blue-400 hover:text-white text-blue-400 border border-blue-400 rounded-md transition duration-200 ease-in-out">
+                                                                                친구 요청
+                                                                            </button>
                                                             }
                                                         </div>
                                                     </div>

@@ -80,7 +80,7 @@ function MyProfile() {
                 type="text"
                 required
                 autoComplete="true"
-                className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+                className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
                 defaultValue={myProfile.me.name}
                 disabled={true}
               />
@@ -89,7 +89,7 @@ function MyProfile() {
               Email
               <input
                 type="text"
-                className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+                className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
                 defaultValue={myProfile.me.email}
                 disabled={true}
               />
@@ -112,7 +112,7 @@ function MyProfile() {
                 name="password"
                 type="password"
                 placeholder="Password *"
-                className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+                className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
                 autoComplete="true"
                 disabled={true}
               />
@@ -123,7 +123,7 @@ function MyProfile() {
                 name="passwordAgain"
                 type="password"
                 placeholder="password agin *"
-                className="transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full h-10 px-4 rounded-lg shadow-xl"
+                className="transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 border border-zinc-200 w-full h-10 px-4 rounded-md shadow-sm"
                 autoComplete="true"
                 disabled={true}
               />
@@ -149,19 +149,19 @@ function MyProfile() {
         <div className="flex flex-col items-center px-8 py-8">
           <input onChange={(e) => {
               setInputName(e.target.value);
-          }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-lg border-2 border-gray-100 rounded-lg w-96 h-12 text-md outline-none"></input>
-          <div style={{ "height": "600px" }} className="bg-white">
+          }} placeholder="이름을 입력하여 검색" className="mb-6 px-4 py-2 bg-white shadow-md border border-zinc-200 rounded-md w-96 h-12 text-sm outline-none"></input>
+          <div style={{ "height": "600px" }} className="bg-white shadow-md border border-zinc-200 rounded-md">
               {
                   friends && friends.map((friend, index) => {
                       return (
                         friend.name !== "" && friend.name.includes(inputName) 
                         ?
-                        <div key={friend.id} className="relative flex w-96 h-16 bg-white shadow-lg rounded-lg m-2">
+                        <div key={friend.id} className="relative border border-zinc-200 flex w-96 h-16 bg-white shadow-md rounded-md m-2">
                             <div className="flex justify-center items-center h-full px-2">
-                                <img src={friend.profileUrl} alt="profileImg" className="w-10 h-10"></img>
+                                <img src={friend.profileUrl} alt="profileImg" className="w-10 h-10 rounded-full"></img>
                             </div>
-                            <div className="flex flex-col p-2">
-                                <p className="text-lg">{friend.name}</p>
+                            <div className="flex flex-col p-2 text-sm my-auto">
+                                <p>{friend.name}</p>
                                 <p>{friend.email}</p>
                             </div>
                         </div>
