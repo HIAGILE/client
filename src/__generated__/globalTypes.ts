@@ -110,6 +110,19 @@ export interface UnfollowUserInput {
   userId: number;
 }
 
+export interface UpdateMonitorInput {
+  id: number;
+  memberId: number;
+  rate: number;
+}
+
+export interface UpdateToDoListInput {
+  id: number;
+  status: ToDoListStatus;
+  memberId: string;
+  sprintId: number;
+}
+
 export interface ValidateAccountInput {
   email: string;
 }

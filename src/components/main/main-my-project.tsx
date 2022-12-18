@@ -28,7 +28,7 @@ const MyProjects = ({
             if (index === 0) {
               return (
                 <ProjectBlock
-                  key={project.name}
+                  key={project.id}
                   project={project}
                   color="mainRed"
                 />
@@ -36,7 +36,7 @@ const MyProjects = ({
             } else if (index === 1) {
               return (
                 <ProjectBlock
-                  key={project.name}
+                  key={project.id}
                   project={project}
                   color="mainBlue"
                 />
@@ -44,7 +44,7 @@ const MyProjects = ({
             } else if (index === 2) {
               return (
                 <ProjectBlock
-                  key={project.name}
+                  key={project.id}
                   project={project}
                   color="mainGreen"
                 />

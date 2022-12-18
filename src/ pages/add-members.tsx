@@ -73,7 +73,7 @@ function AddMembers() {
           value: friend.id.toString(),
         });
       });
-      setFirstListValues([...addMembers]);
+      setFirstListValues([...addMembers,{label:myProfile?.me.name ?? "",value:myProfile?.me.id.toString() ?? ""}]);
     },
   });
 

@@ -36,6 +36,11 @@ export const GET_PROJECTS_QUERY = gql`
             title
             description
             status
+            monitors{
+              rate  
+              memberId
+              userId
+            }
             members {
               id
               user {
