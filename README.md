@@ -130,6 +130,10 @@
 ## To Do List Dashboard
 <img width="1727" alt="스크린샷 2022-12-08 오후 2 05 24" src="https://user-images.githubusercontent.com/60413257/206361292-713700dd-2072-473f-869d-2e388ea905fd.png">
 
+## My Schedule Dashboard
+<img width="1494" alt="스크린샷 2022-12-19 오후 10 31 10" src="https://user-images.githubusercontent.com/95343748/208437230-cb8b54cf-b32e-4534-bf9a-94db529ef26c.png">
+
+
 ## Styling
 - TailwindCSS
 
