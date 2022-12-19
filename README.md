@@ -139,5 +139,8 @@
 ## Styling
 - TailwindCSS
 
+## 화면 설계
+https://whimsical.com/hi-agile-EYsbstse2Wct6muTbvB9tk
+
 ## TCP/IP
 - GraphQL
