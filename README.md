@@ -141,6 +141,7 @@
 
 ## 화면 설계
 https://whimsical.com/hi-agile-EYsbstse2Wct6muTbvB9tk
+<img width="482" alt="스크린샷 2022-12-19 오후 10 37 56" src="https://user-images.githubusercontent.com/95343748/208443122-d417ed1f-9e93-467b-a0cb-102c4c6e7db3.png">
 
 ## TCP/IP
 - GraphQL
